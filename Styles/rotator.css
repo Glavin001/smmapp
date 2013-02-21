@@ -4,8 +4,10 @@
 	height: 217px !important;
 	width: 288px !important;
 /*	background: #ffffff; */
+/*
 	background: rgba(139,28,28,1);
-	position: relative;
+*/
+        position: relative;
 	overflow: hidden;
 	z-index:1;
 	margin: 0px 0px;
