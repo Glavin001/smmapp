@@ -30,7 +30,7 @@ function loadApps()
 }
 
 /* ===== App Grid ===== */
-function loadAppGrid()
+function displayAppGrid()
 {
   console.log("Loading App Grid");
   var n2a = new Array('a','b','c','d','e');
@@ -92,7 +92,7 @@ function loadAppGrid()
   //console.log( app_grid.html() );
 }
 
-function loadAppList() {
+function displayAppList() {
     console.log("Loading App List");
     
     /*
@@ -237,7 +237,7 @@ function stopScroll() {
       },{speed: "50ms", easing: "linear"});
     */  
       pagePosition = maxToolsHeight;
-      loadAppGrid();
+      displayAppGrid();
   
   } else {
       //console.log("Auto-Slide to Bottom");
@@ -348,9 +348,9 @@ function hideAddressBar()
 
 
 /* === Event Listeners === */
-window.addEventListener("load", function(){ if(!window.pageYOffset){ loadAppGrid(); loadAppList(); hideAddressBar(); } } );
-window.addEventListener("orientationchange", function() { hideAddressBar(); loadAppGrid(); stopScroll();  } )
-window.addEventListener("resize", function() { loadAppGrid(); stopScroll(); } )
+window.addEventListener("load", function(){ if(!window.pageYOffset){ displayAppGrid(); displayAppList(); hideAddressBar(); } } );
+window.addEventListener("orientationchange", function() { hideAddressBar(); displayAppGrid(); stopScroll();  } )
+window.addEventListener("resize", function() { displayAppGrid(); stopScroll(); } )
 
 
 $(document).ready(function() {
@@ -358,8 +358,8 @@ $(document).ready(function() {
 
 // Move the slider to the default closed position.
 menuSlide();
-loadAppGrid();
-loadAppList();
+displayAppGrid();
+displayAppList();
 
 $('div.all_pages').live('pageshow',function(event, ui){
   console.log('This page was just hidden: '+ ui.prevPage);
