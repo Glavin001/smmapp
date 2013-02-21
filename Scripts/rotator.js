@@ -29,7 +29,7 @@ var rotatorId = null;
 var rotationInterval = 3000; // milliseconds
 var startingOffset = 0;
 
-function autoRotate() {
+function autoRotate(options) {
     //console.log("Rotating News Feed");
     if (!manuallyRotating)
     {
@@ -37,7 +37,8 @@ function autoRotate() {
         // Calculate new position
         //var newRotatePosition = rotatePosition;
         //newRotatePosition -= $("#newsFeed ul.newsList li.newsItem").width();
-        newsSelected++;
+        if (options == undefined || options['increment'] != false)
+            newsSelected++;
         if ( newsSelected > $("#newsFeed ul.newsList li.newsItem").length )
             newsSelected = 1; // Reset position
         var newRotatePosition 
@@ -52,6 +53,7 @@ function autoRotate() {
         */
 
         // Rotate
+        $("#newsFeed ul.newsList li.newsItem").stop();
         $("#newsFeed ul.newsList li.newsItem").animate({
             left: ( -1*newRotatePosition + startingOffset )
         }, rotationInterval/5);
@@ -79,29 +81,20 @@ function resizeNewsFeed() {
     $('#newsFeed ul.newsList li.newsItem').width(boxSize).height(boxSize);
     startingOffset = (maxWidth / 2) + (boxSize / 2);
     
-    autoRotate(); // Start off with first position.
+    autoRotate({'increment':false}); // Start off with first position.
 }
 
 $(document).ready( function () {
 
+    // Start the news feed rotator
     rotatorId = setInterval( function () { autoRotate(); }, rotationInterval);
-
-    /*
-    $(document).on('vmousedown', "", function(event) {
+    
+    // Enable touch/drag feature for rotator
+    $('#newsFeed ul.newsList li.newsItem img').on('dragstart', function(event) { event.preventDefault(); } ); // Disable default action for dragging image
+    $(document).on('vmousedown', "#newsFeed ul.newsList li.newsItem", function(event) {
+    console.log("vmousedown");
+    console.log(event.target);
     //alert("vmousedown");
-    
-    var startPosition = pagePosition;
-    
-    var minToolsHeight = $("div.smuToolsPanel [data-role='footer']").height();
-    
-    //var maxToolsHeight = $(window).height() - $("div.smuToolsPanel .smu_tools_button").height();
-    var windowHeight = window.innerHeight ? window.innerHeight : $(window).height();
-    var maxToolsHeight = windowHeight - ($.mobile.activePage).find("div[data-role='header']").height();
-    
-    
-    $("div.smuToolsPanel").css({
-      'z-index': '1500'
-    });
     
     $(document).on('vmousemove', function(event2) {
         scrollY = event2.pageY;
@@ -122,14 +115,10 @@ $(document).ready( function () {
                   ev.preventDefault();
             });
         }
-        menuSlide();
         
     });
-    
-});
-
-
-$(document).on('vmouseup', function() {
+ 
+ $(document).on('vmouseup', function() {
     console.log("vmouseup");
     if (scrollPrevented == true) {
         //alert("should be able to scroll now!");
@@ -140,22 +129,8 @@ $(document).on('vmouseup', function() {
     $(document).off('vmousemove', stopScroll());
 });
 
-
-$(document).on("click", "div.smuToolsPanel .app_view a", function(){
-    console.log("Clicked app view link");
-    pagePosition = 0;
-    menuSlide();
-});
     
-*/
-
-/*
-$(document).on("click", "div[data-role='page']", function(){
-    console.log("Clicked page");
-    pagePosition = 0;
-    menuSlide();
 });
-*/
 
 
   

@@ -192,8 +192,8 @@ var animationId = null;
 
 
 // Misc Functions
-function menuSlide() {
-    console.log("menuSlide");
+function menuSlide(animate) {
+    //console.log("menuSlide");
     var minToolsHeight = $("div.smuToolsPanel [data-role='footer']").height();
     var windowHeight = window.innerHeight ? window.innerHeight : $(window).height();
     var maxToolsHeight = windowHeight-($.mobile.activePage).find("div[data-role='header']").height();
@@ -203,7 +203,7 @@ function menuSlide() {
     //console.log("pagePosition:"+pagePosition+", newHeight:"+newHeight);
     
     //console.log("scrollTop:"+$(document).scrollTop());
-    animateSlider(newHeight);
+    animateSlider(newHeight,animate);
     /*
     $("div.smuToolsPanel").css({
         height: newHeight
@@ -218,14 +218,23 @@ function menuSlide() {
 
 function stopScroll() {
   console.log("stopScroll");
-  //console.log("pagePosition:"+pagePosition+", smuToolsPanel.height:"+$("div.smuToolsPanel").height());
+  console.log("pagePosition:"+pagePosition+", smuToolsPanel.height:"+$("div.smuToolsPanel").height());
   
   var minToolsHeight = $("div.smuToolsPanel [data-role='footer']").height();
   //var maxToolsHeight = $(window).height()-$("div.smuToolsPanel .smu_tools_button").height();
   var windowHeight = window.innerHeight ? window.innerHeight : $(window).height();
   var maxToolsHeight = windowHeight - ($.mobile.activePage).find("div[data-role='header']").height();
   
-  if (pagePosition > $(window).height() / 2) {
+  if (startPosition == pagePosition && pagePosition == 0) // Click to open 
+  {
+        pagePosition = maxToolsHeight;
+        displayAppGrid();
+  }
+  else if (startPosition == pagePosition && pagePosition != 0) // Click to close
+  {
+        pagePosition = 0;
+  }
+  else if (pagePosition > $(window).height() / 2) {
       //console.log("Auto-Slide to Top");
     /*
       $("div.smuToolsPanel").animate({
@@ -238,7 +247,6 @@ function stopScroll() {
     */  
       pagePosition = maxToolsHeight;
       displayAppGrid();
-  
   } else {
       //console.log("Auto-Slide to Bottom");
       //console.log("pagePosition:"+pagePosition);
@@ -253,12 +261,11 @@ function stopScroll() {
       },{speed: "50ms", easing: "linear"});
   */    
       pagePosition = 0;
-      
   }
-  menuSlide();
+  menuSlide(true);
 }
 
-function animateSlider(newHeight)
+function animateSlider(newHeight, animate)
 {
 /*
   console.log("animationId:"+animationId); 
@@ -275,10 +282,20 @@ function animateSlider(newHeight)
    console.log("newHeight:"+newHeight); 
   },0); 
   */
-  $("div.smuToolsPanel").css({
-      height: newHeight
-  }); 
-  
+    if (animate === true )
+    { 
+        $("div.smuToolsPanel").stop();
+        $("div.smuToolsPanel").animate({
+            "height": newHeight
+        }); 
+    }
+    else
+    {
+        $("div.smuToolsPanel").css({
+            height: newHeight
+        });
+    }
+
   /*
   $(".all_pages").css({
     paddingBottom: $("div.smuToolsPanel").height()
@@ -450,63 +467,64 @@ $(document).on('pagechange', function() {
   
 $('#gription img').on('dragstart', function(event) { event.preventDefault(); } ); // Disable dragging gription image
 $(document).on('vmousedown', "div.smuToolsPanel [data-role='footer']", function(event) {
-    console.log("vmousedown");
+    //console.log("vmousedown");
     console.log(event.target);
     //alert("vmousedown");
     
-    var startPosition = pagePosition;
-    
-    var minToolsHeight = $("div.smuToolsPanel [data-role='footer']").height();
-    
-    //var maxToolsHeight = $(window).height() - $("div.smuToolsPanel .smu_tools_button").height();
-    var windowHeight = window.innerHeight ? window.innerHeight : $(window).height();
-    var maxToolsHeight = windowHeight - ($.mobile.activePage).find("div[data-role='header']").height();
-    
-    
-    $("div.smuToolsPanel").css({
-      'z-index': '1500'
-    });
-    
-    $(document).on('vmousemove', function(event2) {
-        scrollY = event2.pageY;
-        //console.log("scrollY:"+scrollY);
-        //console.log("pageY:"+event.pageY+", startPosition:"+startPosition);
-        pagePosition = startPosition - scrollY + event.pageY;
-        //console.log("pagePosition:"+pagePosition);
-        if (pagePosition > $("div.smuToolsPanel").height()) {
-            pagePosition = $("div.smuToolsPanel").height();
-        } else if (pagePosition < 0) {
-            pagePosition = 0;
-        }
-        if (scrollPrevented == false) {
-            scrollPrevented = true;
-            $(document).on('touchmove', function(ev) {
-                //alert("bet you can't scroll!");
-                if (scrollPrevented == true)
-                  ev.preventDefault();
-            });
-        }
-        menuSlide();
-        
-    });
-    
-});
+    if (!$(event.target).hasClass("view_select_icons") )
+    {
+
+        startPosition = pagePosition;
+        console.log("StartPosition:"+startPosition);
+
+        var minToolsHeight = $("div.smuToolsPanel [data-role='footer']").height();
+
+        //var maxToolsHeight = $(window).height() - $("div.smuToolsPanel .smu_tools_button").height();
+        var windowHeight = window.innerHeight ? window.innerHeight : $(window).height();
+        var maxToolsHeight = windowHeight - ($.mobile.activePage).find("div[data-role='header']").height();
 
 
-$(document).on('vmouseup', function() {
-    console.log("vmouseup");
-    if (scrollPrevented == true) {
-        //alert("should be able to scroll now!");
-        $('body').unbind('touchmove');
-        //$(document).off('touchmove');
-        scrollPrevented = false;
+        $(document).on('vmousemove', function(event2) {
+            scrollY = event2.pageY;
+            //console.log("scrollY:"+scrollY);
+            //console.log("pageY:"+event.pageY+", startPosition:"+startPosition);
+            pagePosition = startPosition - scrollY + event.pageY;
+            //console.log("pagePosition:"+pagePosition);
+            if (pagePosition > $("div.smuToolsPanel").height()) {
+                pagePosition = $("div.smuToolsPanel").height();
+            } else if (pagePosition < 0) {
+                pagePosition = 0;
+            }
+            if (scrollPrevented == false) {
+                scrollPrevented = true;
+                $(document).on('touchmove', function(ev) {
+                    //alert("bet you can't scroll!");
+                    if (scrollPrevented == true)
+                      ev.preventDefault();
+                });
+            }
+            menuSlide();
+
+        });
+
+        $(document).on('vmouseup', function() {
+           //console.log("vmouseup");
+           if (scrollPrevented == true) {
+               //alert("should be able to scroll now!");
+               $('body').unbind('touchmove');
+               //$(document).off('touchmove');
+               scrollPrevented = false;
+           }
+           $(document).off('vmousemove', stopScroll());
+       });
+
     }
-    $(document).off('vmousemove', stopScroll());
+    
 });
 
 
 $(document).on("click", "div.smuToolsPanel .app_view a", function(){
-    console.log("Clicked app view link");
+    //console.log("Clicked app view link");
     pagePosition = 0;
     menuSlide();
 });
