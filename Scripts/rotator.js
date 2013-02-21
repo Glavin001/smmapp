@@ -85,7 +85,8 @@ function resizeNewsFeed() {
 $(document).ready( function () {
 
     rotatorId = setInterval( function () { autoRotate(); }, rotationInterval);
-    
+
+    /*
     $(document).on('vmousedown', "", function(event) {
     //alert("vmousedown");
     
@@ -145,7 +146,8 @@ $(document).on("click", "div.smuToolsPanel .app_view a", function(){
     pagePosition = 0;
     menuSlide();
 });
-
+    
+*/
 
 /*
 $(document).on("click", "div[data-role='page']", function(){

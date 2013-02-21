@@ -449,7 +449,9 @@ $(document).on('pagechange', function() {
   });
   
 $('#gription img').on('dragstart', function(event) { event.preventDefault(); } ); // Disable dragging gription image
-$(document).on('vmousedown', "div.smuToolsPanel [data-role='footer'], #gription img", function(event) {
+$(document).on('vmousedown', "div.smuToolsPanel [data-role='footer']", function(event) {
+    console.log("vmousedown");
+    console.log(event.target);
     //alert("vmousedown");
     
     var startPosition = pagePosition;
