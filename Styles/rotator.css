@@ -37,3 +37,16 @@
     height: 100%;
 }
 
+#newsFeed ul.newsList li a .newsImage, #newsFeed ul.newsList li .newsTitle {
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    /*
+    http://stackoverflow.com/questions/856307/wordwrap-a-very-long-string
+    word-wrap: break-word;
+    -moz-hyphens:auto; 
+    -webkit-hyphens:auto; 
+    -o-hyphens:auto; 
+    hyphens:auto; 
+    */
+}
