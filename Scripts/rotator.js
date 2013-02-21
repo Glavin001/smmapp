@@ -66,13 +66,14 @@ function resizeNewsFeed() {
     var maxWidth = ($.mobile.activePage).find("div[data-role='content']").width();
     var maxHeight = ($.mobile.activePage).find("div[data-role='content']").height();
      */
-    var boxMargin = 40; // Total margins, left+right
-    var windowPadding = 60; // Total padding, 15px on all sides ==> 2*15=30
-    var maxWidth = $(window).width() - boxMargin
-    var maxHeight = $(window).height() 
+    var maxWidth = $(window).width() 
+            - parseInt($("#newsFeed ul.newsList li.newsItem").css('margin-left')) 
+            - parseInt($("#newsFeed ul.newsList li.newsItem").css('margin-right'));
+    var maxHeight = ( window.innerHeight ? window.innerHeight : $(window).height() )
             - $("div.smuToolsPanel [data-role='footer']").height() 
             - ($.mobile.activePage).find("div[data-role='header']").height() 
-            - windowPadding;
+            - parseInt(($.mobile.activePage).find("div[data-role='content']").css('padding-top'))
+            - parseInt(($.mobile.activePage).find("div[data-role='content']").css('padding-bottom'));
     
     var boxSize = (maxWidth < maxHeight)?maxWidth:maxHeight;
     $('#newsFeed ul.newsList li.newsItem').width(boxSize).height(boxSize);
