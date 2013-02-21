@@ -346,13 +346,6 @@ function hideAddressBar()
   }
 }
 
-
-/* === Event Listeners === */
-window.addEventListener("load", function(){ if(!window.pageYOffset){ displayAppGrid(); displayAppList(); hideAddressBar(); } } );
-window.addEventListener("orientationchange", function() { hideAddressBar(); displayAppGrid(); stopScroll();  } )
-window.addEventListener("resize", function() { displayAppGrid(); stopScroll(); } )
-
-
 $(document).ready(function() {
 //$(document).on('pageinit', function() {
 
