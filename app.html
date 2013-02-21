@@ -11,7 +11,7 @@
         <!-- External CSS Files -->
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
         <link rel="stylesheet" href="Styles/main.css" />
-        <!-- <link rel="stylesheet" href="" id="mobile-theme" /> -->
+        <link rel="stylesheet" href="" id="mobile-theme" />
         <link rel="stylesheet" href="Styles/rotator.css" />
         <link rel="stylesheet" href="Styles/themes/SMMAPPS_CP1.css" />
         
@@ -22,7 +22,14 @@
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.js">
         </script>
         <script src="Scripts/main.js"></script>
-        
+        <script src="Scripts/toolsPanel.js"></script>
+        <script src="Scripts/rotator.js"></script>
+        <script>
+            // Global variables
+            var apps = new Array();
+            loadApps();
+        </script>
+                
         <!-- SMU home Image Rotator -->
         <script type="text/javascript" src="http://www.smu.ca/webfiles/smuImageRotator_scroll.js"></script>
         <script type="text/javascript" src="http://www.smu.ca/webfiles/jquery.cycle.min.js"></script>
@@ -381,6 +388,10 @@ Slider image of Dr. Rituparna Kanungo " style=" width: 426px; height: 322px; "><
             <div data-theme="a" class="smuToolsPanel ui-footer-fixed slideup" data-position="fixed" style="">
             
               <div data-theme="b" data-role="footer" class="drag_bar ui-footer ui-bar-b" role="contentinfo">
+                <div id="gription">
+                  <img alt="Grip Icon" src="http://www.thoughtworks-studios.com/sites/default/files/assets/ml-gi1.png" />
+                </div>
+
                 <h3 class="ui-title" role="heading" aria-level="1" style="">
                   <a class="smu_tools_button ui-link" data-role="" href="" data-icon="" data-iconpos="" role="heading" aria-level="1">
                   <span>
@@ -393,73 +404,45 @@ Slider image of Dr. Rituparna Kanungo " style=" width: 426px; height: 322px; "><
                   <a href="#" data-href="app_grid_view" class="view_select" data-icon="grid" data-iconpos="left">Grid</a>                  
                   </span>
                   -->
-                  </h3>
-                  <div data-role="fieldcontain" class="ui-btn-right ui-field-contain ui-body ui-br" style="width: 90px; padding:0;">
-                    <fieldset id="view_select" data-role="controlgroup" data-type="horizontal" class="ui-title ui-corner-all ui-controlgroup ui-controlgroup-horizontal">
-                      <!--
-                      <div role="heading" class="ui-controlgroup-label">
-                      </div>
-                      -->
-                      <div class="ui-controlgroup-controls">                        
-                        <div class="ui-radio">
-                        <input id="grid_select" type="radio" class="view_select" name="" checked="checked" value="app_grid_view">
-                        <label for="grid_select" data-corners="true" data-shadow="false" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="view_select ui-btn ui-radio-on ui-btn-active ui-corner-left ui-btn-up-a">
-                        <span class="ui-btn-inner ui-corner-left">
-                        <span class="ui-btn-text">
-                            <img class="view_select_icons" alt="Grid" src="http://www.watchrecon.com/data/view_grid2.png" />
-                        </span>
-                        </span>
-                        </label>
-                        </div>
-                        <div class="ui-radio">
-                        <input id="list_select" type="radio" class="view_select" name="" value="app_list_view">
-                        <label for="list_select" data-corners="true" data-shadow="false" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="view_select ui-btn ui-radio-off ui-corner-right ui-controlgroup-last ui-btn-up-a">
-                        <span class="ui-btn-inner ui-corner-right ui-controlgroup-last">
-                        <span class="ui-btn-text">
-                            <img class="view_select_icons" alt="List" src="http://www.bikelongbeach.org/wp-content/themes/reaction/assets/images/theme/btn_list.png" />
-                        </span>
-                        </span>
-                        </label>
-                        </div>
-                      </div>
-                    </fieldset>
-                  </div>
-                    
+                </h3>
                 
+                <div data-role="fieldcontain" class="ui-btn-right ui-field-contain ui-body ui-br" style="width: 90px; padding:0;">
+                  <fieldset id="view_select" data-role="controlgroup" data-type="horizontal" class="ui-title ui-corner-all ui-controlgroup ui-controlgroup-horizontal">
+                    <!--
+                    <div role="heading" class="ui-controlgroup-label">
+                    </div>
+                    -->
+                    <div class="ui-controlgroup-controls">                        
+                      <div class="ui-radio">
+                      <input id="grid_select" type="radio" class="view_select" name="" checked="checked" value="app_grid_view">
+                      <label for="grid_select" data-corners="true" data-shadow="false" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="view_select ui-btn ui-radio-on ui-btn-active ui-corner-left ui-btn-up-a">
+                      <span class="ui-btn-inner ui-corner-left">
+                      <span class="ui-btn-text">
+                          <img class="view_select_icons" alt="Grid" src="http://www.watchrecon.com/data/view_grid2.png" />
+                      </span>
+                      </span>
+                      </label>
+                      </div>
+                      <div class="ui-radio">
+                      <input id="list_select" type="radio" class="view_select" name="" value="app_list_view">
+                      <label for="list_select" data-corners="true" data-shadow="false" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="view_select ui-btn ui-radio-off ui-corner-right ui-controlgroup-last ui-btn-up-a">
+                      <span class="ui-btn-inner ui-corner-right ui-controlgroup-last">
+                      <span class="ui-btn-text">
+                          <img class="view_select_icons" alt="List" src="http://www.bikelongbeach.org/wp-content/themes/reaction/assets/images/theme/btn_list.png" />
+                      </span>
+                      </span>
+                      </label>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
               </div>
               
-              <div data-role="" data-theme="a" class="all_app_views" style="z-index: -1;">
-                <div data-role="content" data-theme="a" class="app_view app_list_view ui-content ui-body-a" style="display: none;" role="main">
-                  <ul data-role="listview" data-divider-theme="b" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
-                      <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-corner-top"><div class="ui-btn-inner ui-li ui-corner-top"><div class="ui-btn-text">
-                          <a href="javascript:void(0)" onclick="closeSmuTools('#news');" class="ui-link-inherit">
-                              <img style="width:32px;height:32px;" alt="News" src="http://aux.iconpedia.net/uploads/1572305589167805283.png">
-                              News
-                          </a>
-                      </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
-                      <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">
-                          <a href="javascript:void(0)" onclick="closeSmuTools('#grades')" class="ui-link-inherit">
-                              <img style="width:32px;height:32px;" alt="Register" src="http://nuno-icons.com/wp-content/uploads/2008/05/register.png">
-                              Register
-                          </a>
-                      </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
-                      <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">
-                          <a href="javascript:void(0)" onclick="closeSmuTools('#map')" class="ui-link-inherit">
-                              <img style="width:32px;height:32px;" alt="Map" src="http://chriscarey.com/wordpress/wp-content/uploads/2012/07/google_maps_icon.png">
-                              Map
-                          </a>
-                      </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
-                      <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-corner-bottom ui-li-last"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">
-                          <a href="javascript:void(0)" onclick="closeSmuTools('#grades')" class="ui-link-inherit">
-                              <img style="width:32px;height:32px;" alt="Grades" src="http://atkins.caddo.k12.la.us/files/igradesim_icon.png">
-                              Grades
-                          </a>
-                      </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
-                  </ul>
-                </div>
-                
+              <div data-role="" data-theme="a" class="all_app_views">
+               
                 <div data-role="content" data-theme="a" class="app_view app_grid_view ui-content ui-body-a" style="display: block;" role="main">
                   <div class="app_grid ui-grid-a">
+                       <!--
                        <div class="app_block ui-block-a">
                           <a data-role="button" href="javascript:void(0)" onclick="closeSmuTools('#news')" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="ui-btn ui-btn-up-a ui-shadow ui-btn-corner-all">
                           <span class="ui-btn-inner ui-btn-corner-all">
@@ -506,10 +489,46 @@ Slider image of Dr. Rituparna Kanungo " style=" width: 426px; height: 322px; "><
                           </span>
                           </a>
                       </div>
-
-                    
+                    -->
                     </div>
                   </div>
+                  
+                  <div data-role="content" data-theme="a" class="app_view app_list_view ui-content ui-body-a" style="display: none;" role="main">
+                    <ul data-role="listview">
+                        
+                    </ul>
+                    <!--
+                    <ul data-role="listview" data-divider-theme="b" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+
+                        <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-corner-top"><div class="ui-btn-inner ui-li ui-corner-top"><div class="ui-btn-text">
+                          <a href="javascript:void(0)" onclick="closeSmuTools('#news');" class="ui-link-inherit">
+                              <img style="width:32px;height:32px;" alt="News" src="http://aux.iconpedia.net/uploads/1572305589167805283.png">
+                              News
+                          </a>
+                      </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
+                      <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">
+                          <a href="javascript:void(0)" onclick="closeSmuTools('#grades')" class="ui-link-inherit">
+                              <img style="width:32px;height:32px;" alt="Register" src="http://nuno-icons.com/wp-content/uploads/2008/05/register.png">
+                              Register
+                          </a>
+                      </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
+                      <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">
+                          <a href="javascript:void(0)" onclick="closeSmuTools('#map')" class="ui-link-inherit">
+                              <img style="width:32px;height:32px;" alt="Map" src="http://chriscarey.com/wordpress/wp-content/uploads/2012/07/google_maps_icon.png">
+                              Map
+                          </a>
+                      </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
+                      <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-corner-bottom ui-li-last"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">
+                          <a href="javascript:void(0)" onclick="closeSmuTools('#grades')" class="ui-link-inherit">
+                              <img style="width:32px;height:32px;" alt="Grades" src="http://atkins.caddo.k12.la.us/files/igradesim_icon.png">
+                              Grades
+                          </a>
+                      </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
+                    </ul>
+                    -->
+                </div>
+                
+                  
                 </div>
                 
             </div>

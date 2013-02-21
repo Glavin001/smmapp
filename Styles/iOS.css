@@ -1,21 +1,25 @@
 div.app_view
 {
-/*
-  background: url(http://d3j5vwomefv46c.cloudfront.net/photos/large/597776691.png?key=20482048&Expires=1361233637&Key-Pair-Id=APKAIYVGSUJFNRFZBBTA&Signature=yFWJiYeXCweIm1aOxzdtGf2crMvJxuEVoXx4PS2EpZ22RfZ2Vng5DyG4DZtWNiQ6bF-JhW5sYF5VQZ32mBjBTNtU3L4LPOZnTpP7hj~zyPKsESOezKcaXNsIHv5pJUTuH5LAPUck7uSmar5BNs1qs20aBtLsn2ZpcFJnc4wcn-M_) no-repeat;
-  background-size: 100% 100%;
-  */
+    /*
+    background: url(http://d3j5vwomefv46c.cloudfront.net/photos/large/597776691.png?key=20482048&Expires=1361233637&Key-Pair-Id=APKAIYVGSUJFNRFZBBTA&Signature=yFWJiYeXCweIm1aOxzdtGf2crMvJxuEVoXx4PS2EpZ22RfZ2Vng5DyG4DZtWNiQ6bF-JhW5sYF5VQZ32mBjBTNtU3L4LPOZnTpP7hj~zyPKsESOezKcaXNsIHv5pJUTuH5LAPUck7uSmar5BNs1qs20aBtLsn2ZpcFJnc4wcn-M_) no-repeat;
+    background-size: 100% 100%;
+    */
+    /*
     background-image: url(http://help.apple.com/iphone/6/mg/assets/table-view-grouped-background@2x.png);
-
+    */
 }
 
 div.ui-header , div.ui-footer , div ul.ui-listview li[data-role='list-divider']
 {
+    /*
   background-image: url(http://help.apple.com/iphone/6/mg/assets/navigation-bar-default-background@2x.png);
   background-size: 100% 100%;
+  */
 }
 
 .ui-icon-arrow-r
 {
+    /*
   -webkit-background-size: 10px 26px;
   background-color: rgba(0, 0, 0, 0);
   background-image: url(http://help.apple.com/iphone/6/mg/assets/table-view-cell-disclosure-indicator@2x.png);
@@ -24,6 +28,7 @@ div.ui-header , div.ui-footer , div ul.ui-listview li[data-role='list-divider']
   background-repeat: no-repeat;  
   width: 10px;
   height: 13px;
+  */
 }
 
 div ul.ui-listview li:not([data-role='list-divider'])
