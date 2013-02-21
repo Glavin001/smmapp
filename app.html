@@ -15,7 +15,6 @@
         <link rel="stylesheet" href="Styles/rotator.css" />
         <link rel="stylesheet" href="Styles/themes/SMMAPPS_CP1.css" />
         
-        
         <!-- External JavaScript Files --->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
         </script>
@@ -27,80 +26,12 @@
         <script>
             // Global variables
             var apps = new Array();
+            var newsFeed = new Array();
+            // Init
+            loadNewsFeed();
             loadApps();
         </script>
-                
-        <!-- SMU home Image Rotator -->
-        <script type="text/javascript" src="http://www.smu.ca/webfiles/smuImageRotator_scroll.js"></script>
-        <script type="text/javascript" src="http://www.smu.ca/webfiles/jquery.cycle.min.js"></script>
-        <script type="text/javascript" src="http://www.smu.ca/webfiles/jquery.prettyPhoto.js"></script>
-        <script>
-        function isIos() {
-          var deviceAgent = navigator.userAgent.toLowerCase();
-          var ios = deviceAgent.match(/(iphone|ipod|ipad)/);
-    
-          if (ios != null) {
-            return true;
-          } else {
-            return false;
-          }
-        }
-    
-        $(document).ready(function() {
-    
-          var swfUrl = false,
-          mp4Url = false;
-    
-          swfUrl = "/videos/FLVPlayer_Progressive.swf?width=640&height=360&MM_ComponentVersion=1&skinName=/videos/Clear_Skin_3&streamName=/images/CentreImage/[theFilename].flv&autoPlay=true&autoRewind=false";
-          iosUrl = "/images/CentreImage/[theFilename].mp4";
-    
-          $('#cleartest').click(function(e){
-            $('#test').empty();
-            e.preventDefault();
-          });
-    
-          $('.youTube').each(function(){
-            // ID of the div and player object
-            divId = $(this).attr('id');
-            playerId = divId + 'Player';
-    
-            // Set up player object
-            params = eval($(this).attr('id'));
-            params.playerID = playerId;
-            params.onPlayerBuffering = function(id){pauseTimer();};
-            params.onPlayerPlaying = function(id){pauseTimer();};
-            params.onPlayerPaused = function(id){resumeTimer();};
-            params.onPlayerEnded = function(id){resumeTimer();};
-            $(this).tubeplayer(params);
-          });
-    
-    
-          Smu.imageRotator.init();
-    
-          $('div.smuImageNav a').mouseover(function() {
-            $(this).fadeTo(400, 1);
-            });
-          $('div.smuImageNav a').mouseout(function() {
-            $(this).fadeTo(400, 0.15);
-            });
-        });
         
-      </script>
-        
-        <!-- User-generated css -->
-        <style>
-        </style>
-        <!-- User-generated js -->
-        <script>
-          try {
-            $(function() {
-        
-            });
-        
-          } catch (error) {
-            console.error("Your javascript has an error: " + error);
-          }
-        </script>
     </head>
     <body data-theme="a">
         
@@ -135,73 +66,65 @@
             </div>
             
             <div data-role="content">
-              <a href="#home">
-                <div style="position: relative; left: 50%; margin-left: -144px; top: 50%;">
-                    <!--
-                    <img style="width: 288px; height: 100px;" src="Images/saint_marys_full_logo.gif">
-                    <img style="width: 683px; height: 230px;" src="Images/saint_marys_full_logo.gif">
-                    <img src="Images/smu_shield_128.png" width="128" height="128" alt="SMU Shield" />
-                    -->
-                    
-                    <div id="smuImageRotator">
-<ul class="smuImageList" style="position: relative; width: 426px; height: 322px; overflow: hidden;">
-<li style="position: absolute; top: 0px; left: 0px; z-index: 7; opacity: 1; display: list-item;">
-	<div class="smuImageListPicture">
-		<a href="http://www.smu.ca/newsreleases/2013/january/hoop-star-a-player-on-the-court-and-in-the-community.html" target="_blank">
-		<img src="http://www.smu.ca/webfiles/t4_1843186125580896898.jpg" alt="
-Basketball player Harry Ezenibe is a star on and off the court." style=" width: 426px; height: 322px; "></a>
-		</div>
-		<div class="smuImageTitleText">A Star on and Off the Court</div>
-		<div class="smuImageTitleBkg">&nbsp;</div>
-</li><li style="position: absolute; top: 0px; left: 0px; display: none; z-index: 5;">
-	<div class="smuImageListPicture">
-		<a href="http://www.smu.ca/newsreleases/2013/january/environmental-science-student-wins-rbc-award.html" target="_blank">
-		<img src="http://www.smu.ca/webfiles/Farrah-Stevensslider.jpg" alt="
-Farrah Stevens" style=" width: 426px; height: 322px; "></a>
-		</div>
-		<div class="smuImageTitleText">Stevens Nabs Aboriginal Student Award</div>
-		<div class="smuImageTitleBkg">&nbsp;</div>
-</li><li style="position: absolute; top: 0px; left: 0px; display: none; z-index: 4;">
-	<div class="smuImageListPicture">
-		<a href="http://www.smu.ca/newsreleases/2013/january/saint-marys-launches-mobile-app-contest.html" target="_blank">
-		<img src="http://www.smu.ca/webfiles/mobileappslider2.jpg" alt="
-mobile app contest" style=" width: 483px; height: 322px; "></a>
-		</div>
-		<div class="smuImageTitleText">Do You Have An App For That? </div>
-		<div class="smuImageTitleBkg">&nbsp;</div>
-</li><li style="position: absolute; top: 0px; left: 0px; display: none; z-index: 3;">
-	<div class="smuImageListPicture">
-		<a href="http://www.smu.cahttp://www.smu.ca/newsreleases/2013/january/grads-urged-to-never-stop-learning.html" target="_blank">
-		<img src="http://www.smu.ca/webfiles/t4_4701194598787317611.jpg" alt="
-Two hundred students crossed the stage during Winter Convocation January 20" style=" width: 426px; height: 322px; "></a>
-		</div>
-		<div class="smuImageTitleText">Winter Convocation 2013</div>
-		<div class="smuImageTitleBkg">&nbsp;</div>
-</li><li style="position: absolute; top: 0px; left: 0px; display: none; z-index: 2;">
-	<div class="smuImageListPicture">
-		<a href="http://www.smu.cahttp://www.smu.ca/newsreleases/2013/january/research-seeking-the-origin-of-the-cosmos-could-improve-cancer-fight-.html" target="_blank">
-		<img src="http://www.smu.ca/webfiles/rituSLIDER.jpg" alt="
-Slider image of Dr. Rituparna Kanungo " style=" width: 426px; height: 322px; "></a>
-		</div>
-		<div class="smuImageTitleText">Federal Support for Cancer and the Cosmos Research </div>
-		<div class="smuImageTitleBkg">&nbsp;</div>
-</li><li style="position: absolute; top: 0px; left: 0px; display: none; z-index: 1;">
-	<div class="smuImageListPicture">
-		<a href="http://www.smu.ca/newsreleases/2012/november/highlights-of-recent-university-rankings.html" target="_blank">
-		<img src="http://www.smu.ca/webfiles/SMURank.jpg" alt="
-" style=" width: 426px; height: 322px; "></a>
-		</div>
-		<div class="smuImageTitleText"></div>
-		<div class="smuImageTitleBkg">&nbsp;</div>
-</li></ul>
-	<div class="smuImageNav">
-		<a class="smuImageNavPrev" href="#" title="Previous Image">&lt;&lt;</a>
-		<a class="smuImageNavNext" href="#" title="Next Image">&gt;&gt;</a>
-	</div>
-</div>
-                    
+                <!--
+                <img style="width: 288px; height: 100px;" src="Images/saint_marys_full_logo.gif">
+                <img style="width: 683px; height: 230px;" src="Images/saint_marys_full_logo.gif">
+                <img src="Images/smu_shield_128.png" width="128" height="128" alt="SMU Shield" />
+                -->
+                
+                <div style="">
+                    <div id="newsFeed">
+                        <ul class="newsList">
+                            <li class="newsItem">
+                                <a class="newsLink" href="#" target="_blank">
+                                    <div class="newsImage">
+                                    <img src="http://www.smu.ca//webfiles/shelagh_crooks_slider.jpg" alt="Dr. Shelagh Crooks">
+                                    </div>
+                                    <div class="newsTitle">National Award for Saint Mary’s Professor</div>
+                                </a>
+                            </li>
+
+                            <li class="newsItem">
+                                <a class="newsLink" href="http://www.smu.ca/newsreleases/2013/february/dr-shelagh-crooks-named-3m-national-teaching-fellow.html" target="_blank">
+                                    <div class="newsImage">
+                                    <img src="http://www.smu.ca//webfiles/t4_1843186125580896898.jpg" alt="Dr. Shelagh Crooks">
+                                    </div>
+                                    <div class="newsTitle">A Star on and Off the Court</div>
+                                </a>
+                            </li>
+
+                            <li class="newsItem">
+                                <a class="newsLink" href="http://www.smu.ca/newsreleases/2013/february/dr-shelagh-crooks-named-3m-national-teaching-fellow.html" target="_blank">
+                                    <div class="newsImage">
+                                    <img src="http://www.smu.ca//webfiles/Farrah-Stevensslider.jpg" alt="Dr. Shelagh Crooks">
+                                    </div>
+                                    <div class="newsTitle">Stevens Nabs Aboriginal Student Award</div>
+                                </a>
+                            </li>
+
+                            <li class="newsItem">
+                                <a class="newsLink" href="#" target="_blank">
+                                    <div class="newsImage">
+                                    <img src="http://www.smu.ca//webfiles/rituSLIDER.jpg" alt="Dr. Shelagh Crooks">
+                                    </div>
+                                    <div class="newsTitle">Federal Support for Cancer and the Cosmos Research</div>
+                                </a>
+                            </li>
+
+                            <li class="newsItem">
+                                <a class="newsLink" href="#" target="_blank">
+                                    <div class="newsImage">
+                                    <img src="http://www.smu.ca//webfiles/SMURank.jpg" alt="Dr. Shelagh Crooks">
+                                    </div>
+                                    <div class="newsTitle">National Award for Saint Mary’s Professor</div>
+                                </a>
+                            </li>
+
+                        </ul>
+                        
+                    </div>
                 </div>
-              </a>
+
             </div>
 
             
@@ -366,7 +289,7 @@ Slider image of Dr. Rituparna Kanungo " style=" width: 426px; height: 322px; "><
                     <label for="textinput1">
                         A-Number
                     </label>
-                    <input name="" id="textinput1" placeholder="" value="" type="text">
+                    <input name="aNumber" id="textinput1" placeholder="" value="" type="text">
                 </fieldset>
               </div>
               <div data-role="fieldcontain">
@@ -374,7 +297,7 @@ Slider image of Dr. Rituparna Kanungo " style=" width: 426px; height: 322px; "><
                     <label for="textinput2">
                         Password
                     </label>
-                    <input name="" id="textinput2" placeholder="" value="" type="text">
+                    <input name="aPassword" id="textinput2" placeholder="" value="" type="password">
                 </fieldset>
               </div>
               </form>
