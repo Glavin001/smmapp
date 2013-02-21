@@ -11,8 +11,10 @@
         <!-- External CSS Files -->
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
         <link rel="stylesheet" href="Styles/main.css" />
-        <link rel="stylesheet" href="" id="mobile-theme" />
+        <!-- <link rel="stylesheet" href="" id="mobile-theme" /> -->
         <link rel="stylesheet" href="Styles/rotator.css" />
+        <link rel="stylesheet" href="Styles/themes/SMMAPPS_CP1.css" />
+        
         
         <!-- External JavaScript Files --->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
@@ -93,7 +95,7 @@
           }
         </script>
     </head>
-    <body>
+    <body data-theme="a">
         
         <!-- Splash Screen -->
         <div data-role="page" id="splash">
@@ -112,7 +114,7 @@
         </div>
         
         <!-- Home -->
-        <div data-role="page" id="home" class="all_pages">
+        <div data-role="page" id="home" class="all_pages" data-theme="a">
             <div data-theme="a" data-role="header">
                 <h2>
                     Home
@@ -378,8 +380,8 @@ Slider image of Dr. Rituparna Kanungo " style=" width: 426px; height: 322px; "><
           <div data-role="content">
             <div data-theme="a" class="smuToolsPanel ui-footer-fixed slideup" data-position="fixed" style="">
             
-              <div data-theme="a" data-role="footer" class="drag_bar ui-footer ui-bar-a" role="contentinfo">
-                <h3 class="ui-title" role="heading" aria-level="1" style="display:inline;">
+              <div data-theme="b" data-role="footer" class="drag_bar ui-footer ui-bar-b" role="contentinfo">
+                <h3 class="ui-title" role="heading" aria-level="1" style="">
                   <a class="smu_tools_button ui-link" data-role="" href="" data-icon="" data-iconpos="" role="heading" aria-level="1">
                   <span>
                   SMU Tools
@@ -393,9 +395,11 @@ Slider image of Dr. Rituparna Kanungo " style=" width: 426px; height: 322px; "><
                   -->
                   </h3>
                   <div data-role="fieldcontain" class="ui-btn-right ui-field-contain ui-body ui-br" style="width: 90px; padding:0;">
-                    <fieldset data-role="controlgroup" data-type="horizontal" class="ui-corner-all ui-controlgroup ui-controlgroup-horizontal">
+                    <fieldset id="view_select" data-role="controlgroup" data-type="horizontal" class="ui-title ui-corner-all ui-controlgroup ui-controlgroup-horizontal">
+                      <!--
                       <div role="heading" class="ui-controlgroup-label">
                       </div>
+                      -->
                       <div class="ui-controlgroup-controls">                        
                         <div class="ui-radio">
                         <input id="grid_select" type="radio" class="view_select" name="" checked="checked" value="app_grid_view">

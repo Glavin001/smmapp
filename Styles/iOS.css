@@ -4,7 +4,7 @@ div.app_view
   background: url(http://d3j5vwomefv46c.cloudfront.net/photos/large/597776691.png?key=20482048&Expires=1361233637&Key-Pair-Id=APKAIYVGSUJFNRFZBBTA&Signature=yFWJiYeXCweIm1aOxzdtGf2crMvJxuEVoXx4PS2EpZ22RfZ2Vng5DyG4DZtWNiQ6bF-JhW5sYF5VQZ32mBjBTNtU3L4LPOZnTpP7hj~zyPKsESOezKcaXNsIHv5pJUTuH5LAPUck7uSmar5BNs1qs20aBtLsn2ZpcFJnc4wcn-M_) no-repeat;
   background-size: 100% 100%;
   */
-  background-image: url(http://help.apple.com/iphone/6/mg/assets/table-view-grouped-background@2x.png);
+    background-image: url(http://help.apple.com/iphone/6/mg/assets/table-view-grouped-background@2x.png);
 
 }
 

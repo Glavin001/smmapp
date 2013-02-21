@@ -5,12 +5,6 @@ var scrollY = 0;
 var scrollPrevented = false;
 var animationId = null;
 
-/* === Event Listeners === */
-window.addEventListener("load", function(){ if(!window.pageYOffset){ hideAddressBar(); } } );
-window.addEventListener("orientationchange", function() { hideAddressBar(); loadAppGrid(); stopScroll();  } )
-window.addEventListener("resize", function() { loadAppGrid(); stopScroll(); } )
-
-
 $(document).ready(function() {
 //$(document).on('pageinit', function() {
 
@@ -353,7 +347,8 @@ function loadAppGrid()
   var max_apps_row = 5;
   var app_width = 128;
   var grid_view = $('.app_grid_view');
-  max_apps_row = Math.floor((grid_view.width()-40) / app_width);
+  var grid_padding = 40;
+  max_apps_row = Math.floor((grid_view.width()-grid_padding) / app_width);
   if (max_apps_row > 5) max_apps_row = 5;
   var apps = new Array();
   apps.push( {'title':'News', 'link':'#news', 'icon':'http://aux.iconpedia.net/uploads/1572305589167805283.png'} );
@@ -481,3 +476,8 @@ else if ( isDesktop.any() )
    $("#mobile-theme").attr("href","Styles/Android.css");
   }
 }
+
+/* === Event Listeners === */
+window.addEventListener("load", function(){ if(!window.pageYOffset){ hideAddressBar(); } } );
+window.addEventListener("orientationchange", function() { hideAddressBar(); loadAppGrid(); stopScroll();  } )
+window.addEventListener("resize", function() { loadAppGrid(); stopScroll(); } )
