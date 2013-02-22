@@ -21,13 +21,14 @@ function displayNewsFeed() {
 }
 
 
-// 
+// Global working variables
 var manuallyRotating = false;
-var newsSelected = 0; // 0=Has not started, 1=First item, etc.
+var newsSelected = 1; // 0=Has not started, 1=First item, etc.
 var rotatePosition = 0;
 var rotatorId = null;
-var rotationInterval = 3000; // milliseconds
+var rotationInterval = 5000; // milliseconds
 var startingOffset = 0;
+var startPositionX = 0;
 
 function autoRotate(options) {
     //console.log("Rotating News Feed");
@@ -41,6 +42,8 @@ function autoRotate(options) {
             newsSelected++;
         if ( newsSelected > $("#newsFeed ul.newsList li.newsItem").length )
             newsSelected = 1; // Reset position
+        if ( newsSelected < 0 )
+            newsSelected = 0;
         var newRotatePosition 
                 = newsSelected 
                 * ( $("#newsFeed ul.newsList li.newsItem").width() 
@@ -91,22 +94,25 @@ $(document).ready( function () {
     
     // Enable touch/drag feature for rotator
     $('#newsFeed ul.newsList li.newsItem img').on('dragstart', function(event) { event.preventDefault(); } ); // Disable default action for dragging image
-    $(document).on('vmousedown', "#newsFeed ul.newsList li.newsItem", function(event) {
-    console.log("vmousedown");
-    console.log(event.target);
-    //alert("vmousedown");
+    $(document).on('vmousedown', "#newsFeed ul.newsList li.newsItem", function(clickEvent) {
+    console.log("Mouse down on rotator item.");
+    console.log(clickEvent.target);
+    manuallyRotating = true;
+    startPositionX = clickEvent.pageX;
+    console.log("Starting position:"+startPositionX);
+    $("#newsFeed ul.newsList li.newsItem").stop();
     
-    $(document).on('vmousemove', function(event2) {
-        scrollY = event2.pageY;
-        //console.log("scrollY:"+scrollY);
-        //console.log("pageY:"+event.pageY+", startPosition:"+startPosition);
-        pagePosition = startPosition - scrollY + event.pageY;
-        //console.log("pagePosition:"+pagePosition);
-        if (pagePosition > $("div.smuToolsPanel").height()) {
-            pagePosition = $("div.smuToolsPanel").height();
-        } else if (pagePosition < 0) {
-            pagePosition = 0;
-        }
+    $(document).on('vmousemove', function(moveEvent) {
+        var newX = moveEvent.pageX;
+        //console.log(newX);
+        //console.log(startPositionX - newX);
+        var newRotatePosition = rotatePosition + (startPositionX - newX);
+        console.log("newRotatePosition:"+newRotatePosition);
+        $("#newsFeed ul.newsList li.newsItem").css({
+            left: ( -1*newRotatePosition + startingOffset )
+        });
+
+        
         if (scrollPrevented == false) {
             scrollPrevented = true;
             $(document).on('touchmove', function(ev) {
@@ -116,17 +122,45 @@ $(document).ready( function () {
             });
         }
         
+        
     });
  
- $(document).on('vmouseup', function() {
-    console.log("vmouseup");
-    if (scrollPrevented == true) {
+ $(document).on('vmouseup', function(upEvent) {
+     console.log("Released mouse click");
+     manuallyRotating = false;
+     // Find closest
+     var newX = upEvent.pageX;
+     console.log("newX:"+newX);
+     var newRotatePosition = rotatePosition + (startPositionX - newX);
+     newsSelected = Math.ceil(( 
+             newRotatePosition 
+             - startingOffset/2         
+             - parseInt($("#newsFeed ul.newsList li.newsItem").css('margin-left')) 
+             - parseInt($("#newsFeed ul.newsList li.newsItem").css('margin-right')) ) / 
+        (
+        $("#newsFeed ul.newsList li.newsItem").width() 
+        + parseInt($("#newsFeed ul.newsList li.newsItem").css('margin-right'))
+       ));
+     if ( newsSelected < 1 )
+         newsSelected = 1;
+     console.log("newSelected:"+newsSelected);
+     // Move to closest
+     autoRotate({'increment':false});
+     clearInterval(rotatorId);
+     rotatorId = setInterval( function () { autoRotate(); }, rotationInterval);
+
+     
+     if (scrollPrevented == true) {
         //alert("should be able to scroll now!");
         $('body').unbind('touchmove');
         //$(document).off('touchmove');
         scrollPrevented = false;
-    }
-    $(document).off('vmousemove', stopScroll());
+     }
+     
+
+     $(document).off('vmousemove');
+     $(document).off('vmouseup');
+    
 });
 
     
