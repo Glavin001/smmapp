@@ -206,21 +206,21 @@
             <div data-role="content">
               <div class="map_view_select" data-role="navbar">
                 <ul>
-                  <li><a href="#map" onclick="$('.locate_view').hide(); $('.map_view').show();" class="select_map ui-btn-active ui-state-persist">Map</a></li>
-                  <li><a href="#map" onclick="$('.map_view').hide(); $('.locate_view').show();" class="select_locate">Locate</a></li>
+                  <li><a href="#map" onclick="$('.map_view').animate( { 'left': 0 } ); $('.locate_view').show().animate( { 'left': 1*$('.all_map_views').width() } );" class="select_map ui-btn-active ui-state-persist">Map</a></li>
+                  <li><a href="#map" onclick="$('.map_view').animate( { 'left': -1*$('.all_map_views').width() } ); $('.locate_view').show().animate( { 'left': 0 } );" class="select_locate">Locate</a></li>
                 </ul>
               </div>
-              <div class="all_map_view">
+              <div class="all_map_views">
               
-                <div class="map_view" style="display:block;height:100%;">
-                  Show a map, using OpenLayers.
-                  <!--
+                <div class="map_view" style="">
+                    <p>Show a map, using OpenLayers.</p>
+                  
                   <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Saint+Mary's+University,+Canada&amp;aq=1&amp;oq=saint+&amp;sll=37.0625,-95.677068&amp;sspn=70.0649,50.888672&amp;t=h&amp;ie=UTF8&amp;hq=Saint+Mary's+University,+Canada&amp;hnear=&amp;radius=15000&amp;ll=44.630596,-63.582171&amp;spn=0.071946,0.071946&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Saint+Mary's+University,+Canada&amp;aq=1&amp;oq=saint+&amp;sll=37.0625,-95.677068&amp;sspn=70.0649,50.888672&amp;t=h&amp;ie=UTF8&amp;hq=Saint+Mary's+University,+Canada&amp;hnear=&amp;radius=15000&amp;ll=44.630596,-63.582171&amp;spn=0.071946,0.071946" style="color:#0000FF;text-align:left">View Larger Map</a></small>
-                  -->
+                  
                 </div>
                 
-                <div class="locate_view" style="display:none;">
-                  Search and locate, etc.
+                <div class="locate_view" style="display: none;">
+                    <p>Search and locate, etc.</p>
                 </div>
               
               </div>
