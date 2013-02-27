@@ -8,6 +8,10 @@
  *  
  */
 
+#newsFeedContainer {
+    margin-left: 15px;
+}
+
 #newsFeed ul.newsList {
     margin: 0;
     padding: 0;
@@ -20,7 +24,8 @@
     list-style-type: none;
     position: relative;
     left: 0px;
-    margin: 0 10px 0 10px;
+    margin: 0 15px 0 15px;
+    padding: 0;
     
     -moz-box-shadow: 0 0 15px #000;
     -webkit-box-shadow: 0 0 15px #000;

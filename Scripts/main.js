@@ -1,3 +1,15 @@
+/*
+ * Author:
+ * Glavin Wiechert
+ * 
+ * Date:
+ * Feb 21, 2013
+ * 
+ * Description:
+ * Generic functions and events.
+ *  
+ */
+
 /* OS Detection Code from http://www.abeautifulsite.net/blog/2011/11/detecting-mobile-devices-with-javascript/ */
 var isMobile = {
     Android: function() {
