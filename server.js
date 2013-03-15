@@ -28,7 +28,8 @@ logger.log('Loading modules.');
 var 
     http = require('http'),
     path = require('path'),
-    fs = require('fs');
+    fs = require('fs'),
+    smu_auth = require('./node/smu-auth');
 
 logger.log('Loading functions.');
 
@@ -84,3 +85,9 @@ server.listen(80);
 logger.log('Server started.');
 
 // ---------------------------------------- SOCKET API 
+logger.log('Setup socket.');
+
+io = require('socket.io').listen(server);
+io.sockets.on('connection', function(socket) {
+  
+});
