@@ -1,0 +1,40 @@
+<!-- Maps -->
+<div data-role="page" id="map" class="all_pages">        
+  <div data-theme="a" data-role="header">
+    <h2>
+      Map
+    </h2>
+    <a id="news_button" data-role="button" data-inline="true" href="#login" data-icon="info" data-iconpos="left" class="ui-btn-right">
+      Login
+    </a>
+    <a id="smu_button" data-role="button" href="javascript:void(0)" onclick="closeSmuTools('#home')" data-icon="home" data-iconpos="right" class="ui-btn-left">
+      SMMAPPS
+    </a>
+  </div>
+
+  <div data-role="content">
+    <div class="map_view_select" data-role="navbar">
+      <ul>
+        <li><a href="#map" onclick="$('.map_view').animate({'left': 0});
+                    $('.locate_view').show().animate({'left': 1 * $('.all_map_views').width()});" class="select_map ui-btn-active ui-state-persist">Map</a></li>
+        <li><a href="#map" onclick="$('.map_view').animate({'left': -1 * $('.all_map_views').width()});
+                    $('.locate_view').show().animate({'left': 0});" class="select_locate">Locate</a></li>
+      </ul>
+    </div>
+    <div class="all_map_views">
+
+      <div class="map_view" style="">
+        <p>Show a map, using OpenLayers.</p>
+
+        <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Saint+Mary's+University,+Canada&amp;aq=1&amp;oq=saint+&amp;sll=37.0625,-95.677068&amp;sspn=70.0649,50.888672&amp;t=h&amp;ie=UTF8&amp;hq=Saint+Mary's+University,+Canada&amp;hnear=&amp;radius=15000&amp;ll=44.630596,-63.582171&amp;spn=0.071946,0.071946&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Saint+Mary's+University,+Canada&amp;aq=1&amp;oq=saint+&amp;sll=37.0625,-95.677068&amp;sspn=70.0649,50.888672&amp;t=h&amp;ie=UTF8&amp;hq=Saint+Mary's+University,+Canada&amp;hnear=&amp;radius=15000&amp;ll=44.630596,-63.582171&amp;spn=0.071946,0.071946" style="color:#0000FF;text-align:left">View Larger Map</a></small>
+
+      </div>
+
+      <div class="locate_view" style="display: none;">
+        <p>Search and locate, etc.</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>

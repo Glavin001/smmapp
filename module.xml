@@ -8,26 +8,43 @@ and open the template in the editor.
 <modules>
     <module
       id="0" 
-      title="Aladdin"
-      link="aladdin.html"
+      title="Login"
+      link="login.html"
       icon="icon.jpg" 
       >
       description
     </module>
     <module
       id="1" 
-      title="RobinWilliams"
-      file="Williams.html"
+      title="News"
+      file="news.html"
       icon="robin.jpg"
       >
       description
     </module>
     <module
       id="2" 
-      title="Zelda"
-      file="zelda.html"
+      title="Grades"
+      file="grades.html"
       icon="legendofzelda.jpg" 
       >
       description
     </module>
+    <module
+      id="3" 
+      title="Register"
+      file="register.html"
+      icon="legendofzelda.jpg" 
+      >
+      description
+    </module>
+    <module
+      id="4" 
+      title="Map"
+      file="map.html"
+      icon="legendofzelda.jpg" 
+      >
+      description
+    </module>
+
 </modules>
