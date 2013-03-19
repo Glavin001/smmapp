@@ -50,6 +50,8 @@ function displayAppGrid()
   for (var i=0; i<apps.length; i++)
   {
     var current_app = $( "<div />" , { "class": "app_block ui-block-"+n2a[i%max_apps_row] } ); 
+    //var clickEvent = function (link) { navigator.goToModule(link); };
+    
     current_app.append(
       $(
       "<a />", 
@@ -63,6 +65,7 @@ function displayAppGrid()
         "data-wrapperels":"span", 
         "data-theme":"a"
       } 
+      //).on('click', clickEvent(apps[i].link)  
       ).append(
         $( 
         "<span />",
@@ -371,100 +374,6 @@ menuSlide();
 displayAppGrid();
 displayAppList();
 
-$('div.all_pages').live('pageshow',function(event, ui){
-  console.log('This page was just hidden: '+ ui.prevPage);
-  //$("#menu").show();
-});
-
-$('div.all_pages').live('pagehide',function(event, ui){
-  console.log('This page was just shown: '+ ui.nextPage);
-  //$("#menu").hide();
-});
-
-$('div.all_pages').live('pagebeforecreate',function(event){
-  console.log('This page was just inserted into the dom!');
-  //$("#menu").show();
-});
-
-$('div.all_pages').live('pagecreate',function(event){
-  console.log('This page was just enhanced by jQuery Mobile!');  
-  $("div.smuToolsPanel").show();
-});
-
-$(document).on('pagebeforechange', function() {
-  console.log('Page before change');
-  $("#menu").hide();
-  $("#menu").css({
-    height: 0
-  });
-  
-  $("div.smuToolsPanel").css({
-    height: 0
-  });
-    
-});
-
-$(document).on('pagechange', function() {
-  console.log('Page change:'+$.mobile.activePage.attr("id"));
-  $("#menu").show();
-  
-  $("#menu").css({
-    height: $("div.smuToolsPanel [data-role='footer']").height()
-  });
-  
-  $("div.smuToolsPanel").css({
-    height: $("div.smuToolsPanel [data-role='footer']").height()
-  });
-
-  if ($.mobile.activePage.attr("id") == "splash" || $.mobile.activePage.attr("id") == "login")
-  {
-    $("#menu").hide();
-    $("#menu").css({
-      height: 0
-    });
-  }
-  
-  if ($.mobile.activePage.attr("id") == "splash")
-  {
-    $("div.smuToolsPanel").css({
-      height: 0
-    });
-    
-    $.mobile.showPageLoadingMsg();
-    setTimeout( function () {
-      $.mobile.showPageLoadingMsg(true);
-      $.mobile.changePage("#home", { transition: 'pop' });
-    },2000);
-  }
-    
-});
-
-  if ($.mobile.activePage.attr("id") == "splash")
-  {
-    $("#menu").hide();
-    $("#menu").css({
-      height: 0
-    });
-    
-    $("div.smuToolsPanel").css({
-      height: 0
-    });
-    
-    $.mobile.showPageLoadingMsg();
-    setTimeout( function () {
-      $.mobile.showPageLoadingMsg(true);
-      $.mobile.changePage("#home", { transition: 'pop' });
-    },2000);
-  }
-    
-  $('div.smuToolsPanel input.view_select').click( function () {
-    selectAppView(this);
-  });
-  
-  $(".all_pages").css({
-    paddingBottom: $("div.smuToolsPanel").height()
-  });
-  
 $('#gription img').on('dragstart', function(event) { event.preventDefault(); } ); // Disable dragging gription image
 $(document).on('vmousedown', "div.smuToolsPanel [data-role='footer']", function(event) {
     //console.log("vmousedown");

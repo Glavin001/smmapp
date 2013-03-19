@@ -110,7 +110,7 @@ else if ( isDesktop.any() )
 
 /* === Event Listeners === */
 window.addEventListener("load", function(){ if(!window.pageYOffset){ displayAppGrid(); displayAppList(); hideAddressBar(); resizeNewsFeed(); } } );
-window.addEventListener("orientationchange", function() { hideAddressBar(); displayAppGrid(); stopScroll();  } )
+window.addEventListener("orientationchange", function() { hideAddressBar(); displayAppGrid(); stopScroll();  } );
 //window.addEventListener("resize", function() { displayAppGrid(); stopScroll(); resizeNewsFeed(); } )
 $(window).smartresize( function () {
    displayAppGrid(); stopScroll(); resizeNewsFeed();  
