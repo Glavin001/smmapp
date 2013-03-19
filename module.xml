@@ -10,7 +10,9 @@ and open the template in the editor.
       id="" 
       title=""
       file=""
-      icon="" 
+      icon=""
+      requiresLogin="" 
       >
+      desc
     </module>
 </modules>
