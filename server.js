@@ -50,6 +50,8 @@ var
     server = http.createServer(app),
     memStore = new express.session.MemoryStore();
 
+var userStore = {}; // object for storing user credentials
+
 app.configure(function() {
 
   // web server config
@@ -71,6 +73,21 @@ app.configure(function() {
   app.use(app.router);
 });
 
+// executed upon each request
+app.use(function(req, res, next) {
+  
+  logger.log('Request started.', nodeL.LOG_TYPE.REQUEST);
+
+  req.on('end', function() {
+    logger.log('Request ended.', nodeL.LOG_TYPE.REQUEST);
+  });
+  req.on('close', function() {
+    logger.log('Request closed.', nodeL.LOG_TYPE.REQUEST);
+  });
+  
+  next();
+});
+
 app.get('/', function(req, res) {
   res.sendfile('./public_html/app.html');
 });
@@ -81,6 +98,10 @@ app.get('/login', function(req, res) {
 
 app.get('/m/*', function(req, res) {
   res.sendfile('./module/');
+});
+
+app.get('/test', function(req, res) {
+  res.sendfile('./public_html/test.html');
 });
 
 server.listen(1337);
@@ -94,22 +115,9 @@ io.sockets.on('connection', function(socket) {
   //Description : Request the list of apps and select respective data. 
   socket.on('App List', function (data) {
       
-    var fs = require('fs');
-    var parseString = require('xml2js').parseString;
- 
-    
-    fs.readFile('/module.xml', function (err, xml) {
-        if (err) throw err;
-        
-        parseString(xml, function (error, obj) {
-            if (error) throw error;
-            obj.modules[0]
-            
-        });
-    });
   });
   
-    socket.on('', function (data) {
+  socket.on('authenticate', function (data) {
       
   });
   
