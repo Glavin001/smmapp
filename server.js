@@ -89,5 +89,29 @@ logger.log('Setup socket.');
 
 io = require('socket.io').listen(server);
 io.sockets.on('connection', function(socket) {
+  //Description : Request the list of apps and select respective data. 
+  socket.on('App List', function (data) {
+      
+    var fs = require('fs');
+    var parseString = require('xml2js').parseString;
+ 
+    
+    fs.readFile('/module.xml', function (err, xml) {
+        if (err) throw err;
+        
+        parseString(xml, function (error, obj) {
+            if (error) throw error;
+            obj.modules[0]
+            
+        });
+    });
+  });
   
+    socket.on('', function (data) {
+      
+  });
+  
+    socket.on('', function (data) {
+      
+  });
 });

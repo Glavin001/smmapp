@@ -7,10 +7,27 @@ and open the template in the editor.
 
 <modules>
     <module
-      id="" 
-      title=""
-      file=""
-      icon="" 
+      id="0" 
+      title="Aladdin"
+      link="aladdin.html"
+      icon="icon.jpg" 
+      description = "jasmine swallows"
+      >
+    </module>
+    <module
+      id="1" 
+      title="RobinWilliams"
+      file="Williams.html"
+      icon="robin.jpg" 
+      description="zelda swallows(oh god why)"
+      >
+    </module>
+    <module
+      id="2" 
+      title="Zelda"
+      file="zelda.html"
+      icon="legendofzelda.jpg" 
+      description= "do i swallow? ask my father(oh god why)"
       >
     </module>
 </modules>
