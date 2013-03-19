@@ -29,7 +29,8 @@ var
     http = require('http'),
     path = require('path'),
     fs = require('fs'),
-    express = require('express');
+    express = require('express'),
+    xml2js = require('xml2js');
     
 var smu_auth = require('./node/smu-auth');
 
@@ -51,6 +52,7 @@ var
     memStore = new express.session.MemoryStore();
 
 var userStore = {}; // object for storing user credentials
+var modules = [ { title : 'grades' } ] ;
 
 app.configure(function() {
 
@@ -76,13 +78,13 @@ app.configure(function() {
 // executed upon each request
 app.use(function(req, res, next) {
   
-  logger.log('Request started.', nodeL.LOG_TYPE.REQUEST);
+  logger.log('Request started.');
 
   req.on('end', function() {
-    logger.log('Request ended.', nodeL.LOG_TYPE.REQUEST);
+    logger.log('Request ended.');
   });
   req.on('close', function() {
-    logger.log('Request closed.', nodeL.LOG_TYPE.REQUEST);
+    logger.log('Request closed.');
   });
   
   next();
@@ -97,7 +99,29 @@ app.get('/login', function(req, res) {
 });
 
 app.get('/m/*', function(req, res) {
-  res.sendfile('./module/');
+  
+  var path = req.originalUrl.split('/');
+  
+  console.log(JSON.stringify(path, null, 2));
+  
+  // validate the path
+  if (path.length !== 3) {
+    res.sendfile('./public_html/404.html');
+    return;
+  }
+
+  // confirm module is present
+  console.log('./module/' + path[2] + '/' + path[2] + '.html');
+  fs.exists('./module/' + path[2] + '/' + path[2] + '.html', function(exists) {
+    if (exists) {
+      
+      // send the file
+      res.sendfile('./module/' + path[2] + '/' + path[2] + '.html'); 
+    } else {
+      res.sendfile('./public_html/404.html');
+      return;
+    }
+  })
 });
 
 app.get('/test', function(req, res) {
