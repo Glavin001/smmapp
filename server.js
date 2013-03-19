@@ -29,7 +29,9 @@ var
     http = require('http'),
     path = require('path'),
     fs = require('fs'),
-    smu_auth = require('./node/smu-auth');
+    express = require('express');
+    
+var smu_auth = require('./node/smu-auth');
 
 logger.log('Loading functions.');
 
@@ -69,19 +71,19 @@ app.configure(function() {
   app.use(app.router);
 });
 
-app.get('/', function(request, response) {
-  
+app.get('/', function(req, res) {
+  res.sendfile('./public_html/app.html');
 });
 
-app.get('/login', function(request, response) {
-  
+app.get('/login', function(req, res) {
+  res.sendfile('./public_html/login.html');
 });
 
-app.get('/m/*', function(request, response) {
-  
+app.get('/m/*', function(req, res) {
+  res.sendfile('./module/');
 });
 
-server.listen(80);
+server.listen(1337);
 logger.log('Server started.');
 
 // ---------------------------------------- SOCKET API 

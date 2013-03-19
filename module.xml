@@ -11,23 +11,23 @@ and open the template in the editor.
       title="Aladdin"
       link="aladdin.html"
       icon="icon.jpg" 
-      description = "jasmine swallows"
       >
+      description
     </module>
     <module
       id="1" 
       title="RobinWilliams"
       file="Williams.html"
-      icon="robin.jpg" 
-      description="zelda swallows(oh god why)"
+      icon="robin.jpg"
       >
+      description
     </module>
     <module
       id="2" 
       title="Zelda"
       file="zelda.html"
       icon="legendofzelda.jpg" 
-      description= "do i swallow? ask my father(oh god why)"
       >
+      description
     </module>
 </modules>
