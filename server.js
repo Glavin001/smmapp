@@ -128,7 +128,7 @@ app.get('/test', function(req, res) {
   res.sendfile('./public_html/test.html');
 });
 
-server.listen(1337);
+server.listen(1338);
 logger.log('Server started.');
 
 // ---------------------------------------- SOCKET API 
