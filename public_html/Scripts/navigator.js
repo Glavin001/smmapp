@@ -29,7 +29,8 @@
     });
 
     $(document).on('pagebeforechange', function(e, data) {
-      console.log('Page before change: ' + data.toPage);
+      var toPage = (typeof data.toPage === "string") ? data.toPage : data.toPage.jqmData("url") || "";
+      console.log('Page before change: ' + toPage);
       // Hide the menu
       $("#menu").hide();
       $("#menu").css({
@@ -40,7 +41,15 @@
       });
 
       // Go to the Module
-      navigator.goToModule(data.toPage);
+      if (toPage.indexOf("/m/") !== 0 && $(toPage).length === 0) {
+        // Is not already loaded into DOM.
+        console.log(toPage + " is not already loaded.");
+        navigator.goToModule(toPage);
+      } else {
+        // Is already loaded into DOM
+        console.log(toPage + " is already loaded.");
+      }
+
 
     });
 

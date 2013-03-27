@@ -7,7 +7,7 @@
     <a id="news_button" data-role="button" data-inline="true" href="#login" data-icon="info" data-iconpos="left" class="ui-btn-right">
       Login
     </a>
-    <a id="smu_button" data-role="button" href="javascript:void(0)" onclick="closeSmuTools('#home')" data-icon="home" data-iconpos="right" class="ui-btn-left">
+    <a id="smu_button" data-role="button" href="#home" onclick="" data-icon="home" data-iconpos="right" class="ui-btn-left">
       SMMAPPS
     </a>
   </div>
@@ -15,9 +15,9 @@
   <div data-role="content">
     <div class="map_view_select" data-role="navbar">
       <ul>
-        <li><a href="#map" onclick="$('.map_view').animate({'left': 0});
+        <li><a href="javascript:void(0);" onclick="$('.map_view').animate({'left': 0});
                     $('.locate_view').show().animate({'left': 1 * $('.all_map_views').width()});" class="select_map ui-btn-active ui-state-persist">Map</a></li>
-        <li><a href="#map" onclick="$('.map_view').animate({'left': -1 * $('.all_map_views').width()});
+        <li><a href="javascript:void(0);" onclick="$('.map_view').animate({'left': -1 * $('.all_map_views').width()});
                     $('.locate_view').show().animate({'left': 0});" class="select_locate">Locate</a></li>
       </ul>
     </div>
