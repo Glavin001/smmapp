@@ -30,7 +30,12 @@ var
     path = require('path'),
     fs = require('fs'),
     express = require('express'),
-    xml2js = require('xml2js');
+    xml2js = require('xml2js'),
+    jsdom = require('jsdom'),
+    request = require('request'),
+    url = require('url'),
+    $ = require('jQuery');
+
     
 var smu_auth = require('./node/smu-auth');
 
@@ -137,15 +142,57 @@ logger.log('Setup socket.');
 io = require('socket.io').listen(server);
 io.sockets.on('connection', function(socket) {
   //Description : Request the list of apps and select respective data. 
-  socket.on('App List', function (data) {
-      
+  socket.on('App List', function () {
+    var parser = new xml2js.Parser({
+        explicitArray: false,
+        explicitRoot: false
+    });
+    
+    var parseString = parser.parseString;
+    fs.readFile('./module.xml', function (err, xml) {
+        if (err) throw err;
+        
+        parseString(xml, function (error, obj) {
+            if (error) throw error;
+            socket.emit('App List', obj.module);
+        });
+    });
   });
   
-  socket.on('authenticate', function (data) {
-      
+    socket.on('News Feed List', function (data) {
+      request({uri: 'http://www.smu.ca/'}, function(err, response, body){
+                
+		
+		//Just a basic error check
+                if(err && response.statusCode !== 200){console.log('Request error.');}
+                //Send the body param as the HTML code we will parse in jsdom
+		//also tell jsdom to attach jQuery in the scripts and loaded from jQuery.com
+		jsdom.env({
+                        html: body,
+                        scripts: ['http://code.jquery.com/jquery-1.6.min.js']
+                }, function(err, window){
+			//Use jQuery just as in a regular HTML page
+                        var $ = window.jQuery;
+                        var newsList = new Array();
+                        
+                        $("#smuImageRotator .smuImageList li").each( function( index, value) {
+                           // console.log(index, value);
+                                newsList[index] = {
+                                   articleId: index,
+                                   title: $(value).find(".smuImageTitleText").text(),
+                                   imgsrc: $(value).find('div img').attr('src'),
+                                   desktopLink: $(value).find('a').attr('href')
+                               };
+                        } );
+                 socket.emit('News Feed List',newsList)
+                 //console.log( JSON.stringify(newsList,null,'\t') );
+
+                });
+        });
+
   });
   
-    socket.on('', function (data) {
+    socket.on('authenticate', function (data) {
       
   });
 });
