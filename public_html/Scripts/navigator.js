@@ -53,6 +53,20 @@
 
     });
 
+    $(document).on('pagechangefailed', function(data) {
+      console.log('Page change failed:' + data.toPage);
+      $("#menu").show();
+      $("#menu").css({
+        height: $("div.smuToolsPanel [data-role='footer']").height()
+      });
+      $("div.smuToolsPanel").css({
+        height: $("div.smuToolsPanel [data-role='footer']").height()
+      });
+      
+    });
+
+
+
     $(document).on('pagechange', function() {
       console.log('Page change:' + $.mobile.activePage.attr("id"));
       $("#menu").show();
