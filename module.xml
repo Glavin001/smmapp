@@ -4,7 +4,7 @@
     <module
       id="0" 
       title="Login"
-      link="login.html"
+      file="login.html"
       icon="icon.jpg" 
       >
       description

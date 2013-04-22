@@ -154,12 +154,25 @@ io.sockets.on('connection', function(socket) {
         
         parseString(xml, function (error, obj) {
             if (error) throw error;
-            socket.emit('App List', obj.module);
+            var moduleList = new Array();
+            
+            var length = obj.module.length;
+            for (var i = 0; i < length; i++) {
+              moduleList[i] = {
+                  id: obj.module[i].$.id,
+                  title: obj.module[i].$.title,
+                  file: obj.module[i].$.file,
+                  icon: obj.module[i].$.icon,
+                  description: obj.module[i]._
+              };              
+            };
+        //console.log(moduleList);
+        socket.emit('App List', moduleList);
         });
     });
   });
   
-    socket.on('News Feed List', function (data) {
+    socket.on('News Feed List', function () {
       request({uri: 'http://www.smu.ca/'}, function(err, response, body){
                 
 		
@@ -184,14 +197,39 @@ io.sockets.on('connection', function(socket) {
                                    desktopLink: $(value).find('a').attr('href')
                                };
                         } );
-                 socket.emit('News Feed List',newsList)
+                 socket.emit('News Feed List',newsList);
                  //console.log( JSON.stringify(newsList,null,'\t') );
 
                 });
         });
 
   });
-  
+ 
+    socket.on('News Article', function (data) {//$(".templateBodyRightcol")[0].html()
+      request({uri: 'http://www.smu.ca/' + data.articleId}, function(err, response, body){
+                
+		
+		//Just a basic error check
+                if(err && response.statusCode !== 200){console.log('Request error.');}
+                //Send the body param as the HTML code we will parse in jsdom
+		//also tell jsdom to attach jQuery in the scripts and loaded from jQuery.com
+		jsdom.env({
+                        html: body,
+                        scripts: ['http://code.jquery.com/jquery-1.6.min.js']
+                }, function(err, window){
+			//Use jQuery just as in a regular HTML page
+                        var $ = window.jQuery;
+                        var newsArticle = {
+                                   articleId: data.articleId,
+                                   desktopLink: data.articleId,
+                                   html: $(".templateBodyRightcol").html()
+                        };
+                 socket.emit('News Article',newsArticle);
+                 //console.log( JSON.stringify(newsArticle,null,'\t') );
+
+                });
+        });
+  });
     socket.on('authenticate', function (data) {
       
   });
