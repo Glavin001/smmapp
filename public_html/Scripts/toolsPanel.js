@@ -13,16 +13,16 @@ function loadApps()
   console.log("Loading apps.");
   
   // TEST
-  apps.push( {'title':'News', 'link':'#news', 
+  apps.push( {'title':'News', 'link':'/m/news', 
       'icon':'http://aux.iconpedia.net/uploads/1572305589167805283.png', 
       'description':'The News view is transitioned to either through clicking the main news image or through opening the News SMMApp. This view provides the article associated to the image formatted to fit elegantly on a mobile device while still remaining readable. This application will also be used to push important notifications to the students, such as school cancellations. '} );
-  apps.push( {'title':'Register', 'link':'#register', 
+  apps.push( {'title':'Register', 'link':'/m/register', 
       'icon':'http://nuno-icons.com/wp-content/uploads/2008/05/register.png', 
       'description':'A major functionality and one of the first things on our implementation path will be the ability for students to register for courses through SMMAPPS. The registration interface is currently planned to be sitting within the Current Grades SMMApp though depending on the scope of the SMMApp it may be decided to break this functionality off into its own SMMApp.'} );
-  apps.push( {'title':'Map', 'link':'#map', 
+  apps.push( {'title':'Map', 'link':'/m/map', 
       'icon':'http://chriscarey.com/wordpress/wp-content/uploads/2012/07/google_maps_icon.png', 
       'description':'The Interactive Campus Map will be one of the main features of SMMAPPS. It will be designed to serve as a tool for students to locate useful on campus resources.'} );
-  apps.push( {'title':'Grades', 'link':'#grades', 
+  apps.push( {'title':'Grades', 'link':'/m/grades', 
       'icon':'http://atkins.caddo.k12.la.us/files/igradesim_icon.png', 
       'description':'Student grades will of course be provided through the Current Grades SMMApp. Once clicked the student will be provided with a transcript by term ordered from most to least recent.'} );
   

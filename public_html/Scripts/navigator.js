@@ -82,7 +82,7 @@
         $.mobile.showPageLoadingMsg();
         setTimeout(function() {
           $.mobile.showPageLoadingMsg(true);
-          $.mobile.changePage("#home", {transition: 'pop'});
+          $.mobile.changePage("/m/home", {transition: 'pop'});
         }, 2000);
       }
 
@@ -102,7 +102,7 @@
       $.mobile.showPageLoadingMsg();
       setTimeout(function() {
         $.mobile.showPageLoadingMsg(true);
-        $.mobile.changePage("#home", {transition: 'pop'});
+        $.mobile.changePage("/m/home", {transition: 'pop'});
       }, 2000);
     }
 

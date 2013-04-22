@@ -1,3 +1,4 @@
 /nbproject/private/
 .DS_Store
 public_html/Scripts/OpenLayers-2.12/
+/node_modules/
