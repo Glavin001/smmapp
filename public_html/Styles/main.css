@@ -241,3 +241,7 @@ div.smuToolsPanel fieldset#view_select {
 div.smuToolsPanel fieldset#view_select * {
 
 }
+
+div[data-role="page"] {
+  height: 100%;
+}
