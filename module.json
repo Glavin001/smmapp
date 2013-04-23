@@ -1,0 +1,14 @@
+{
+  "map": {
+    "path": "./module/map/"
+  },
+  "news": {
+    "path": "./module/news/"
+  },
+  "grades": {
+    "path": "./module/grades/"
+  },
+  "register": {
+    "path": "./module/register/"
+  }
+}
