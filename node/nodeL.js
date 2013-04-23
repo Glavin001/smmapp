@@ -1,15 +1,16 @@
 /* 
- * Author : Dawson
- * Date : Feb 18, 2013
- * File : nodeL.js
- */
+Author : Dawson
+Date : Feb 18, 2013
+File : nodeL.js
+*/
 
 //var MNLU_fs = module.require('fs'); // file reading and writing
 
-/*
- * 
- * @type Enum
- */
+/* 
+type: Enum
+*/
+
+
 exports.LOG_LEVEL = {};
 exports.LOG_LEVEL.Id = 'LOG_LEVEL';
 exports.LOG_LEVEL = {
@@ -30,9 +31,8 @@ exports.LOG_LEVEL = {
 };
 
 /*
- * 
- * @type Enum
- */
+type: Enum
+*/
 exports.LOG_MEDIUM = {};
 exports.LOG_MEDIUM.Id = 'LOG_MEDIUM';
 exports.LOG_MEDIUM = {
@@ -53,8 +53,7 @@ exports.LOG_MEDIUM = {
 };
 
 /*
- * 
- * @type Enum
+type: Enum
  */
 exports.LOG_TYPE = {};
 exports.LOG_TYPE.Id = 'LOG_TYPE';
@@ -80,13 +79,17 @@ exports.LOG_TYPE = {
 };
 
 /*
- * arguments : 
- * 0 - logging medium
- * 1 - default logging type
- * 2 - default logging level
- * 
- * @type Object
- */
+Function: Logger
+Determines logger type and level
+Parameters: 
+    null
+Returns:
+    Sets 3 states of
+        0 - logging medium
+        1 - default logging type
+        2 - default logging level
+type: Object
+*/
 exports.Logger = function() {
 
     var args = arguments;
@@ -127,11 +130,25 @@ exports.Logger = function() {
     
     // private methods
 
+    /*
+    method: formatLogMessage
+    Private method to format the log messages
+    parameters:
+        logMessage - The log message
+        logLevel   - The log level
+        logType    - The type of log
+    */
     var formatLogMessage = function(logMessage, logLevel, logType) {
         
         return ('[ ' + logType.TYPE + ' | ' + logLevel.TYPE + ' ] : ' + logMessage);
     };
-    
+    /*
+    method: writeLog
+    Private method to write log messages
+    parameters:
+        logMessage - The log message
+        logMedium  - The state of the log(level and type)
+    */
     var writeLog = function(logMessage, logMedium) {
         
         if (arguments.length !== 2) {
