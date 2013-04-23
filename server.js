@@ -34,8 +34,18 @@ var
     jsdom = require('jsdom'),
     request = require('request'),
     url = require('url'),
-    $ = require('jQuery');
-
+    mongoose = require('mongoose'),
+    db = mongoose.createConnection('localhost', 'test'),
+    $ = require('jQuery')
+    newsSchema = mongoose.Schema({
+    articleId: Number,
+    title: String,
+    imgsrc: String,
+    desktopLink: String
+    }),
+    Article = mongoose.model('Article', newsSchema),
+    dbIsOpen = false;
+    
     
 var smu_auth = require('./node/smu-auth');
 
@@ -135,6 +145,13 @@ app.get('/test', function(req, res) {
 
 server.listen(1338);
 logger.log('Server started.');
+//----------------------------------------- MONGODB SETUP
+logger.log('Database setup start')
+//checking if database is connected
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () { 
+    dbIsOpen = true;
+});
 
 // ---------------------------------------- SOCKET API 
 logger.log('Setup socket.');
@@ -196,13 +213,27 @@ io.sockets.on('connection', function(socket) {
                                    imgsrc: $(value).find('div img').attr('src'),
                                    desktopLink: $(value).find('a').attr('href')
                                };
+                               if (dbIsOpen) {
+                                   Article.create({
+                                   articleId: index,
+                                   title: $(value).find(".smuImageTitleText").text(),
+                                   imgsrc: $(value).find('div img').attr('src'),
+                                   desktopLink: $(value).find('a').attr('href')
+                               }, function (err) {
+                                   if (err) logger.log(err);
+                               });
+                               }
+                               else logger.log('Database is not open, Cannot save articles');
                         } );
                  socket.emit('News Feed List',newsList);
+                 //Article.find(function (err, articles) {
+                 // if (err) logger.log(err);// TODO handle err
+                 //  console.log(articles)
+                 //});
                  //console.log( JSON.stringify(newsList,null,'\t') );
 
                 });
         });
-
   });
  
     socket.on('News Article', function (data) {//$(".templateBodyRightcol")[0].html()
