@@ -96,7 +96,7 @@
         $.mobile.showPageLoadingMsg();
         setTimeout(function() {
           $.mobile.showPageLoadingMsg(true);
-          $.mobile.changePage("/m/home", {transition: 'pop'});
+          $.mobile.changePage("/m/home", {transition: 'turn'});
         }, 2000);
       }
 
@@ -116,7 +116,7 @@
       $.mobile.showPageLoadingMsg();
       setTimeout(function() {
         $.mobile.showPageLoadingMsg(true);
-        $.mobile.changePage("/m/home", {transition: 'pop'});
+        $.mobile.changePage("/m/home", {transition: 'turn'});
       }, 2000);
     }
 
