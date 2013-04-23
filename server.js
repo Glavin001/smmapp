@@ -37,7 +37,7 @@ var
 
 // module config 
 var moduleStore = JSON.parse(fs.readFileSync('module.json'));
-//console.log(JSON.stringify(moduleStore, null, 2));
+console.log(JSON.stringify(moduleStore, null, 2));
 
 logger.log('Loading functions.');
 
@@ -102,25 +102,72 @@ app.get('/login', function(req, res) {
   res.sendfile('./public_html/login.html');
 });
 
+/*
+ * 
+ */
 app.get('/m/*', function(req, res) {
+  console.log('GET : ' + req.originalUrl);
 
-  var path = req.originalUrl.split('/');
-  console.log(JSON.stringify(path, null, 2));
+  try {
 
+    var
+            path = req.originalUrl.split('/'),
+            reqType = req.originalUrl.split('.').length;
 
+    if (reqType === 1) {
+      console.log('module request'); /*** module request ***/
 
-  // confirm module is present
-  console.log('./module/' + path[2] + '/' + path[2] + '.html');
-  fs.exists('./module/' + path[2] + '/' + path[2] + '.html', function(exists) {
-    if (exists) {
+      if (path.length === 3) {
 
-      // send the file
-      res.sendfile('./module/' + path[2] + '/' + path[2] + '.html');
+        // confirm module is present
+        fs.exists('./module/' + path[2] + '/' + path[2] + '.html', function(exists) {
+
+          if (exists) { // send the file
+            res.sendfile('./module/' + path[2] + '/' + path[2] + '.html');
+          } else {
+            console.log('Error : Invalid Module : ' + path[2]);
+            res.sendfile('./public_html/404.html');
+            return;
+          }
+        });
+
+      } else {
+        throw "Invalid Req : Invalid '//'";
+      }
+
+    } else if (reqType === 2) {
+      console.log('script request'); /*** script (js or css) request ***/
+
+      if (path[1] === 'm') {
+        path[1] = 'module';
+        path = '.' + path.join('/');
+
+        // confirm module is present
+        fs.exists(path, function(exists) {
+
+          if (exists) { // send the file
+            res.sendfile(path);
+          } else {
+            console.log('Error : Invalid Script : ' + path);
+            res.sendfile('./public_html/404.html');
+            return;
+          }
+        });
+
+      } else {
+        throw "Invalid Req : request should not be handled here";
+      }
+
     } else {
-      res.sendfile('./public_html/404.html');
-      return;
+      throw "Invalid Req : Invalid '.'";
     }
-  })
+
+  } catch (ex) { /*** ERROR ***/
+    console.log('Error : ' + ex);
+    res.sendfile('./public_html/404.html');
+    return;
+  }
+
 });
 
 app.get('/test', function(req, res) {
