@@ -33,11 +33,14 @@ var
         xml2js = require('xml2js'),
         jsdom = require('jsdom'),
         request = require('request'),
-        url = require('url'),
+        url = require('url');
+
+// mongo db stuff
+var
         mongoose = require('mongoose'),
         db = mongoose.createConnection('localhost', 'test'),
         $ = require('jQuery'),
-newsSchema = mongoose.Schema({
+        newsSchema = mongoose.Schema({
   articleId: Number,
   title: String,
   imgsrc: String,
@@ -46,12 +49,11 @@ newsSchema = mongoose.Schema({
 Article = mongoose.model('Article', newsSchema),
         dbIsOpen = false;
 
-
 var smu_auth = require('./node/smu-auth');
 
 // module config 
 var moduleStore = JSON.parse(fs.readFileSync('module.json'));
-console.log(JSON.stringify(moduleStore, null, 2));
+// console.log(JSON.stringify(moduleStore, null, 2));
 
 logger.log('Loading functions.');
 
@@ -109,10 +111,16 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
+  console.log('GET : /');
+  
+  // initialise the session
+  userStore[req.sessionID] = (userStore[req.sessionID] || {});
+  
   res.sendfile('./public_html/app.html');
 });
 
 app.get('/login', function(req, res) {
+  console.log('GET : /login');
   res.sendfile('./public_html/login.html');
 });
 
@@ -121,6 +129,12 @@ app.get('/login', function(req, res) {
  */
 app.get('/m/*', function(req, res) {
   console.log('GET : ' + req.originalUrl);
+
+  if (userStore[req.sessionID] === undefined || userStore[req.sessionID] === null) {
+    console.log('Attempt to load module prior to home.');
+    res.redirect('/');
+    return;
+  }
 
   try {
 
@@ -322,4 +336,15 @@ io.sockets.on('connection', function(socket) {
 
     console.log(JSON.stringify(data, null, 2));
   });
+});
+
+io.set('authorization', function(data, accept) {
+
+  if (data.headers.cookie) {
+    // attain the session id
+    data.sessionID = connect.utils.parseSignedCookies(cookie.parse(decodeURIComponent(data.headers.cookie)), 'm0ng00s3')['mwa.sid'];
+    return accept(null, true);
+  } else {
+    return accept('No cookie transmitted.', false);
+  }
 });
