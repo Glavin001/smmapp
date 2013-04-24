@@ -26,16 +26,17 @@
         <script src="/socket.io/socket.io.js"></script>
         
         <script>
+  
+            if (!window.socket) {
+              window.socket = io.connect(null, { port: 1338 });
+            }
+            
             // Global variables
             var apps = new Array();
             var newsFeed = new Array();
             // Init
             loadApps();
             // loadNewsFeed();
-            
-            if (!window.socket) {
-              window.socket = io.connect(null, { port: 1338 });
-            }
             
         </script>
         
