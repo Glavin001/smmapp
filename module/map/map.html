@@ -13,32 +13,54 @@
   </div>
 
   <div data-role="content">
+
     <div class="map_view_select" data-role="navbar">
       <ul>
-        <li><a href="javascript:void(0);" onclick="$('.map_view').animate({'left': 0});
-            $('.locate_view').show().animate({'left': 1 * $('.all_map_views').width()});" class="select_map ui-btn-active ui-state-persist">Map</a></li>
-        <li><a href="javascript:void(0);" onclick="$('.map_view').animate({'left': -1 * $('.all_map_views').width()});
-            $('.locate_view').show().animate({'left': 0});" class="select_locate">Locate</a></li>
+        <li><a href="#" onclick="map.selectView('Map');" class="select_map ui-btn-active">Map</a></li>
+        <li><a href="#" onclick="map.selectView('Locate');" class="select_locate">Locate</a></li>
       </ul>
     </div>
     <div class="all_map_views">
 
-      <div class="map_view" style="">
-        <p>Show a map, using OpenLayers.</p>
-        <!--
-                <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Saint+Mary's+University,+Canada&amp;aq=1&amp;oq=saint+&amp;sll=37.0625,-95.677068&amp;sspn=70.0649,50.888672&amp;t=h&amp;ie=UTF8&amp;hq=Saint+Mary's+University,+Canada&amp;hnear=&amp;radius=15000&amp;ll=44.630596,-63.582171&amp;spn=0.071946,0.071946&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Saint+Mary's+University,+Canada&amp;aq=1&amp;oq=saint+&amp;sll=37.0625,-95.677068&amp;sspn=70.0649,50.888672&amp;t=h&amp;ie=UTF8&amp;hq=Saint+Mary's+University,+Canada&amp;hnear=&amp;radius=15000&amp;ll=44.630596,-63.582171&amp;spn=0.071946,0.071946" style="color:#0000FF;text-align:left">View Larger Map</a></small>
-        -->
+      <div class="overflow_view">
 
-        <div id="basicMap" style="width: 100%; height:100%;"></div>
+        <div class="map_view" style="">
+          <p>Show a map, using OpenLayers.</p>
+          <!--
+                  <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Saint+Mary's+University,+Canada&amp;aq=1&amp;oq=saint+&amp;sll=37.0625,-95.677068&amp;sspn=70.0649,50.888672&amp;t=h&amp;ie=UTF8&amp;hq=Saint+Mary's+University,+Canada&amp;hnear=&amp;radius=15000&amp;ll=44.630596,-63.582171&amp;spn=0.071946,0.071946&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Saint+Mary's+University,+Canada&amp;aq=1&amp;oq=saint+&amp;sll=37.0625,-95.677068&amp;sspn=70.0649,50.888672&amp;t=h&amp;ie=UTF8&amp;hq=Saint+Mary's+University,+Canada&amp;hnear=&amp;radius=15000&amp;ll=44.630596,-63.582171&amp;spn=0.071946,0.071946" style="color:#0000FF;text-align:left">View Larger Map</a></small>
+          -->
+
+          <div id="basicMap" style="width: 100%; height:100%;"></div>
 
 
-      </div>
+        </div>
 
-      <div class="locate_view" style="display: none;">
-        <p>Search and locate, etc.</p>
+        <div class="locate_view">
+          <p>Search and locate, etc.</p>
+
+          <form>
+            <fieldset data-role="controlgroup">
+              <legend>Layers:</legend>
+              <input type="checkbox" name="checkbox-v-2a" id="checkbox-v-2a">
+              <label for="checkbox-v-2a">Parking Spots</label>
+              <input type="checkbox" name="checkbox-v-2b" id="checkbox-v-2b">
+              <label for="checkbox-v-2b">Classroom locations</label>
+              <input type="checkbox" name="checkbox-v-2c" id="checkbox-v-2c">
+              <label for="checkbox-v-2c">Water fountains</label>
+              <input type="checkbox" name="checkbox-v-2d" id="checkbox-v-2d">
+              <label for="checkbox-v-2d">Printers</label>
+              <input type="checkbox" name="checkbox-v-2e" id="checkbox-v-2e">
+              <label for="checkbox-v-2e">Study Rooms</label>
+              <input type="checkbox" name="checkbox-v-2f" id="checkbox-v-2f">
+              <label for="checkbox-v-2f">Bus Stops</label>
+            </fieldset>
+          </form>
+
+        </div>
+
       </div>
 
     </div>
   </div>
-  
+
 </div>

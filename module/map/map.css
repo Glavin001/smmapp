@@ -10,3 +10,39 @@ root {
   display: block;
 }
 
+/* Map Page */
+.all_map_views {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  margin: 0px 0 5px 0;
+  padding: 0 0 0 0;
+  border: 1px solid #ccc;
+}
+
+.all_map_views .map_view, .all_map_views .locate_view {
+  position: relative; 
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+  padding: 5px 10px;
+  height: 200px;
+  width: 200px;
+}
+.all_map_views p {
+  vertical-align: top;
+}
+
+.all_map_views .overflow_view {
+  width: 5000px;
+}
+
+
+.all_map_views .map_view {
+  overflow: hidden;
+}
+
+.all_map_views .locate_view {
+  overflow: visible;
+}
+

@@ -102,27 +102,6 @@ div.smuToolsPanel div#gription img {
    margin-right: auto;
 }
 
-
-/* Map Page */
-.all_map_views {
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
-    margin: 5px 0 5px 0;
-    padding: 0 0 0 0;
-    border: 1px solid #ccc;
-}
-
-.all_map_views .map_view, .all_map_views .locate_view {
-    position: relative; 
-    display: inline-block;
-    height: 100%;
-    width: 100%;
-}
-.all_map_views p {
-    vertical-align: top;
-}
-
 /* App View */
 div.all_app_views
 {
