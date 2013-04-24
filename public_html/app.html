@@ -16,15 +16,14 @@
         <link rel="stylesheet" href="Styles/themes/SMMAPPS_CP1.css" />
         
         <!-- External JavaScript Files --->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.js">
-        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
         <script src="Scripts/main.js"></script>
         <script src="Scripts/toolsPanel.js"></script>
         <script src="Scripts/navigator.js"></script>
         <script src="Scripts/rotator.js"></script>
         <script src="Scripts/OpenLayers-2.12/OpenLayers.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
         
         <script>
             // Global variables
@@ -33,6 +32,11 @@
             // Init
             loadApps();
             // loadNewsFeed();
+            
+            if (!window.socket) {
+              window.socket = io.connect(null, { port: 1338 });
+            }
+            
         </script>
         
     </head>

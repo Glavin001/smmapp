@@ -6,20 +6,20 @@
 // ---------------------------------------- CONFIG
 var logger = undefined;
 try {
-    
-    var nodeL = require('./node/nodeL');
-    logger = new nodeL.Logger
-            (
-            nodeL.LOG_MEDIUM.CONSOLE,
-            nodeL.LOG_TYPE.INFO,
-            nodeL.LOG_LEVEL.LOW
-            );            
-    logger.log('Logging ...');
-    
+
+  var nodeL = require('./node/nodeL');
+  logger = new nodeL.Logger
+          (
+                  nodeL.LOG_MEDIUM.CONSOLE,
+                  nodeL.LOG_TYPE.INFO,
+                  nodeL.LOG_LEVEL.LOW
+                  );
+  logger.log('Logging ...');
+
 } catch (e) {
-    console.log("ERROR : Could not setup logger.");
-    console.log("\tREASON : " + e);
-    process.exit(1);
+  console.log("ERROR : Could not setup logger.");
+  console.log("\tREASON : " + e);
+  process.exit(1);
 }
 
 // ---------------------------------------- NODE PACKAGES 
@@ -34,29 +34,70 @@ var
     request = require('request'),
     url = require('url'),
     $ = require('jQuery'),
-    GlobalID = 0;
-    
+    GlobalID = 0,
+    connect = require('connect'),
+    cookie = require('cookie'),
+    mongo = require('mongodb');
+
+// connect to mongo db
+var db = new mongo.Db('smmapp', new mongo.Server('localhost', 27017, {
+  auto_reconnect: true
+}, {w: 1}));
+db.open(function() {
+});
+
+// mongo db stuff
+var
+        mongoose = require('mongoose');
+        mongoose.connect('mongodb://localhost/test');
+var     db = mongoose.connection;
+        //db = mongoose.createConnection('localhost', 'test'),
+
+var
+        newsSchema = mongoose.Schema({
+  articleId: Number,
+  title: String,
+  imgsrc: String,
+  desktopLink: String
+}),
+UserSchema = mongoose.Schema({
+  name: String,
+  user: String,
+  pass: String
+});
+
+mongoose.model('smmapp_user', UserSchema);
+var
+        UserCol = mongoose.model('smmapp_user'),
+        Article = mongoose.model('Article', newsSchema);
+
 var smu_auth = require('./node/smu-auth');
 
 logger.log('Loading functions.');
 
-function requestEnded(error) {
-    logger.log('\tRequest ended.');
-}
+var requestEnded = function(error) {
+  logger.log('\tRequest ended.');
+};
 
-function requestClosed(error) {
-    logger.log('\tRequest closed.');
-}
+var requestClosed = function(error) {
+  logger.log('\tRequest closed.');
+};
 
 // ---------------------------------------- EXPRESS SERVER
 logger.log('Starting Server.');
 var
-    app = express(),
-    server = http.createServer(app),
-    memStore = new express.session.MemoryStore();
+        app = express(),
+        server = http.createServer(app),
+        memStore = new express.session.MemoryStore();
 
 var userStore = {}; // object for storing user credentials
-var modules = [ { title : 'grades' } ] ;
+var isLoggedIn = function(sid) {
+  return (
+          userStore[sid] !== undefined &&
+          userStore[sid] !== null &&
+          userStore[sid].isLoggedIn === true
+          );
+};
 
 app.configure(function() {
 
@@ -81,7 +122,7 @@ app.configure(function() {
 
 // executed upon each request
 app.use(function(req, res, next) {
-  
+
   logger.log('Request started.');
 
   req.on('end', function() {
@@ -90,62 +131,108 @@ app.use(function(req, res, next) {
   req.on('close', function() {
     logger.log('Request closed.');
   });
-  
+
   next();
 });
 
 app.get('/', function(req, res) {
+  console.log('GET : /');
+
+  if (userStore[req.sessionID] === undefined || userStore[req.sessionID] === null) {
+    // initialise the session
+    userStore[req.sessionID] = (userStore[req.sessionID] || {});
+    userStore[req.sessionID].isLoggedIn = false;
+  }
+
+  /*
+   * Load the app which then loads the home. 
+   */
   res.sendfile('./public_html/app.html');
 });
 
-app.get('/login', function(req, res) {
-  res.sendfile('./public_html/login.html');
-});
-
+/*
+ * 
+ */
 app.get('/m/*', function(req, res) {
-  
-  var path = req.originalUrl.split('/');
-  
-  console.log(JSON.stringify(path, null, 2));
-  
-  // validate the path
-  if (path.length !== 3) {
-    res.sendfile('./public_html/404.html');
+  console.log('GET : ' + req.originalUrl);
+
+  if (userStore[req.sessionID] === undefined || userStore[req.sessionID] === null) {
+    console.log('Attempt to load module prior to home.');
+    res.redirect('/');
     return;
   }
 
-  // confirm module is present
-  console.log('./module/' + path[2] + '/' + path[2] + '.html');
-  fs.exists('./module/' + path[2] + '/' + path[2] + '.html', function(exists) {
-    if (exists) {
-      
-      // send the file
-      res.sendfile('./module/' + path[2] + '/' + path[2] + '.html'); 
-    } else {
-      res.sendfile('./public_html/404.html');
-      return;
-    }
-  })
-});
+  try {
 
-app.get('/test', function(req, res) {
-  res.sendfile('./public_html/test.html');
+    var
+            data = req.originalUrl.split('?')[1],
+            path = req.originalUrl.split('?')[0].split('/'),
+            reqType = req.originalUrl.split('.').length;
+
+    if (reqType === 1) {
+      console.log('module request'); /*** module request ***/
+
+      if (path.length === 3) {
+
+        // confirm module is present
+        fs.exists('./module/' + path[2] + '/' + path[2] + '.html', function(exists) {
+
+          if (exists) { // send the file
+            res.sendfile('./module/' + path[2] + '/' + path[2] + '.html');
+          } else {
+            console.log('Error : Invalid Module : ' + path[2]);
+            res.sendfile('./public_html/404.html');
+            return;
+          }
+        });
+
+      } else {
+        throw "Invalid Req : Invalid '//'";
+      }
+
+    } else if (reqType === 2) {
+      console.log('script request'); /*** script (js or css) request ***/
+
+      if (path[1] === 'm') {
+
+        // construct path
+        path[1] = 'module';
+        path = '.' + path.join('/');
+        path = path.split('?')[0];
+
+        // confirm module is present
+        fs.exists(path, function(exists) {
+
+          if (exists) { // send the file
+            res.sendfile(path);
+          } else {
+            console.log('Error : Invalid Script : ' + path);
+            res.sendfile('./public_html/404.html');
+            return;
+          }
+        });
+
+      } else {
+        throw "Invalid Req : request should not be handled here";
+      }
+
+    } else {
+      throw "Invalid Req : Invalid '.'";
+    }
+
+  } catch (ex) { /*** ERROR ***/
+    console.log('Error : ' + ex);
+    res.sendfile('./public_html/404.html');
+    return;
+  }
 });
 
 server.listen(1338);
 logger.log('Server started.');
 //----------------------------------------- MONGODB SETUP
 logger.log('Database setup start');
-var mongoose = require('mongoose');
-    mongoose.connect('mongodb://localhost/test');
-var db = mongoose.connection,
-    newsSchema = mongoose.Schema({
-    articleId: Number,
-    title: String,
-    imgsrc: String,
-    desktopLink: String
-    }),
-    Article = mongoose.model('Article', newsSchema);
+
+
     //function for getting news list from smu.ca
     function NewsFeedListGetter ()
     {
@@ -194,8 +281,10 @@ var db = mongoose.connection,
     });
     };
 //checking if database is connected
+db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     console.log('Database is up');
+    dbIsOpen = true;
     //this updates the news list in the database daily, 86400000 milliseconds in a day
     setInterval(NewsFeedListGetter,86400000);
      });
@@ -206,34 +295,10 @@ logger.log('Setup socket.');
 io = require('socket.io').listen(server);
 io.sockets.on('connection', function(socket) {
   //Description : Request the list of apps and select respective data. 
-  socket.on('App List', function () {
-    var parser = new xml2js.Parser({
-        explicitArray: false,
-        explicitRoot: false
-    });
-    
-    var parseString = parser.parseString;
-    fs.readFile('./module.xml', function (err, xml) {
-        if (err) throw err;
-        
-        parseString(xml, function (error, obj) {
-            if (error) throw error;
-            var moduleList = new Array();
-            
-            var length = obj.module.length;
-            for (var i = 0; i < length; i++) {
-              moduleList[i] = {
-                  id: obj.module[i].$.id,
-                  title: obj.module[i].$.title,
-                  file: obj.module[i].$.file,
-                  icon: obj.module[i].$.icon,
-                  description: obj.module[i]._
-              };              
-            };
-        //console.log(moduleList);
-        socket.emit('App List', moduleList);
-        });
-    });
+
+  socket.on('App List', function() {
+
+    socket.emit('App List', JSON.parse(fs.readFileSync('module.json')));
   });
   
     socket.on('News Feed List', function () {
@@ -265,5 +330,45 @@ io.sockets.on('connection', function(socket) {
               });
              });
         });
+
+
+  socket.on('auth', function(user) {
+    console.log('On : auth');
+    //console.log(JSON.stringify(user, null, 2));
+    db.collection('users', function(err, collection) {
+
+      if (err) {
+        console.log('Error : ' + err);
+        return;
+      }
+
+      collection.find(user).toArray(function(err, resultSet) {
+
+        if (err) {
+          console.log('Error : ' + err);
+          return;
+        }
+
+        console.log(JSON.stringify(resultSet, null, 2));
+
+        if (resultSet.length !== 1) {
+          socket.emit('auth', false);
+        } else {
+          userStore[socket.handshake.sessionID].isLoggedIn = true;
+          socket.emit('auth', true);
+        }
+      });
+    });
   });
 
+});
+
+io.set('authorization', function(data, accept) {
+  if (data.headers.cookie) {
+    // attain the session id
+    data.sessionID = connect.utils.parseSignedCookies(cookie.parse(decodeURIComponent(data.headers.cookie)), 'm0ng00s3')['mwa.sid'];
+    return accept(null, true);
+  } else {
+    return accept('No cookie transmitted.', false);
+  }
+});

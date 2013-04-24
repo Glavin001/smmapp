@@ -242,6 +242,11 @@ div.smuToolsPanel fieldset#view_select * {
 
 }
 
+div.smuToolsPanel ul[data-role="listview"] {
+  margin-bottom: 3em;
+}
+
 div[data-role="page"] {
   height: 100%;
 }
+
