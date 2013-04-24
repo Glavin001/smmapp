@@ -91,7 +91,20 @@
             }
 
             console.log("Finished Loading Module:", navigator.getModuleName());
-            // Load scripts
+            // Load CSS files 
+            // Check if there are scripts to be loaded.
+            if (apps && apps[navigator.getModuleName()] && apps[navigator.getModuleName()].styles) {
+                $.each(apps[navigator.getModuleName()].styles, function(i, styleHref) {
+                    if (document.createStyleSheet) {
+                        document.createStyleSheet(styleHref);
+                    }
+                    else {
+                        $("head").append($("<link rel='stylesheet' href='" + styleHref + "' type='text/css' media='screen' />"));
+                    }
+                });
+            }
+
+            //  Load scripts
             // Check if there are scripts to be loaded.
             if (apps && apps[navigator.getModuleName()] && apps[navigator.getModuleName()].scripts) {
                 $.each(apps[navigator.getModuleName()].scripts, function(i, scriptSrc) {
@@ -100,10 +113,14 @@
                         console.log(textStatus); //success
                         console.log(jqxhr.status); //200
                         console.log('Load was performed.');
+
                     });
                 });
+
                 // Module On Load Event
-                window[ navigator.getModuleName() ].onLoad()
+                if (window[ navigator.getModuleName() ] && window[ navigator.getModuleName() ].onLoad)
+                    window[ navigator.getModuleName() ].onLoad();
+
             }
 
 
