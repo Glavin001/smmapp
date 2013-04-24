@@ -28,6 +28,13 @@ background: rgba(139,28,28,1);
 
 }
 
+#menu {
+  display: block; 
+  min-height:0px; 
+  top: auto !important; 
+  bottom:0px; 
+  z-index:1000000;
+}
 
 /* ===== SMU Tools Panel ===== */
 div.smuToolsPanel
