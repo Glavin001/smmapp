@@ -28,7 +28,7 @@
             if (document.body.parentNode) {
                 document.body.parentNode.style.height = '100%';
             }
-            
+
         }
     };
 
@@ -42,8 +42,24 @@
                 - parseInt(($.mobile.activePage).find("div[data-role='content']").css('padding-top'))
                 - parseInt(($.mobile.activePage).find("div[data-role='content']").css('padding-bottom'));
 
+        //
+        var totalLocateViewHeight =
+                $("div.smuToolsPanel [data-role='footer']").height()
+                + parseInt($("div.smuToolsPanel [data-role='footer']").css('padding-top'))
+                + parseInt($("div.smuToolsPanel [data-role='footer']").css('padding-bottom'))
+                + parseInt($("div.smuToolsPanel [data-role='footer']").css('margin-top'))
+                + parseInt($("div.smuToolsPanel [data-role='footer']").css('margin-bottom'));
+        $.each($(".locate_view > *"), function(i, el) {
+            totalLocateViewHeight
+                    += $(el).height()
+                    + parseInt($(el).css('padding-top'))
+                    + parseInt($(el).css('padding-bottom'))
+                    + parseInt($(el).css('margin-top'))
+                    + parseInt($(el).css('margin-bottom'));
+        });
+
         // Resize main container
-        $(".overflow_view").css({"width": 3 * viewWidth, "height": 2 * viewHeight});
+        $(".overflow_view").css({"width": 3 * viewWidth, "height": (viewHeight > totalLocateViewHeight) ? viewHeight : totalLocateViewHeight});
         // Resize map views
         $(".map_view").css(
                 {
@@ -56,35 +72,36 @@
             "width": 1 * viewWidth
                     - parseInt($(".locate_view").css('padding-left'))
                     - parseInt($(".locate_view").css('padding-right')),
-            "height": viewHeight
+            "height": (viewHeight > totalLocateViewHeight) ? viewHeight : totalLocateViewHeight
         });
-        
+
         // Resize Full Screen if neccessary
-        if ( map.isFullScreen ) {
-            $("#fullScreenMapContainer").css({ 
+        if (map.isFullScreen) {
+            $("#fullScreenMapContainer").css({
                 "height": (window.innerHeight ? window.innerHeight : $(window).height())
             });
         }
 
-        // Resize Map
-        console.log("TODO: Resize map itself.");
+        // Re-select the view
+        if (map.viewSelected)
+            map.selectView(map.viewSelected);
 
     }
 
     // Public functions
     map.selectView = function(selection) {
+        map.viewSelected = selection;
+        $('.map_view').stop();
+        $('.locate_view').stop();
         if (selection === "Map") {
-
             $('.map_view').animate({
                 'left': 0
             });
             $('.locate_view').show().animate({
                 'left': 0 * $('.all_map_views').width()
             });
-
         }
         else if (selection === "Locate") {
-
             $('.map_view').animate({
                 'left': -1 * $('.all_map_views').width()
             });
@@ -159,14 +176,14 @@
             // Remove fullscreen if exists
             $("#fullScreenMapContainer").remove();
         }
-        
+
         resize();
         setTimeout(function( ) {
             // Get rid of address bar on iphone/ipod
             fixSize();
             resize();
         }, 100);
-        
+
     };
 
     map.centerGPS = function( ) {
@@ -224,6 +241,7 @@
     map.onOrientationChange = function() {
         // Anything you want to run onOrientationchange
         resize();
+        setTimeout(resize(), 500);
     };
 
 })(window.map = window.map || {});      
