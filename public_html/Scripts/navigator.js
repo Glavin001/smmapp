@@ -31,6 +31,11 @@
         $(document).on('pagebeforechange', function(e, data) {
             var toPage = (typeof data.toPage === "string") ? data.toPage : data.toPage.jqmData("url") || "";
             console.log('Page before change: ' + toPage);
+
+            // Module On Before Leave Event
+            if (window[ navigator.getModuleName() ] && window[ navigator.getModuleName() ].onBeforeLeave)
+                window[ navigator.getModuleName() ].onBeforeLeave();
+
             // Hide the menu
             $("#menu").hide();
             $("#menu").css({
@@ -128,7 +133,12 @@
 
                     });
                 });
-
+            } else
+            {
+                // The necessary scripts may already be loaded. 
+                // Module On Load Event
+                if (window[ navigator.getModuleName() ] && window[ navigator.getModuleName() ].onLoad)
+                    window[ navigator.getModuleName() ].onLoad();
             }
 
 
