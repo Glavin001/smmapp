@@ -16,6 +16,7 @@
 
         map.mapOL.addLayer(mapnik);
         map.mapOL.setCenter(position, zoom);
+        map.isFullScreen = false;
     }
 
     // Get rid of address bar on iphone/ipod
@@ -82,27 +83,37 @@
             $('.locate_view').show().animate({
                 'left': -1 * $('.all_map_views').width()
             });
-
         }
-
     };
 
     map.fullScreen = function(isFullScreen) {
 
+        map.isFullScreen = isFullScreen;
+        // Check if switching to full screen mode
         if (isFullScreen) {
-            // Make Full screen map
+            // Hide main map
+            $(".map_view").hide();
 
-            // Add map div element to body
+            // Make Full screen map
             var contEl = $("<div/>").attr('id', "fullScreenMapContainer");
             var mapEl = $("<div/>").attr('id', "fullScreenMap");
-            var exitFS = $("<a />").text("Exit Full Screen")
-                    .attr('id', "exitFS")
+            var exitFSEl = $("<a />").text("Exit Full Screen")
+                    .attr('class', "fullScreenBtn")
                     .attr('onclick', "map.fullScreen(false);")
                     .attr('href', "#")
                     .attr('data-role', "button")
                     .attr('data-inline', "true")
                     .attr('data-theme', "b");
-            $(contEl).append($(exitFS));
+            var gpsEnableEl = $("<a />").text("GPS")
+                    .attr('class', "gpsBtn")
+                    .attr('onclick', "map.centerGPS();")
+                    .attr('href', "#")
+                    .attr('data-role', "button")
+                    .attr('data-inline', "true")
+                    .attr('data-theme', "b");
+
+            $(contEl).append($(gpsEnableEl));
+            $(contEl).append($(exitFSEl));
             $(contEl).append($(mapEl));
             $(contEl).appendTo($('body'));
             $("#fullScreenMapContainer").trigger('create');
@@ -129,19 +140,44 @@
                 zoom: map.mapOL.zoom
             });
 
-
         } else {
             // Sync main map with center of full screen map
             map.mapOL.setCenter(map.mapFS.getCenter());
-            map.mapOL.zoomTo(map.mapFS.zoom)
+            map.mapOL.zoomTo(map.mapFS.zoom);
+
+            // Show main map
+            $(".map_view").show();
 
             // Remove fullscreen if exists
             $("#fullScreenMapContainer").remove();
-
-            // Setup non-full-screen map
-
         }
 
+        setTimeout(function( ) {
+            resize();
+            // Get rid of address bar on iphone/ipod
+            fixSize();
+        }, 300);
+    };
+
+    map.centerGPS = function( ) {
+        navigator.geolocation.getCurrentPosition(locationSuccess, locationFail);
+        function locationSuccess(position) {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            console.log(latitude, longitude);
+            var coor_from = new OpenLayers.Projection("EPSG:4326");
+            var coor_to = new OpenLayers.Projection("EPSG:900913");
+            var center = new OpenLayers.LonLat(longitude, latitude);
+            center.transform(coor_from, coor_to);
+            //map.mapOL.addLayer(new OpenLayers.Layer.OSM());
+            if (map.isFullScreen)
+                map.mapFS.setCenter(center);
+            else
+                map.mapOL.setCenter(center);
+        }
+        function locationFail() {
+            console.log("Oops, could not find you.");
+        }
     };
 
     // Events

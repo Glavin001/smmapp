@@ -52,10 +52,19 @@ root {
   background-color: white;
 }
 
-#exitFS {
+.fullScreenBtn {
   position: absolute;
   z-index: 1000;
   text-align: center;
   top: 0;
   right: 0;
+}
+
+
+.gpsBtn {
+  position: absolute;
+  z-index: 1000;
+  text-align: center;
+  bottom: 0;
+  left: 0;
 }

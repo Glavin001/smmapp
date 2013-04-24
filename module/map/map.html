@@ -26,14 +26,15 @@
 
         <div class="map_view" style="">
 
+          <a href="#" class="fullScreenBtn" onclick="map.fullScreen(true);" data-role="button" data-mini="true" data-inline="true" data-theme="b">Enter Full Screen</a>
+          <a href="#" class="gpsBtn" onclick="map.centerGPS();" data-role="button" data-mini="true" data-inline="true" data-theme="b">GPS</a>
+
           <div id="campusMap" style="width: 100%; height:100%;"></div>
 
         </div>
 
         <div class="locate_view">
           <p>Search and locate, etc.</p>
-
-          <a href="#" onclick="map.fullScreen(true);" data-role="button" data-mini="true" data-inline="true" data-theme="b">Full Screen</a>
 
           <form>
             <fieldset data-role="controlgroup">
