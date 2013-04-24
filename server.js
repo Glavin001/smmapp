@@ -29,7 +29,6 @@ var
     path = require('path'),
     fs = require('fs'),
     express = require('express'),
-    xml2js = require('xml2js'),
     jsdom = require('jsdom'),
     request = require('request'),
     url = require('url'),
@@ -280,13 +279,22 @@ logger.log('Database setup start');
             });
     });
     };
+
+
+    function logNFLG(message) {
+    fs.writeFile("\logs\NFLGlog.txt", message, function(err) {
+    if(err) console.log(err);
+    }); 
+    }
 //checking if database is connected
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     console.log('Database is up');
     dbIsOpen = true;
     //this updates the news list in the database daily, 86400000 milliseconds in a day
+    logNFLG("Getting News Feed");
     setInterval(NewsFeedListGetter,86400000);
+    logNFLG("News Feed Gotten");
      });
 
 // ---------------------------------------- SOCKET API 
