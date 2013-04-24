@@ -1,224 +1,234 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        
-        <title>SMU Mobile App</title>
-        
-        <!-- External CSS Files -->
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-        <link rel="stylesheet" href="Styles/main.css" />
-        <link rel="stylesheet" href="" id="mobile-theme" />
-        <link rel="stylesheet" href="Styles/themes/SMMAPPS_CP1.css" />
-        
-        <!-- External JavaScript Files --->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-        <script src="Scripts/main.js"></script>
-        <script src="Scripts/toolsPanel.js"></script>
-        <script src="Scripts/navigator.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-        
-        <!--
-        <script src="Scripts/rotator.js"></script>
-        <link rel="stylesheet" href="Styles/rotator.css" />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-        <script src="Scripts/OpenLayers-2.12/OpenLayers.js"></script>
-        -->
-        
-        <script>
-  
-            if (!window.socket) {
-              window.socket = io.connect(null, { port: 1338 });
-            }
-            
-            // Global variables
-            var apps = new Array();
-            var newsFeed = new Array();
-            // Init
-            loadApps();
-            // loadNewsFeed();
-            
-        </script>
-        
-    </head>
-    <body data-theme="a">
-        
-        <!-- Splash Screen -->
-        <div data-role="page" id="splash">
-            <div data-role="content" style="height: 100%; width: 100%;">
-              <a href="/m/home">
-                <div style="position: relative; left: 50%; margin-left: -144px; top: 50%;">
-                    <img src="http://www.arladay.com/wp-content/uploads/2009/07/SMU_logo.gif" />
-                    <!--
-                    <img style="width: 288px; height: 100px;" src="Images/saint_marys_full_logo.gif">
-                    <img style="width: 683px; height: 230px;" src="Images/saint_marys_full_logo.gif">
-                    <img src="Images/smu_shield_128.png" width="128" height="128" alt="SMU Shield" />
-                    -->
-                </div>
-              </a>
-            </div>
-        </div>
-       
-        
-        <!-- Menu -->
-        <div data-role="page" id="menu" data-url="menu" tabindex="0" data-theme="a" class="ui-page" style="display: block; min-height:0px; top:auto !important; bottom:0px; z-index:100;">
-          <div data-role="content">
-            <div data-theme="a" class="smuToolsPanel ui-footer-fixed slideup" data-position="fixed" style="">
-            
-              <div data-theme="b" data-role="footer" class="drag_bar ui-footer ui-bar-b" role="contentinfo">
-                <div id="gription">
-                  <img alt="Grip Icon" src="http://www.thoughtworks-studios.com/sites/default/files/assets/ml-gi1.png" />
-                </div>
+    <title>SMU Mobile App</title>
 
-                <h3 class="ui-title" role="heading" aria-level="1" style="">
-                  <a class="smu_tools_button ui-link" data-role="" href="" data-icon="" data-iconpos="" role="heading" aria-level="1">
-                  <span>
-                  SMU Tools
-                  </span>
-                  </a>
-                  <!--
-                  <span class="ui-btn-right">
-                  <a href="/m/" data-href="app_list_view" class="view_select" data-icon="minus" data-iconpos="right">List</a>
-                  <a href="/m/" data-href="app_grid_view" class="view_select" data-icon="grid" data-iconpos="left">Grid</a>                  
-                  </span>
-                  -->
-                </h3>
-                
-                <div data-role="fieldcontain" class="ui-btn-right ui-field-contain ui-body ui-br" style="width: 90px; padding:0;">
-                  <fieldset id="view_select" data-role="controlgroup" data-type="horizontal" class="ui-title ui-corner-all ui-controlgroup ui-controlgroup-horizontal">
-                    <!--
-                    <div role="heading" class="ui-controlgroup-label">
-                    </div>
-                    -->
-                    <div class="ui-controlgroup-controls">                        
-                      <div class="ui-radio">
-                      <input id="grid_select" type="radio" class="view_select" name="" checked="checked" value="app_grid_view">
-                      <label for="grid_select" data-corners="true" data-shadow="false" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="view_select ui-btn ui-radio-on ui-btn-active ui-corner-left ui-btn-up-a">
-                      <span class="ui-btn-inner ui-corner-left">
-                      <span class="ui-btn-text">
-                          <img class="view_select_icons" alt="Grid" src="http://www.watchrecon.com/data/view_grid2.png" />
-                      </span>
-                      </span>
-                      </label>
-                      </div>
-                      <div class="ui-radio">
-                      <input id="list_select" type="radio" class="view_select" name="" value="app_list_view">
-                      <label for="list_select" data-corners="true" data-shadow="false" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="view_select ui-btn ui-radio-off ui-corner-right ui-controlgroup-last ui-btn-up-a">
-                      <span class="ui-btn-inner ui-corner-right ui-controlgroup-last">
-                      <span class="ui-btn-text">
-                          <img class="view_select_icons" alt="List" src="http://www.bikelongbeach.org/wp-content/themes/reaction/assets/images/theme/btn_list.png" />
-                      </span>
-                      </span>
-                      </label>
-                      </div>
-                    </div>
-                  </fieldset>
-                </div>
-              </div>
-              
-              <div data-role="" data-theme="a" class="all_app_views">
-               
-                <div data-role="content" data-theme="a" class="app_view app_grid_view ui-content ui-body-a" style="display: block;" role="main">
-                  <div class="app_grid ui-grid-a">
-                       <!--
-                       <div class="app_block ui-block-a">
-                          <a data-role="button" href="javascript:void(0)" onclick="closeSmuTools('#news')" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="ui-btn ui-btn-up-a ui-shadow ui-btn-corner-all">
-                          <span class="ui-btn-inner ui-btn-corner-all">
-                          <span class="ui-btn-text">
-                              <img alt="News" src="http://aux.iconpedia.net/uploads/1572305589167805283.png">
-                              <br>
-                              News
-                          </span></span></a>
-                      </div>
-                      <div class="app_block ui-block-b">
-                          <a data-role="button" href="javascript:void(0)" onclick="closeSmuTools('#grades')" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="ui-btn ui-btn-up-a ui-shadow ui-btn-corner-all">
-                          <span class="ui-btn-inner ui-btn-corner-all">
-                          <span class="ui-btn-text">
-                              <img alt="Register" src="http://nuno-icons.com/wp-content/uploads/2008/05/register.png">
-                              <br>
-                              Register
-                          </span></span></a>
-                     </div>
-                                           
-                      <div class="app_block ui-block-a">
-                          <a data-role="button" href="javascript:void(0)" onclick="closeSmuTools('#map')" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="ui-btn ui-btn-up-a ui-shadow ui-btn-corner-all">
-                          <span class="ui-btn-inner ui-btn-corner-all">
-                          <span class="ui-btn-text">
-                              <img alt="Map" src="http://chriscarey.com/wordpress/wp-content/uploads/2012/07/google_maps_icon.png">
-                              <br>
-                              Map
-                          </span></span></a>
-                      </div>
-                      <div class="ui-block-b">
-                          <a data-role="button" href="javascript:void(0)" onclick="closeSmuTools('#grades')" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="ui-btn ui-btn-up-a ui-shadow ui-btn-corner-all">
-                          <span class="ui-btn-inner ui-btn-corner-all">
-                          <span class="ui-btn-text">
-                              <img alt="Grades" src="http://atkins.caddo.k12.la.us/files/igradesim_icon.png">
-                              <br>
-                              Grades
-                          </span></span></a>
-                      </div>
-                    
-                      <div class="app_block ui-block-a">
-                          <a data-role="" href="/m/grades" data-transition="flow" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="">
-                          <span class="ui-btn-text">
-                             <img alt="Register" src="http://nuno-icons.com/wp-content/uploads/2008/05/register.png">
-                            Register
-                          </span>
-                          </a>
-                      </div>
-                    -->
-                    </div>
-                  </div>
-                  
-                  <div data-role="content" data-theme="a" class="app_view app_list_view ui-content ui-body-a" style="display: none;" role="main">
-                    <ul data-role="listview">
-                        
-                    </ul>
-                    <!--
-                    <ul data-role="listview" data-divider-theme="b" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+    <!-- External CSS Files -->
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <link rel="stylesheet" href="Styles/main.css" />
+    <link rel="stylesheet" href="" id="mobile-theme" />
+    <link rel="stylesheet" href="Styles/themes/SMMAPPS_CP1.css" />
 
-                        <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-corner-top"><div class="ui-btn-inner ui-li ui-corner-top"><div class="ui-btn-text">
-                          <a href="javascript:void(0)" onclick="closeSmuTools('#news');" class="ui-link-inherit">
-                              <img style="width:32px;height:32px;" alt="News" src="http://aux.iconpedia.net/uploads/1572305589167805283.png">
-                              News
-                          </a>
-                      </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
-                      <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">
-                          <a href="javascript:void(0)" onclick="closeSmuTools('#grades')" class="ui-link-inherit">
-                              <img style="width:32px;height:32px;" alt="Register" src="http://nuno-icons.com/wp-content/uploads/2008/05/register.png">
-                              Register
-                          </a>
-                      </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
-                      <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">
-                          <a href="javascript:void(0)" onclick="closeSmuTools('#map')" class="ui-link-inherit">
-                              <img style="width:32px;height:32px;" alt="Map" src="http://chriscarey.com/wordpress/wp-content/uploads/2012/07/google_maps_icon.png">
-                              Map
-                          </a>
-                      </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
-                      <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-corner-bottom ui-li-last"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">
-                          <a href="javascript:void(0)" onclick="closeSmuTools('#grades')" class="ui-link-inherit">
-                              <img style="width:32px;height:32px;" alt="Grades" src="http://atkins.caddo.k12.la.us/files/igradesim_icon.png">
-                              Grades
-                          </a>
-                      </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
-                    </ul>
-                    -->
-                </div>
-                
-                  
-                </div>
-                
-            </div>
-          
+    <!-- External JavaScript Files --->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script src="Scripts/main.js"></script>
+    <script src="Scripts/toolsPanel.js"></script>
+    <script src="Scripts/navigator.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Home default module -->
+    <script src="/m/home/home.js"></script>
+    <script>
+      $(document).ready(function() {
+        if (window[ navigator.getModuleName() ] && window[ navigator.getModuleName() ].onLoad)
+          window[ navigator.getModuleName() ].onLoad();
+      });
+    </script>
+
+
+    <!--
+    <script src="Scripts/rotator.js"></script>
+    <link rel="stylesheet" href="Styles/rotator.css" />
+
+    <script src="Scripts/OpenLayers-2.12/OpenLayers.js"></script>
+    -->
+
+    <script>
+
+      if (!window.socket) {
+        window.socket = io.connect(null, {port: 1338});
+      }
+
+      // Global variables
+      var apps = new Array();
+      var newsFeed = new Array();
+      // Init
+      loadApps();
+      // loadNewsFeed();
+
+    </script>
+
+  </head>
+  <body data-theme="a">
+
+    <!-- Splash Screen -->
+    <div data-role="page" id="splash">
+      <div data-role="content" style="height: 100%; width: 100%;">
+        <a href="/m/home">
+          <div style="position: relative; left: 50%; margin-left: -144px; top: 50%;">
+            <img src="http://www.arladay.com/wp-content/uploads/2009/07/SMU_logo.gif" />
+            <!--
+            <img style="width: 288px; height: 100px;" src="Images/saint_marys_full_logo.gif">
+            <img style="width: 683px; height: 230px;" src="Images/saint_marys_full_logo.gif">
+            <img src="Images/smu_shield_128.png" width="128" height="128" alt="SMU Shield" />
+            -->
           </div>
-          
+        </a>
+      </div>
+    </div>
+
+
+    <!-- Menu -->
+    <div data-role="page" id="menu" data-url="menu" tabindex="0" data-theme="a" class="ui-page" style="display: block; min-height:0px; top:auto !important; bottom:0px; z-index:100;">
+      <div data-role="content">
+        <div data-theme="a" class="smuToolsPanel ui-footer-fixed slideup" data-position="fixed" style="">
+
+          <div data-theme="b" data-role="footer" class="drag_bar ui-footer ui-bar-b" role="contentinfo">
+            <div id="gription">
+              <img alt="Grip Icon" src="http://www.thoughtworks-studios.com/sites/default/files/assets/ml-gi1.png" />
+            </div>
+
+            <h3 class="ui-title" role="heading" aria-level="1" style="">
+              <a class="smu_tools_button ui-link" data-role="" href="" data-icon="" data-iconpos="" role="heading" aria-level="1">
+                <span>
+                  SMU Tools
+                </span>
+              </a>
+              <!--
+              <span class="ui-btn-right">
+              <a href="/m/" data-href="app_list_view" class="view_select" data-icon="minus" data-iconpos="right">List</a>
+              <a href="/m/" data-href="app_grid_view" class="view_select" data-icon="grid" data-iconpos="left">Grid</a>                  
+              </span>
+              -->
+            </h3>
+
+            <div data-role="fieldcontain" class="ui-btn-right ui-field-contain ui-body ui-br" style="width: 90px; padding:0;">
+              <fieldset id="view_select" data-role="controlgroup" data-type="horizontal" class="ui-title ui-corner-all ui-controlgroup ui-controlgroup-horizontal">
+                <!--
+                <div role="heading" class="ui-controlgroup-label">
+                </div>
+                -->
+                <div class="ui-controlgroup-controls">                        
+                  <div class="ui-radio">
+                    <input id="grid_select" type="radio" class="view_select" name="" checked="checked" value="app_grid_view">
+                    <label for="grid_select" data-corners="true" data-shadow="false" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="view_select ui-btn ui-radio-on ui-btn-active ui-corner-left ui-btn-up-a">
+                      <span class="ui-btn-inner ui-corner-left">
+                        <span class="ui-btn-text">
+                          <img class="view_select_icons" alt="Grid" src="http://www.watchrecon.com/data/view_grid2.png" />
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+                  <div class="ui-radio">
+                    <input id="list_select" type="radio" class="view_select" name="" value="app_list_view">
+                    <label for="list_select" data-corners="true" data-shadow="false" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="view_select ui-btn ui-radio-off ui-corner-right ui-controlgroup-last ui-btn-up-a">
+                      <span class="ui-btn-inner ui-corner-right ui-controlgroup-last">
+                        <span class="ui-btn-text">
+                          <img class="view_select_icons" alt="List" src="http://www.bikelongbeach.org/wp-content/themes/reaction/assets/images/theme/btn_list.png" />
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+
+          <div data-role="" data-theme="a" class="all_app_views">
+
+            <div data-role="content" data-theme="a" class="app_view app_grid_view ui-content ui-body-a" style="display: block;" role="main">
+              <div class="app_grid ui-grid-a">
+                <!--
+                <div class="app_block ui-block-a">
+                   <a data-role="button" href="javascript:void(0)" onclick="closeSmuTools('#news')" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="ui-btn ui-btn-up-a ui-shadow ui-btn-corner-all">
+                   <span class="ui-btn-inner ui-btn-corner-all">
+                   <span class="ui-btn-text">
+                       <img alt="News" src="http://aux.iconpedia.net/uploads/1572305589167805283.png">
+                       <br>
+                       News
+                   </span></span></a>
+               </div>
+               <div class="app_block ui-block-b">
+                   <a data-role="button" href="javascript:void(0)" onclick="closeSmuTools('#grades')" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="ui-btn ui-btn-up-a ui-shadow ui-btn-corner-all">
+                   <span class="ui-btn-inner ui-btn-corner-all">
+                   <span class="ui-btn-text">
+                       <img alt="Register" src="http://nuno-icons.com/wp-content/uploads/2008/05/register.png">
+                       <br>
+                       Register
+                   </span></span></a>
+              </div>
+                                    
+               <div class="app_block ui-block-a">
+                   <a data-role="button" href="javascript:void(0)" onclick="closeSmuTools('#map')" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="ui-btn ui-btn-up-a ui-shadow ui-btn-corner-all">
+                   <span class="ui-btn-inner ui-btn-corner-all">
+                   <span class="ui-btn-text">
+                       <img alt="Map" src="http://chriscarey.com/wordpress/wp-content/uploads/2012/07/google_maps_icon.png">
+                       <br>
+                       Map
+                   </span></span></a>
+               </div>
+               <div class="ui-block-b">
+                   <a data-role="button" href="javascript:void(0)" onclick="closeSmuTools('#grades')" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="ui-btn ui-btn-up-a ui-shadow ui-btn-corner-all">
+                   <span class="ui-btn-inner ui-btn-corner-all">
+                   <span class="ui-btn-text">
+                       <img alt="Grades" src="http://atkins.caddo.k12.la.us/files/igradesim_icon.png">
+                       <br>
+                       Grades
+                   </span></span></a>
+               </div>
+             
+               <div class="app_block ui-block-a">
+                   <a data-role="" href="/m/grades" data-transition="flow" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="a" class="">
+                   <span class="ui-btn-text">
+                      <img alt="Register" src="http://nuno-icons.com/wp-content/uploads/2008/05/register.png">
+                     Register
+                   </span>
+                   </a>
+               </div>
+                -->
+              </div>
+            </div>
+
+            <div data-role="content" data-theme="a" class="app_view app_list_view ui-content ui-body-a" style="display: none;" role="main">
+              <ul data-role="listview">
+
+              </ul>
+              <!--
+              <ul data-role="listview" data-divider-theme="b" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+
+                  <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-corner-top"><div class="ui-btn-inner ui-li ui-corner-top"><div class="ui-btn-text">
+                    <a href="javascript:void(0)" onclick="closeSmuTools('#news');" class="ui-link-inherit">
+                        <img style="width:32px;height:32px;" alt="News" src="http://aux.iconpedia.net/uploads/1572305589167805283.png">
+                        News
+                    </a>
+                </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
+                <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">
+                    <a href="javascript:void(0)" onclick="closeSmuTools('#grades')" class="ui-link-inherit">
+                        <img style="width:32px;height:32px;" alt="Register" src="http://nuno-icons.com/wp-content/uploads/2008/05/register.png">
+                        Register
+                    </a>
+                </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
+                <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">
+                    <a href="javascript:void(0)" onclick="closeSmuTools('#map')" class="ui-link-inherit">
+                        <img style="width:32px;height:32px;" alt="Map" src="http://chriscarey.com/wordpress/wp-content/uploads/2012/07/google_maps_icon.png">
+                        Map
+                    </a>
+                </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
+                <li data-theme="c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-corner-bottom ui-li-last"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">
+                    <a href="javascript:void(0)" onclick="closeSmuTools('#grades')" class="ui-link-inherit">
+                        <img style="width:32px;height:32px;" alt="Grades" src="http://atkins.caddo.k12.la.us/files/igradesim_icon.png">
+                        Grades
+                    </a>
+                </div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>
+              </ul>
+              -->
+            </div>
+
+
+          </div>
+
         </div>
 
+      </div>
 
-    </body>
+    </div>
+
+
+  </body>
 </html>
