@@ -13,48 +13,45 @@ if (window.socket) {
     socket.on('App List', function(data) {
         console.log("Received apps", data);
         // New empty apps array
-        window.apps = new Array();
-        for (var key in data) {
-            window.apps.push(data[key]);
-            displayAppGrid();
-            displayAppList();
-        }
+        window.apps = data;
+        displayAppGrid();
+        displayAppList();
     });
 }
 
 function loadApps()
 {
     console.log("Loading apps.");
-    
+
     /*
-    // TEST
-    apps.push({'title': 'News', 'link': '/m/news',
-        'icon': 'http://aux.iconpedia.net/uploads/1572305589167805283.png',
-        'description': 'The News view is transitioned to either through clicking the main news image or through opening the News SMMApp. This view provides the article associated to the image formatted to fit elegantly on a mobile device while still remaining readable. This application will also be used to push important notifications to the students, such as school cancellations. '});
-    apps.push({'title': 'Register', 'link': '/m/register',
-        'icon': 'http://nuno-icons.com/wp-content/uploads/2008/05/register.png',
-        'description': 'A major functionality and one of the first things on our implementation path will be the ability for students to register for courses through SMMAPPS. The registration interface is currently planned to be sitting within the Current Grades SMMApp though depending on the scope of the SMMApp it may be decided to break this functionality off into its own SMMApp.'});
-    apps.push({'title': 'Map', 'link': '/m/map',
-        'icon': 'http://chriscarey.com/wordpress/wp-content/uploads/2012/07/google_maps_icon.png',
-        'description': 'The Interactive Campus Map will be one of the main features of SMMAPPS. It will be designed to serve as a tool for students to locate useful on campus resources.'});
-    apps.push({'title': 'Grades', 'link': '/m/grades',
-        'icon': 'http://atkins.caddo.k12.la.us/files/igradesim_icon.png',
-        'description': 'Student grades will of course be provided through the Current Grades SMMApp. Once clicked the student will be provided with a transcript by term ordered from most to least recent.'});
-    */
-   
+     // TEST
+     apps.push({'title': 'News', 'link': '/m/news',
+     'icon': 'http://aux.iconpedia.net/uploads/1572305589167805283.png',
+     'description': 'The News view is transitioned to either through clicking the main news image or through opening the News SMMApp. This view provides the article associated to the image formatted to fit elegantly on a mobile device while still remaining readable. This application will also be used to push important notifications to the students, such as school cancellations. '});
+     apps.push({'title': 'Register', 'link': '/m/register',
+     'icon': 'http://nuno-icons.com/wp-content/uploads/2008/05/register.png',
+     'description': 'A major functionality and one of the first things on our implementation path will be the ability for students to register for courses through SMMAPPS. The registration interface is currently planned to be sitting within the Current Grades SMMApp though depending on the scope of the SMMApp it may be decided to break this functionality off into its own SMMApp.'});
+     apps.push({'title': 'Map', 'link': '/m/map',
+     'icon': 'http://chriscarey.com/wordpress/wp-content/uploads/2012/07/google_maps_icon.png',
+     'description': 'The Interactive Campus Map will be one of the main features of SMMAPPS. It will be designed to serve as a tool for students to locate useful on campus resources.'});
+     apps.push({'title': 'Grades', 'link': '/m/grades',
+     'icon': 'http://atkins.caddo.k12.la.us/files/igradesim_icon.png',
+     'description': 'Student grades will of course be provided through the Current Grades SMMApp. Once clicked the student will be provided with a transcript by term ordered from most to least recent.'});
+     */
+
     // 
     if (window.socket) {
-        socket.emit('App List', {});
+        socket.emit('App List', {}); // Emits a request for the App List
+
+        // Check if the receiving socket event is setup
         if (!(window.socket.$events && window.socket.$events['App List'])) {
+            // If not, create the receiving socket event for 'App List'
             socket.on('App List', function(data) {
                 console.log("Received apps", data);
                 // New empty apps array
-                window.apps = new Array();
-                for (var key in data) {
-                    window.apps.push(data[key]);
-                    displayAppGrid();
-                    displayAppList();
-                }
+                window.apps = data;
+                displayAppGrid();
+                displayAppList();
             });
         }
     }
@@ -80,8 +77,10 @@ function displayAppGrid()
     var app_grid = $("<div />", {"class": "app_grid ui-grid-" + n2a[max_apps_row - 2]});
 
     // Fill grid elelement with apps
-    for (var i = 0; i < apps.length; i++)
-    {
+    // for (var i = 0; i < apps.length; i++) {
+    var i = -1;
+    for (var key in apps) {
+        i++;
         var current_app = $("<div />", {"class": "app_block ui-block-" + n2a[i % max_apps_row]});
         //var clickEvent = function (link) { navigator.goToModule(link); };
 
@@ -90,7 +89,7 @@ function displayAppGrid()
                 "<a />",
                 {
                     "data-role": "",
-                    "href": apps[i].link,
+                    "href": apps[key].path,
                     "data-transition": "flow",
                     "data-corners": "true",
                     "data-shadow": "true",
@@ -98,7 +97,7 @@ function displayAppGrid()
                     "data-wrapperels": "span",
                     "data-theme": "a"
                 }
-        //).on('click', clickEvent(apps[i].link)  
+        //).on('click', clickEvent(apps[i].path)  
         ).append(
                 $(
                 "<span />",
@@ -108,12 +107,12 @@ function displayAppGrid()
         ).append(
                 $("<img />",
                 {
-                    "alt": apps[i].title,
-                    "src": apps[i].icon
+                    "alt": apps[key].title,
+                    "src": apps[key].icon
                 }
         )
                 ).append(
-                apps[i].title
+                apps[key].title
                 )
                 )
                 );
@@ -151,27 +150,27 @@ function displayAppList() {
     var app_list = $("<ul />", {"data-role": "listview", "data-divder-theme": "b", "data-inset": "true", "class": "app_list"});
 
     // Fill grid elelement with apps
-    for (var i = 0; i < apps.length; i++)
-    {
+    // for (var i = 0; i < apps.length; i++) {
+    for (var key in apps) {
         var current_app = $("<li />", {"data-theme": "c"});
         current_app.append(
-                $("<a />", {"href": apps[i].link, "class": "", "data-transition": "flow"})
+                $("<a />", {"href": apps[key].path, "class": "", "data-transition": "flow"})
                 .append(
                 $("<img />",
                 {
-                    "alt": apps[i].title,
-                    "src": apps[i].icon
+                    "alt": apps[key].title,
+                    "src": apps[key].icon
                 }
         )
                 ).append(
                 $('<h2 />')
                 .append(
-                apps[i].title
+                apps[key].title
                 )
                 ).append(
                 $('<p />')
                 .append(
-                apps[i].description
+                apps[key].description
                 )
                 )
                 );
