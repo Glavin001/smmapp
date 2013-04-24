@@ -54,7 +54,7 @@ root {
 
 .fullScreenBtn {
   position: absolute;
-  z-index: 1000;
+  z-index: 1010;
   text-align: center;
   top: 0;
   right: 0;
@@ -62,13 +62,24 @@ root {
 
 .gpsBtn {
   position: absolute;
-  z-index: 1000;
+  z-index: 1010;
   text-align: center;
   bottom: 0;
   left: 0;
 }
 
-#fullScreenMapContainer, #fullScreenMapContainer .fullScreenBtn, #fullScreenMapContainer .gpsBtn {
+.locateSMUBtn {
+  position: absolute;
+  z-index: 1010;
+  text-align: center;
+  bottom: 0;
+  right: 0;
+}
+
+#fullScreenMapContainer, 
+#fullScreenMapContainer .fullScreenBtn, 
+#fullScreenMapContainer .gpsBtn,  
+#fullScreenMapContainer .locateSMUBtn {
   position: absolute;
   z-index: 3000;
 }

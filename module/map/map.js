@@ -186,6 +186,24 @@
 
     };
 
+
+    map.centerSMU = function( ) {
+        latitude = 5563677.9404069;
+        longitude = -7077715.7842524;
+        console.log("lat: ",latitude,"lon:",longitude);
+        //var coor_from = new OpenLayers.Projection("EPSG:4326");
+        //var coor_to = new OpenLayers.Projection("EPSG:900913");
+        var center = new OpenLayers.LonLat(longitude, latitude);
+        //center.transform(coor_from, coor_to);
+        //map.mapOL.addLayer(new OpenLayers.Layer.OSM());
+        if (map.isFullScreen)
+            map.mapFS.setCenter(center, 18);
+        else
+            map.mapOL.setCenter(center, 18);
+    };
+
+
+
     map.centerGPS = function( ) {
         navigator.geolocation.getCurrentPosition(locationSuccess, locationFail);
         function locationSuccess(position) {
@@ -204,6 +222,10 @@
         }
         function locationFail() {
             console.log("Oops, could not find you.");
+            // show error message
+            $.mobile.showPageLoadingMsg($.mobile.pageLoadErrorMessageTheme, $.mobile.pageLoadErrorMessage, true);
+            // hide after delay
+            setTimeout($.mobile.hidePageLoadingMsg, 1500);
         }
     };
 
