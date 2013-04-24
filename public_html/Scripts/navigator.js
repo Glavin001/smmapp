@@ -107,19 +107,27 @@
             //  Load scripts
             // Check if there are scripts to be loaded.
             if (apps && apps[navigator.getModuleName()] && apps[navigator.getModuleName()].scripts) {
+                navigator.loadScriptCount = 0;
                 $.each(apps[navigator.getModuleName()].scripts, function(i, scriptSrc) {
+                    navigator.loadScriptCount++;
                     $.getScript(scriptSrc, function(data, textStatus, jqxhr) {
-                        console.log(data); //data returned
+                        navigator.loadScriptCount--;
+                        //console.log(data); //data returned
                         console.log(textStatus); //success
                         console.log(jqxhr.status); //200
                         console.log('Load was performed.');
 
+                        if (navigator.loadScriptCount === 0) {
+                            // Only when last script loaded === onLoad event
+                            console.log("Module onLoad event");
+                            // Module On Load Event
+                            if (window[ navigator.getModuleName() ] && window[ navigator.getModuleName() ].onLoad)
+                                window[ navigator.getModuleName() ].onLoad();
+
+                        }
+
                     });
                 });
-
-                // Module On Load Event
-                if (window[ navigator.getModuleName() ] && window[ navigator.getModuleName() ].onLoad)
-                    window[ navigator.getModuleName() ].onLoad();
 
             }
 
