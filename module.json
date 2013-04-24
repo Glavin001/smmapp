@@ -4,7 +4,7 @@
     "path": "/m/map",
     "icon":"http://chriscarey.com/wordpress/wp-content/uploads/2012/07/google_maps_icon.png",
     "scripts": [ "/m/map/OpenLayers/OpenLayers.js", "/m/map/map.js" ],
-    "styles": [ "/m/map/map.css" ],
+    "styles": [ "/m/map/map.css", "/m/map/OpenLayers/theme/default/style.mobile.tidy.css" ],
     "description": "The Interactive Campus Map will be one of the main features of SMMAPPS. It will be designed to serve as a tool for students to locate useful on campus resources."
   },
   "news": {

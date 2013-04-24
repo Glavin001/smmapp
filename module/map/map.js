@@ -5,6 +5,64 @@
 
 (function(map, undefined) {
 
+    // Private functions
+    function initMap() {
+        map.mapOL = new OpenLayers.Map("campusMap");
+        var mapnik = new OpenLayers.Layer.OSM();
+        var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+        var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+        var position = new OpenLayers.LonLat(13.41, 52.52).transform(fromProjection, toProjection);
+        var zoom = 15;
+
+        map.mapOL.addLayer(mapnik);
+        map.mapOL.setCenter(position, zoom);
+    }
+
+    // Get rid of address bar on iphone/ipod
+    var fixSize = function() {
+        window.scrollTo(0, 0);
+        document.body.style.height = '100%';
+        if (!(/(iphone|ipod)/.test(navigator.userAgent.toLowerCase()))) {
+            if (document.body.parentNode) {
+                document.body.parentNode.style.height = '100%';
+            }
+        }
+    };
+
+    function resize() {
+        var viewWidth = parseInt($(".all_map_views").css('width')); //parseInt($.mobile.activePage.css('width'));
+        //var viewHeight = parseInt($.mobile.activePage.css('height'));
+        var viewHeight = (window.innerHeight ? window.innerHeight : $(window).height())
+                - $("div.smuToolsPanel [data-role='footer']").height()
+                - ($.mobile.activePage).find("div.map_view_select").height()
+                - ($.mobile.activePage).find("div[data-role='header']").height()
+                - parseInt(($.mobile.activePage).find("div[data-role='content']").css('padding-top'))
+                - parseInt(($.mobile.activePage).find("div[data-role='content']").css('padding-bottom'));
+
+        // Resize main container
+        $(".overflow_view").css({"width": 3 * viewWidth, "height": 1 * viewHeight});
+        // Resize map views
+        $(".map_view").css(
+                {
+                    "width": viewWidth
+                            - parseInt($(".map_view").css('padding-left'))
+                            - parseInt($(".map_view").css('padding-right')),
+                    "height": viewHeight
+                });
+        $(".locate_view").css({
+            "width": 1 * viewWidth
+                    - parseInt($(".locate_view").css('padding-left'))
+                    - parseInt($(".locate_view").css('padding-right')),
+            "height": viewHeight
+        });
+
+
+        // Resize Map
+        console.log("TODO: Resize map itself.");
+
+    }
+
+    // Public functions
     map.selectView = function(selection) {
         if (selection === "Map") {
 
@@ -29,62 +87,78 @@
 
     };
 
-    function init_map() {
-        map = new OpenLayers.Map("basicMap");
-        var mapnik = new OpenLayers.Layer.OSM();
-        var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
-        var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
-        var position = new OpenLayers.LonLat(13.41, 52.52).transform(fromProjection, toProjection);
-        var zoom = 15;
+    map.fullScreen = function(isFullScreen) {
 
-        map.addLayer(mapnik);
-        map.setCenter(position, zoom);
-    }
+        if (isFullScreen) {
+            // Make Full screen map
 
-    function resize() {
-        var viewWidth = parseInt($(".all_map_views").css('width')); //parseInt($.mobile.activePage.css('width'));
-        //var viewHeight = parseInt($.mobile.activePage.css('height'));
-        var viewHeight = (window.innerHeight ? window.innerHeight : $(window).height())
-                - $("div.smuToolsPanel [data-role='footer']").height()
-                - ($.mobile.activePage).find("div.map_view_select").height()
-                - ($.mobile.activePage).find("div[data-role='header']").height()
-                - parseInt(($.mobile.activePage).find("div[data-role='content']").css('padding-top'))
-                - parseInt(($.mobile.activePage).find("div[data-role='content']").css('padding-bottom'));
+            // Add map div element to body
+            var contEl = $("<div/>").attr('id', "fullScreenMapContainer");
+            var mapEl = $("<div/>").attr('id', "fullScreenMap");
+            var exitFS = $("<a />").text("Exit Full Screen")
+                    .attr('id', "exitFS")
+                    .attr('onclick', "map.fullScreen(false);")
+                    .attr('href', "#")
+                    .attr('data-role', "button")
+                    .attr('data-inline', "true")
+                    .attr('data-theme', "b");
+            $(contEl).append($(exitFS));
+            $(contEl).append($(mapEl));
+            $(contEl).appendTo($('body'));
+            $("#fullScreenMapContainer").trigger('create');
 
-        // Resize main container
-        $(".overflow_view").css({"width": 3 * viewWidth, "height": 3 * viewHeight});
-        // Resize map views
-        $(".map_view").css(
-                {
-                    "width": viewWidth
-                            - parseInt($(".map_view").css('padding-left'))
-                            - parseInt($(".map_view").css('padding-right')),
-                    "height": viewHeight
-                });
-        $(".locate_view").css({
-            "width": 1 * viewWidth
-                    - parseInt($(".locate_view").css('padding-left'))
-                    - parseInt($(".locate_view").css('padding-right')),
-            "height": viewHeight
-        });
+            // Create full screen mobile map
+            map.mapFS = new OpenLayers.Map({
+                div: "fullScreenMap",
+                theme: null,
+                controls: [
+                    new OpenLayers.Control.Attribution(),
+                    new OpenLayers.Control.TouchNavigation({
+                        dragPanOptions: {
+                            enableKinetic: true
+                        }
+                    }),
+                    new OpenLayers.Control.Zoom()
+                ],
+                layers: [
+                    new OpenLayers.Layer.OSM("OpenStreetMap", null, {
+                        transitionEffect: 'resize'
+                    })
+                ],
+                center: map.mapOL.getCenter(),
+                zoom: map.mapOL.zoom
+            });
 
 
-        // Resize Map
-        console.log("TODO: Resize map itself.");
+        } else {
+            // Sync main map with center of full screen map
+            map.mapOL.setCenter(map.mapFS.getCenter());
+            map.mapOL.zoomTo(map.mapFS.zoom)
 
-    }
+            // Remove fullscreen if exists
+            $("#fullScreenMapContainer").remove();
 
+            // Setup non-full-screen map
+
+        }
+
+    };
+
+    // Events
     map.onLoad = function() {
         // Anything you want to run onLoad
         // When all page resources (styles, scripts, markup, etc) are finished loading this is called. 
         resize();
-        init_map();
+        initMap();
         map.selectView("Map");
     };
 
     map.onBeforeLeave = function() {
         // Anything you want to run onBeforeLeave
         // Before Leave = Before going from this module to another module this is called.
+
+        // Be sure to cleanup and remove Full Screen Map
+        map.fullScreen(false);
 
     };
 
