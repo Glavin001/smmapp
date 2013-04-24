@@ -23,17 +23,15 @@ background: rgba(139,28,28,1);
 /*
   background: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/background_linen.png) repeat;
 */
-
 background: rgba(139,28,28,1);
-
 }
 
-#menu {
+body div#menu {
   display: block; 
   min-height:0px; 
   top: auto !important; 
-  bottom:0px; 
-  z-index:1000000;
+  bottom: 0px; 
+  z-index: 2000;
 }
 
 /* ===== SMU Tools Panel ===== */

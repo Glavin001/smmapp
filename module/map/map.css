@@ -60,11 +60,15 @@ root {
   right: 0;
 }
 
-
 .gpsBtn {
   position: absolute;
   z-index: 1000;
   text-align: center;
   bottom: 0;
   left: 0;
+}
+
+#fullScreenMapContainer, #fullScreenMapContainer .fullScreenBtn, #fullScreenMapContainer .gpsBtn {
+  position: absolute;
+  z-index: 3000;
 }

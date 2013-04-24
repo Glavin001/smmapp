@@ -24,9 +24,11 @@
         window.scrollTo(0, 0);
         document.body.style.height = '100%';
         if (!(/(iphone|ipod)/.test(navigator.userAgent.toLowerCase()))) {
+            // Is iOS
             if (document.body.parentNode) {
                 document.body.parentNode.style.height = '100%';
             }
+            
         }
     };
 
@@ -41,7 +43,7 @@
                 - parseInt(($.mobile.activePage).find("div[data-role='content']").css('padding-bottom'));
 
         // Resize main container
-        $(".overflow_view").css({"width": 3 * viewWidth, "height": 1 * viewHeight});
+        $(".overflow_view").css({"width": 3 * viewWidth, "height": 2 * viewHeight});
         // Resize map views
         $(".map_view").css(
                 {
@@ -56,7 +58,13 @@
                     - parseInt($(".locate_view").css('padding-right')),
             "height": viewHeight
         });
-
+        
+        // Resize Full Screen if neccessary
+        if ( map.isFullScreen ) {
+            $("#fullScreenMapContainer").css({ 
+                "height": (window.innerHeight ? window.innerHeight : $(window).height())
+            });
+        }
 
         // Resize Map
         console.log("TODO: Resize map itself.");
@@ -151,12 +159,14 @@
             // Remove fullscreen if exists
             $("#fullScreenMapContainer").remove();
         }
-
+        
+        resize();
         setTimeout(function( ) {
-            resize();
             // Get rid of address bar on iphone/ipod
             fixSize();
-        }, 300);
+            resize();
+        }, 100);
+        
     };
 
     map.centerGPS = function( ) {
@@ -171,9 +181,9 @@
             center.transform(coor_from, coor_to);
             //map.mapOL.addLayer(new OpenLayers.Layer.OSM());
             if (map.isFullScreen)
-                map.mapFS.setCenter(center);
+                map.mapFS.setCenter(center, 15);
             else
-                map.mapOL.setCenter(center);
+                map.mapOL.setCenter(center, 15);
         }
         function locationFail() {
             console.log("Oops, could not find you.");
