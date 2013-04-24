@@ -112,16 +112,17 @@ app.use(function(req, res, next) {
 
 app.get('/', function(req, res) {
   console.log('GET : /');
-  
-  // initialise the session
-  userStore[req.sessionID] = (userStore[req.sessionID] || {});
-  
-  res.sendfile('./public_html/app.html');
-});
 
-app.get('/login', function(req, res) {
-  console.log('GET : /login');
-  res.sendfile('./public_html/login.html');
+  if (userStore[req.sessionID] === undefined || userStore[req.sessionID] === null) {
+    // initialise the session
+    userStore[req.sessionID] = (userStore[req.sessionID] || {});
+    userStore[req.sessionID].isLoggedIn = false;
+  }
+
+  /*
+   * Load the app which then loads the home. 
+   */
+  res.sendfile('./public_html/app.html');
 });
 
 /*
@@ -139,7 +140,8 @@ app.get('/m/*', function(req, res) {
   try {
 
     var
-            path = req.originalUrl.split('/'),
+            data = req.originalUrl.split('?')[1],
+            path = req.originalUrl.split('?')[0].split('/'),
             reqType = req.originalUrl.split('.').length;
 
     if (reqType === 1) {
@@ -167,8 +169,11 @@ app.get('/m/*', function(req, res) {
       console.log('script request'); /*** script (js or css) request ***/
 
       if (path[1] === 'm') {
+        
+        // construct path
         path[1] = 'module';
         path = '.' + path.join('/');
+        path = path.split('?')[0];
 
         // confirm module is present
         fs.exists(path, function(exists) {
@@ -195,11 +200,6 @@ app.get('/m/*', function(req, res) {
     res.sendfile('./public_html/404.html');
     return;
   }
-
-});
-
-app.get('/test', function(req, res) {
-  res.sendfile('./public_html/test.html');
 });
 
 server.listen(1338);
@@ -331,7 +331,7 @@ io.sockets.on('connection', function(socket) {
     });
   });
 
-  socket.on('authenticate', function(data) {
+  socket.on('auth', function(data) {
     console.log('On : authenticate');
 
     console.log(JSON.stringify(data, null, 2));

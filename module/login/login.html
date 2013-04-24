@@ -18,7 +18,11 @@
           <label for="textinput1">
             A-Number
           </label>
-          <input name="aNumber" id="textinput1" placeholder="" value="" type="text">
+          <input 
+            name="aNumber" 
+            id="smu-username" 
+            placeholder="Username" 
+            type="text">
         </fieldset>
       </div>
       <div data-role="fieldcontain">
@@ -26,9 +30,22 @@
           <label for="textinput2">
             Password
           </label>
-          <input name="aPassword" id="textinput2" placeholder="" value="" type="password">
+          <input 
+            name="aPassword" 
+            id="smu-password" 
+            placeholder="Password" 
+            type="password">
         </fieldset>
       </div>
+
+      <a 
+        data-role="button"
+        data-theme="a"
+        onClick="login.login();"
+        href="">
+        Login
+      </a>
+
     </form>
   </div>
 </div>
