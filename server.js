@@ -24,7 +24,6 @@ try {
 
 // ---------------------------------------- NODE PACKAGES 
 logger.log('Loading modules.');
-
 var 
     http = require('http'),
     path = require('path'),
@@ -34,18 +33,8 @@ var
     jsdom = require('jsdom'),
     request = require('request'),
     url = require('url'),
-    mongoose = require('mongoose'),
-    db = mongoose.createConnection('localhost', 'test'),
-    $ = require('jQuery')
-    newsSchema = mongoose.Schema({
-    articleId: Number,
-    title: String,
-    imgsrc: String,
-    desktopLink: String
-    }),
-    Article = mongoose.model('Article', newsSchema),
-    dbIsOpen = false;
-    
+    $ = require('jQuery'),
+    GlobalID = 0;
     
 var smu_auth = require('./node/smu-auth');
 
@@ -146,12 +135,70 @@ app.get('/test', function(req, res) {
 server.listen(1338);
 logger.log('Server started.');
 //----------------------------------------- MONGODB SETUP
-logger.log('Database setup start')
+logger.log('Database setup start');
+var mongoose = require('mongoose');
+    mongoose.connect('mongodb://localhost/test');
+var db = mongoose.connection,
+    newsSchema = mongoose.Schema({
+    articleId: Number,
+    title: String,
+    imgsrc: String,
+    desktopLink: String
+    }),
+    Article = mongoose.model('Article', newsSchema);
+    //function for getting news list from smu.ca
+    function NewsFeedListGetter ()
+    {
+        request({uri: 'http://www.smu.ca/'}, function(err, response, body){
+		//Just a basic error check
+                if(err && response.statusCode !== 200){console.log('Request error.');}
+                //Send the body param as the HTML code we will parse in jsdom
+		//also tell jsdom to attach jQuery in the scripts and loaded from jQuery.com
+		jsdom.env({
+                        html: body,
+                        scripts: ['http://code.jquery.com/jquery-1.6.min.js']
+                }, function(err, window){
+			//Use jQuery just as in a regular HTML page
+                        var $ = window.jQuery;
+                        var newsList = new Array();
+                        
+                        $("#smuImageRotator .smuImageList li").each( function( index, value) {
+                           // console.log(index, value);
+                                newsList[index] = {
+                                   articleId: GlobalID,
+                                   title: $(value).find(".smuImageTitleText").text(),
+                                   imgsrc: $(value).find('div img').attr('src'),
+                                   desktopLink: $(value).find('a').attr('href')
+                               };
+                               var pat = /^https?:\/\//i;
+                               if (pat.test(newsList[index].desktopLink));
+                               else newsList[index].desktopLink = 'http://www.smu.ca/' + newsList[index].desktopLink;
+                               
+                               //var tempArticle = new Article(newsList[index]);
+                               //tempArticle.save(function(){console.log('Article Saved');});
+                               //console.log(newsList[index]);
+                               
+                               Article.create(newsList[index], function (err) {
+                               if (err) console.log(err);
+                               //console.log("Article Saved");
+                               });
+                               
+                               GlobalID++;
+
+                        });
+                 //socket.emit('News Feed List',newsList);
+                 //console.log(newsList);
+                //console.log('news article');
+
+            });
+    });
+    };
 //checking if database is connected
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () { 
-    dbIsOpen = true;
-});
+db.once('open', function () {
+    console.log('Database is up');
+    //this updates the news list in the database daily, 86400000 milliseconds in a day
+    setInterval(NewsFeedListGetter,86400000);
+     });
 
 // ---------------------------------------- SOCKET API 
 logger.log('Setup socket.');
@@ -190,56 +237,17 @@ io.sockets.on('connection', function(socket) {
   });
   
     socket.on('News Feed List', function () {
-      request({uri: 'http://www.smu.ca/'}, function(err, response, body){
-                
-		
-		//Just a basic error check
-                if(err && response.statusCode !== 200){console.log('Request error.');}
-                //Send the body param as the HTML code we will parse in jsdom
-		//also tell jsdom to attach jQuery in the scripts and loaded from jQuery.com
-		jsdom.env({
-                        html: body,
-                        scripts: ['http://code.jquery.com/jquery-1.6.min.js']
-                }, function(err, window){
-			//Use jQuery just as in a regular HTML page
-                        var $ = window.jQuery;
-                        var newsList = new Array();
-                        
-                        $("#smuImageRotator .smuImageList li").each( function( index, value) {
-                           // console.log(index, value);
-                                newsList[index] = {
-                                   articleId: index,
-                                   title: $(value).find(".smuImageTitleText").text(),
-                                   imgsrc: $(value).find('div img').attr('src'),
-                                   desktopLink: $(value).find('a').attr('href')
-                               };
-                               if (dbIsOpen) {
-                                   Article.create({
-                                   articleId: index,
-                                   title: $(value).find(".smuImageTitleText").text(),
-                                   imgsrc: $(value).find('div img').attr('src'),
-                                   desktopLink: $(value).find('a').attr('href')
-                               }, function (err) {
-                                   if (err) logger.log(err);
-                               });
-                               }
-                               else logger.log('Database is not open, Cannot save articles');
-                        } );
-                 socket.emit('News Feed List',newsList);
-                 //Article.find(function (err, articles) {
-                 // if (err) logger.log(err);// TODO handle err
-                 //  console.log(articles)
-                 //});
-                 //console.log( JSON.stringify(newsList,null,'\t') );
-
-                });
-        });
-  });
+        Article.find(function (err, articles) {
+           if (err) console.log(err);// TODO handle err
+           socket.emit('News Feed List',articles);
+          });
+    });
  
     socket.on('News Article', function (data) {//$(".templateBodyRightcol")[0].html()
-      request({uri: 'http://www.smu.ca/' + data.articleId}, function(err, response, body){
-                
-		
+        Article.findOne({ articleId : data.articleId }, function (err, news) {
+          if (err) console.log(err);
+        
+        request({uri: news.desktopLink}, function(err, response, body){
 		//Just a basic error check
                 if(err && response.statusCode !== 200){console.log('Request error.');}
                 //Send the body param as the HTML code we will parse in jsdom
@@ -250,18 +258,12 @@ io.sockets.on('connection', function(socket) {
                 }, function(err, window){
 			//Use jQuery just as in a regular HTML page
                         var $ = window.jQuery;
-                        var newsArticle = {
-                                   articleId: data.articleId,
-                                   desktopLink: data.articleId,
-                                   html: $(".templateBodyRightcol").html()
-                        };
-                 socket.emit('News Article',newsArticle);
+                        news.html = $(".templateBodyRightcol").html();
+                        socket.emit('News Article',news);
                  //console.log( JSON.stringify(newsArticle,null,'\t') );
-
                 });
+              });
+             });
         });
   });
-    socket.on('authenticate', function (data) {
-      
-  });
-});
+
