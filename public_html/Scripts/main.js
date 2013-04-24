@@ -117,6 +117,7 @@ window.addEventListener("load", function() {
         displayAppGrid();
         displayAppList();
         hideAddressBar();
+        stopScroll();
 
         // Module On Load Event
         if (window[ navigator.getModuleName() ] && window[ navigator.getModuleName() ].onLoad)
@@ -126,6 +127,8 @@ window.addEventListener("load", function() {
 window.addEventListener("orientationchange", function() {
     hideAddressBar();
     displayAppGrid();
+    stopScroll();
+    setTimeout( stopScroll(), 500);
 
     // Module On Load Event
     if (window[ navigator.getModuleName() ] && window[ navigator.getModuleName() ].onOrientationChange)
