@@ -33,37 +33,54 @@ var
         xml2js = require('xml2js'),
         jsdom = require('jsdom'),
         request = require('request'),
-        url = require('url');
+        url = require('url'),
+        connect = require('connect'),
+        cookie = require('cookie'),
+        $ = require('jQuery'),
+        mongo = require('mongodb');
+
+// connect to mongo db
+var db = new mongo.Db('smmapp', new mongo.Server('localhost', 27017, {
+  auto_reconnect: true
+}, {w: 1}));
+db.open(function() {
+});
 
 // mongo db stuff
 var
         mongoose = require('mongoose'),
         db = mongoose.createConnection('localhost', 'test'),
-        $ = require('jQuery'),
+        dbIsOpen = false;
+
+var
         newsSchema = mongoose.Schema({
   articleId: Number,
   title: String,
   imgsrc: String,
   desktopLink: String
 }),
-Article = mongoose.model('Article', newsSchema),
-        dbIsOpen = false;
+UserSchema = mongoose.Schema({
+  name: String,
+  user: String,
+  pass: String
+});
+
+mongoose.model('smmapp_user', UserSchema);
+var
+        UserCol = mongoose.model('smmapp_user'),
+        Article = mongoose.model('Article', newsSchema);
 
 var smu_auth = require('./node/smu-auth');
 
-// module config 
-var moduleStore = JSON.parse(fs.readFileSync('module.json'));
-// console.log(JSON.stringify(moduleStore, null, 2));
-
 logger.log('Loading functions.');
 
-function requestEnded(error) {
+var requestEnded = function(error) {
   logger.log('\tRequest ended.');
-}
+};
 
-function requestClosed(error) {
+var requestClosed = function(error) {
   logger.log('\tRequest closed.');
-}
+};
 
 // ---------------------------------------- EXPRESS SERVER
 logger.log('Starting Server.');
@@ -73,6 +90,13 @@ var
         memStore = new express.session.MemoryStore();
 
 var userStore = {}; // object for storing user credentials
+var isLoggedIn = function(sid) {
+  return (
+          userStore[sid] !== undefined &&
+          userStore[sid] !== null &&
+          userStore[sid].isLoggedIn === true
+          );
+};
 
 app.configure(function() {
 
@@ -169,7 +193,7 @@ app.get('/m/*', function(req, res) {
       console.log('script request'); /*** script (js or css) request ***/
 
       if (path[1] === 'm') {
-        
+
         // construct path
         path[1] = 'module';
         path = '.' + path.join('/');
@@ -205,7 +229,7 @@ app.get('/m/*', function(req, res) {
 server.listen(1338);
 logger.log('Server started.');
 //----------------------------------------- MONGODB SETUP
-logger.log('Database setup start')
+logger.log('Database setup start');
 //checking if database is connected
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -220,36 +244,8 @@ io.sockets.on('connection', function(socket) {
   //Description : Request the list of apps and select respective data. 
 
   socket.on('App List', function() {
-    var parser = new xml2js.Parser({
-      explicitArray: false,
-      explicitRoot: false
-    });
 
-    var parseString = parser.parseString;
-    fs.readFile('./module.xml', function(err, xml) {
-      if (err)
-        throw err;
-
-      parseString(xml, function(error, obj) {
-        if (error)
-          throw error;
-        var moduleList = new Array();
-
-        var length = obj.module.length;
-        for (var i = 0; i < length; i++) {
-          moduleList[i] = {
-            id: obj.module[i].$.id,
-            title: obj.module[i].$.title,
-            file: obj.module[i].$.file,
-            icon: obj.module[i].$.icon,
-            description: obj.module[i]._
-          };
-        }
-        ;
-        //console.log(moduleList);
-        socket.emit('App List', moduleList);
-      });
-    });
+    socket.emit('App List', JSON.parse(fs.readFileSync('module.json')));
   });
 
   socket.on('News Feed List', function() {
@@ -331,11 +327,35 @@ io.sockets.on('connection', function(socket) {
     });
   });
 
-  socket.on('auth', function(data) {
-    console.log('On : authenticate');
+  socket.on('auth', function(user) {
+    console.log('On : auth');
+    //console.log(JSON.stringify(user, null, 2));
+    db.collection('users', function(err, collection) {
 
-    console.log(JSON.stringify(data, null, 2));
+      if (err) {
+        console.log('Error : ' + err);
+        return;
+      }
+
+      collection.find(user).toArray(function(err, resultSet) {
+
+        if (err) {
+          console.log('Error : ' + err);
+          return;
+        }
+
+        console.log(JSON.stringify(resultSet, null, 2));
+
+        if (resultSet.length !== 1) {
+          socket.emit('auth', false);
+        } else {
+          userStore[socket.handshake.sessionID].isLoggedIn = true;
+          socket.emit('auth', true);
+        }
+      });
+    });
   });
+
 });
 
 io.set('authorization', function(data, accept) {

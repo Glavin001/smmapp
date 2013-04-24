@@ -2,6 +2,11 @@
  * name : Dawson Reid
  */
 
+socket.on('auth', function(isAuth) {
+  console.log('On : isAuth - ' + isAuth);
+  
+});
+
 /*
  * login namespace definition.
  * 
@@ -205,8 +210,8 @@
     console.log('Call : login.login');
 
     socket.emit('auth', {
-      username: $('#smu-username').val(),
-      password: login.hash.md5($('#smu-password').val())
+      user: $('#smu-username').val(),
+      pass: login.hash.md5($('#smu-password').val())
     });
 
     // clear login fields
