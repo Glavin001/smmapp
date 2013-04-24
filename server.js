@@ -189,7 +189,7 @@ app.get('/m/*', function(req, res) {
         throw "Invalid Req : Invalid '//'";
       }
 
-    } else if (reqType === 2) {
+    } else if (reqType >= 2) {
       console.log('script request'); /*** script (js or css) request ***/
 
       if (path[1] === 'm') {

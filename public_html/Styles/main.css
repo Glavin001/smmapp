@@ -23,11 +23,16 @@ background: rgba(139,28,28,1);
 /*
   background: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/background_linen.png) repeat;
 */
-
 background: rgba(139,28,28,1);
-
 }
 
+body div#menu {
+  display: block; 
+  min-height:0px; 
+  top: auto !important; 
+  bottom: 0px; 
+  z-index: 2000;
+}
 
 /* ===== SMU Tools Panel ===== */
 div.smuToolsPanel
@@ -100,27 +105,6 @@ div.smuToolsPanel div#gription img {
    display: block;
    margin-left: auto;
    margin-right: auto;
-}
-
-
-/* Map Page */
-.all_map_views {
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
-    margin: 5px 0 5px 0;
-    padding: 0 0 0 0;
-    border: 1px solid #ccc;
-}
-
-.all_map_views .map_view, .all_map_views .locate_view {
-    position: relative; 
-    display: inline-block;
-    height: 100%;
-    width: 100%;
-}
-.all_map_views p {
-    vertical-align: top;
 }
 
 /* App View */
