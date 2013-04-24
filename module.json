@@ -3,7 +3,7 @@
     "title": "Map",
     "path": "/m/map",
     "icon":"http://chriscarey.com/wordpress/wp-content/uploads/2012/07/google_maps_icon.png",
-    "scripts": [ "/m/map/map.js", "/m/map/OpenLayers/OpenLayers.js" ],
+    "scripts": [ "/m/map/OpenLayers/OpenLayers.js", "/m/map/map.js" ],
     "styles": [ "/m/map/map.css" ],
     "description": "The Interactive Campus Map will be one of the main features of SMMAPPS. It will be designed to serve as a tool for students to locate useful on campus resources."
   },
@@ -11,7 +11,7 @@
     "title": "News",
     "path": "/m/news",
     "icon":"http://aux.iconpedia.net/uploads/1572305589167805283.png",
-    "scripts": [ "/m/news/news.js", "/m/news/rotator.js" ],
+    "scripts": [ "/m/news/rotator.js", "/m/news/news.js" ],
     "styles": [ "/m/news/news.css", "/m/news/rotator.css" ],
     "description": "The News view is transitioned to either through clicking the main news image or through opening the News SMMApp. This view provides the article associated to the image formatted to fit elegantly on a mobile device while still remaining readable. This application will also be used to push important notifications to the students, such as school cancellations. "
   },

@@ -67,6 +67,7 @@ function autoRotate(options) {
 }
 
 function resizeNewsFeed() {
+    console.log("resizeNewsFeed");
   /*
    var maxWidth = ($.mobile.activePage).find("div[data-role='content']").width();
    var maxHeight = ($.mobile.activePage).find("div[data-role='content']").height();
@@ -172,8 +173,3 @@ function init_rotator() {
   });
 
 }
-
-
-$(document).ready(function() {
-  init_rotator();
-});

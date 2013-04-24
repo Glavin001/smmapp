@@ -17,6 +17,8 @@
         // Anything you want to run onBeforeLeave
         // Before Leave = Before going from this module to another module this is called.
         
+        // console.log("Thank you for letting me know that you're leaving the news app.");
+        clearInterval(rotatorId);
     };
 
     news.onResize = function() {
@@ -30,6 +32,12 @@
         // Anything you want to run onSmartResize
         // Smart resize will not execute on every pixel increment of the resize action.
         // Low accuracy / High latency; High performance (Not CPU intensive because there are less events called).
+        stopScroll();
+        resizeNewsFeed();
+    };
+    
+    news.onOrientationChange = function() {
+        // Anything you want to run onOrientationchange
         stopScroll();
         resizeNewsFeed();
     };
