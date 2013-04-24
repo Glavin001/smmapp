@@ -51,19 +51,19 @@ if (isMobile.any())
 {
     if (isMobile.iOS())
     {
-        $("#mobile-theme").attr("href", "Styles/iOS.css");
+        //$("#mobile-theme").attr("href", "Styles/iOS.css");
     }
     else if (isMobile.Android())
     {
-        $("#mobile-theme").attr("href", "Styles/Android.css");
+        //$("#mobile-theme").attr("href", "Styles/Android.css");
     }
     else if (isMobile.BlackBerry())
     {
-        $("#mobile-theme").attr("href", "Styles/Blackberry.css");
+        //$("#mobile-theme").attr("href", "Styles/Blackberry.css");
     }
     else if (isMobile.Windows())
     {
-        $("#mobile-theme").attr("href", "Styles/Windows.css");
+        //$("#mobile-theme").attr("href", "Styles/Windows.css");
     }
 }
 else if (isDesktop.any())
@@ -71,11 +71,11 @@ else if (isDesktop.any())
 
     if (isDesktop.Mac())
     {
-        $("#mobile-theme").attr("href", "Styles/iOS.css");
+        //$("#mobile-theme").attr("href", "Styles/iOS.css");
     }
     else if (isDesktop.Windows())
     {
-        $("#mobile-theme").attr("href", "Styles/Android.css");
+        //$("#mobile-theme").attr("href", "Styles/Android.css");
     }
 }
 
