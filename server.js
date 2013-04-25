@@ -238,6 +238,7 @@ returns : null
 See Alse : logNFLG
  */
 var NewsFeedListGetter = function() {
+  logNFLG("News Feed List");
   request({uri: 'http://www.smu.ca/'}, function(err, response, body) {
     //Just a basic error check
     if (err && response.statusCode !== 200) {
@@ -296,8 +297,8 @@ var logNFLG = function(message) {
     if (err)
       console.log(err);
   });
-  logNFLG("News Feed Gotten");
 };
+
 //checking if database is connected
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -371,7 +372,6 @@ returns: ads
         if (err) console.log(err);
       socket.emit('request smads', ads);
     });
-    
   });
 
   socket.on('auth', function(user) {
