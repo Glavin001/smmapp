@@ -58,10 +58,10 @@ UserSchema = mongoose.Schema({
   pass: String
 }),
 smadsSchema = mongoose.Schema({
-    name : String,
-    link : String,
-    date : Date,
-    priority : Number
+  name: String,
+  link: String,
+  date: Date,
+  priority: Number
 });
 
 var
@@ -234,10 +234,10 @@ logger.log('Database setup start');
 
 
 /*
-Variable : NewsFeedListGetter
-Gets news feed list and saves it to database
-returns : null
-See Also : logNFLG
+ Variable : NewsFeedListGetter
+ Gets news feed list and saves it to database
+ returns : null
+ See Also : logNFLG
  */
 var NewsFeedListGetter = function() {
   logNFLG("News Feed List");
@@ -265,7 +265,8 @@ var NewsFeedListGetter = function() {
           desktopLink: $(value).find('a').attr('href')
         };
         var pat = /^https?:\/\//i;
-        if (pat.test(newsList[index].desktopLink));
+        if (pat.test(newsList[index].desktopLink))
+          ;
         else
           newsList[index].desktopLink = 'http://www.smu.ca/' + newsList[index].desktopLink;
 
@@ -288,12 +289,12 @@ var NewsFeedListGetter = function() {
 };
 
 /*
-Variable : logNFLG 
-Parameters: message
-logs to a file the given message everytime the NewsFeedListGetter is called
-Returns : null
-See Also : NewsFeedListGetter
-*/
+ Variable : logNFLG 
+ Parameters: message
+ logs to a file the given message everytime the NewsFeedListGetter is called
+ Returns : null
+ See Also : NewsFeedListGetter
+ */
 var logNFLG = function(message) {
   fs.writeFile("\logs\NFLGlog.txt", message, function(err) {
     if (err)
@@ -321,11 +322,11 @@ io.sockets.on('connection', function(socket) {
 
     socket.emit('App List', JSON.parse(fs.readFileSync('module.json')));
   });
-/*   
-Event : News Feed List
- emits every article in the database as an array
-returns: articles
- */
+  /*   
+   Event : News Feed List
+   emits every article in the database as an array
+   returns: articles
+   */
   socket.on('News Feed List', function() {
     Article.find(function(err, articles) {
       if (err)
@@ -333,11 +334,11 @@ returns: articles
       socket.emit('News Feed List', articles);
     });
   });
-/*
-Event : News Article
-emits a an article object containging the html of given article
-returns : article
-*/
+  /*
+   Event : News Article
+   emits a an article object containging the html of given article
+   returns : article
+   */
   socket.on('News Article', function(data) {//$(".templateBodyRightcol")[0].html()
     Article.findOne({articleId: data.articleId}, function(err, news) {
       if (err)
@@ -363,24 +364,25 @@ returns : article
       });
     });
   });
-/* 
-Event : request smads
-emits an array containing all of the SMU advertisements in the database
-returns : ads
-*/
+  /* 
+   Event : request smads
+   emits an array containing all of the SMU advertisements in the database
+   returns : ads
+   */
   socket.on('request smads', function() {
     console.log('On: request smads');
     Smads.find(function(err, ads) {
-        if (err) console.log(err);
+      if (err)
+        console.log(err);
       socket.emit('response smads', ads);
       //console.log(ads);
     });
   });
-/*
-Event : auth
-emits null if user is not present in database. else emits that users info
-returns : data || null
- */
+  /*
+   Event : auth
+   emits null if user is not present in database. else emits that users info
+   returns : data || null
+   */
   socket.on('auth', function(user) {
     console.log('On : auth - ' + JSON.stringify(user));
 
@@ -396,12 +398,21 @@ returns : data || null
         socket.emit('auth', null);
       } else { // data
         console.log(JSON.stringify(data, null, 2));
-        
+
         socket.emit('auth', data);
         userStore[socket.handshake.sessionID] = (userStore[socket.handshake.sessionID] || {});
         userStore[socket.handshake.sessionID].isLoggedIn = true;
       }
     });
+  });
+
+  socket.on('is auth', function() {
+    socket.emit('is auth', isLoggedIn(socket.handshake.sessionID));
+  });
+
+  socket.on('logout', function() {
+    userStore[socket.handshake.sessionID] = (userStore[socket.handshake.sessionID] || {});
+    userStore[socket.handshake.sessionID].isLoggedIn = false;
   });
 });
 
