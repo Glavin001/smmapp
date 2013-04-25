@@ -10,7 +10,12 @@ $(window).resize(function () {
   $('.tile').height($(window).width() / 2);
   $('.tile').width($(window).width() / 2 - 10);
 });
-
+/*
+ Event : response smads
+ recieves array of ads from database through the server and displays them
+ returns : null
+See Also : request smads
+ */
 socket.on('response smads', function(smads) {
   console.log('On : response smads');
   //console.log(JSON.stringify(smads, null, 2));

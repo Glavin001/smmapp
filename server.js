@@ -41,7 +41,7 @@ var
         cookie = require('cookie'),
         mongoose = require('mongoose');
 
-// Prelimnary setup of MONGODB
+// Preliminary setup of MONGODB
 mongoose.connect('mongodb://localhost/test');
 var db = mongoose.connection;
 //db = mongoose.createConnection('localhost', 'test'),
