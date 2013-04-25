@@ -224,8 +224,13 @@ logger.log('Server started.');
 logger.log('Database setup start');
 
 
-//function for getting news list from smu.ca
-function NewsFeedListGetter() {
+/*
+Variable : NewsFeedListGetter
+Gets news feed list and saves it to database
+returns : null
+See Alse : logNFLG
+ */
+var NewsFeedListGetter = function() {
   request({uri: 'http://www.smu.ca/'}, function(err, response, body) {
     //Just a basic error check
     if (err && response.statusCode !== 200) {
@@ -250,8 +255,7 @@ function NewsFeedListGetter() {
           desktopLink: $(value).find('a').attr('href')
         };
         var pat = /^https?:\/\//i;
-        if (pat.test(newsList[index].desktopLink))
-          ;
+        if (pat.test(newsList[index].desktopLink));
         else
           newsList[index].desktopLink = 'http://www.smu.ca/' + newsList[index].desktopLink;
 
@@ -264,34 +268,36 @@ function NewsFeedListGetter() {
             console.log(err);
           //console.log("Article Saved");
         });
-
         GlobalID++;
-
       });
       //socket.emit('News Feed List',newsList);
       //console.log(newsList);
       //console.log('news article');
-
     });
   });
-}
+};
 
-
-function logNFLG(message) {
+/*
+Variable : logNFLG 
+Parameters: message
+logs to a file the given message everytime the NewsFeedListGetter is called
+Returns : null
+See Also : NewsFeedListGetter
+*/
+var logNFLG = function(message) {
   fs.writeFile("\logs\NFLGlog.txt", message, function(err) {
     if (err)
       console.log(err);
   });
-}
+  logNFLG("News Feed Gotten");
+};
 //checking if database is connected
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log('Database is up');
   dbIsOpen = true;
   //this updates the news list in the database daily, 86400000 milliseconds in a day
-  logNFLG("Getting News Feed");
   setInterval(NewsFeedListGetter, 86400000);
-  logNFLG("News Feed Gotten");
 });
 
 // ---------------------------------------- SOCKET API 
@@ -305,7 +311,11 @@ io.sockets.on('connection', function(socket) {
 
     socket.emit('App List', JSON.parse(fs.readFileSync('module.json')));
   });
-
+/*   
+Event : News Feed List
+ emits every article in the database as an array
+returns: articles
+ */
   socket.on('News Feed List', function() {
     Article.find(function(err, articles) {
       if (err)
@@ -313,7 +323,11 @@ io.sockets.on('connection', function(socket) {
       socket.emit('News Feed List', articles);
     });
   });
-
+/*
+Event : News Article
+emits a an article object containging the html of given article
+returns: article
+*/
   socket.on('News Article', function(data) {//$(".templateBodyRightcol")[0].html()
     Article.findOne({articleId: data.articleId}, function(err, news) {
       if (err)
