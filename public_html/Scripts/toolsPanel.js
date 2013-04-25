@@ -117,7 +117,7 @@ function displayAppGrid() {
     }
 
     // Replace original element with new app grid element
-    $(app_grid).width((max_apps_row)*128);
+    $(app_grid).width((max_apps_row) * 128);
     $(".app_grid_view div.app_grid").replaceWith(app_grid);
     $(".app_grid_view").trigger('create');
 
@@ -404,9 +404,20 @@ $(document).ready(function() {
 //$(document).on('pageinit', function() {
 
 // Move the slider to the default closed position.
+    pagePosition = 0;
     menuSlide();
     displayAppGrid();
     displayAppList();
+
+    setTimeout(function( ) {
+        // Force SMU Tools panel to close at start up
+        $(document).ready(function() {
+            pagePosition = 0;
+            menuSlide();
+            displayAppGrid();
+            displayAppList();
+        });
+    }, 1000);
 
     $('#gription img').on('dragstart', function(event) {
         event.preventDefault();
