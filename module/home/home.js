@@ -2,6 +2,15 @@
  * Home module script
  */
 
+
+
+$(window).resize(function () {
+  console.log('Resize Window');
+  
+  $('.tile').height($(window).width() / 2);
+  $('.tile').width($(window).width() / 2 - 10);
+});
+
 socket.on('response smads', function(smads) {
   console.log('On : response smads');
   //console.log(JSON.stringify(smads, null, 2));
@@ -19,11 +28,12 @@ socket.on('response smads', function(smads) {
             $('<a></a>')
             .attr('href', smads[i].href)
             .append($('<img/>')
-            .attr('src', smads[i].link)
-            .attr('width', '100%')
-            .attr('height', '150px'))));
+            .addClass('tile')
+            .attr('src', smads[i].link))));
   }
-
+  
+  $('.tile').height($(window).width() / 2);
+  $('.tile').width($(window).width() / 2 - 10);
 });
 
 (function(home, undefined) {
