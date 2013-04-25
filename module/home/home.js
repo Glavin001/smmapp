@@ -16,7 +16,9 @@ socket.on('response smads', function(smads) {
     }
 
     $('#smu-tile-set').append($('<div></div>').addClass(blockType).append(
-            $('<a></a>').append($('<img/>')
+            $('<a></a>')
+            .attr('href', smads[i].href)
+            .append($('<img/>')
             .attr('src', smads[i].link)
             .attr('width', '100%')
             .attr('height', '150px'))));
