@@ -26,7 +26,7 @@ socket.on('response smads', function(smads) {
 
     $('#smu-tile-set').append($('<div></div>').addClass(blockType).append(
             $('<a></a>')
-            .attr('href', smads[i].href)
+            .attr('onclick', "home.goTo('" + smads[i].href + "');")
             .append($('<img/>')
             .addClass('tile')
             .attr('src', smads[i].link))));
@@ -74,6 +74,12 @@ socket.on('response smads', function(smads) {
   home.onOrientationChange = function() {
     // Anything you want to run onOrientationchange
     resize();
+  };
+  
+  home.goTo = function(url) {
+    console.log('Call home.goTo');
+    
+    $.mobile.changePage(url);
   };
 
 })(window.home = window.home || {});      
