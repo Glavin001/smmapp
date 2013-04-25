@@ -24,12 +24,12 @@ try {
 
 // ---------------------------------------- NODE PACKAGES 
 logger.log('Loading modules.');
+
 var
         http = require('http'),
         path = require('path'),
         fs = require('fs'),
         express = require('express'),
-        xml2js = require('xml2js'),
         jsdom = require('jsdom'),
         request = require('request'),
         url = require('url'),
@@ -37,11 +37,9 @@ var
         GlobalID = 0,
         connect = require('connect'),
         cookie = require('cookie'),
-        mongo = require('mongodb');
+        mongoose = require('mongoose');
 
 // mongo db stuff
-var
-        mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/test');
 var db = mongoose.connection;
 //db = mongoose.createConnection('localhost', 'test'),
@@ -227,8 +225,7 @@ logger.log('Database setup start');
 
 
 //function for getting news list from smu.ca
-function NewsFeedListGetter()
-{
+function NewsFeedListGetter() {
   request({uri: 'http://www.smu.ca/'}, function(err, response, body) {
     //Just a basic error check
     if (err && response.statusCode !== 200) {
@@ -278,14 +275,23 @@ function NewsFeedListGetter()
     });
   });
 }
-;
+
+
+function logNFLG(message) {
+  fs.writeFile("\logs\NFLGlog.txt", message, function(err) {
+    if (err)
+      console.log(err);
+  });
+}
 //checking if database is connected
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log('Database is up');
   dbIsOpen = true;
   //this updates the news list in the database daily, 86400000 milliseconds in a day
+  logNFLG("Getting News Feed");
   setInterval(NewsFeedListGetter, 86400000);
+  logNFLG("News Feed Gotten");
 });
 
 // ---------------------------------------- SOCKET API 
@@ -337,14 +343,14 @@ io.sockets.on('connection', function(socket) {
 
   socket.on('auth', function(user) {
     console.log('On : auth - ' + JSON.stringify(user));
-   
+
     User.findOne(user, function(err, data) {
-      
+
       if (err) { // error
         console.log('Error : ' + err);
         socket.emit('auth', false);
-      } 
-        
+      }
+
       if (data === null) { // no data
         console.log('No data');
         socket.emit('auth', false);
