@@ -7,12 +7,16 @@
 
     // Private functions
     function initMap() {
+        // SMU Location
+        lat = 5563677.9404069;
+        lon = -7077715.7842524;
+        
         map.mapOL = new OpenLayers.Map("campusMap");
         var mapnik = new OpenLayers.Layer.OSM();
         var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
         var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
-        var position = new OpenLayers.LonLat(13.41, 52.52).transform(fromProjection, toProjection);
-        var zoom = 15;
+        var position = new OpenLayers.LonLat(lon, lat);//.transform(fromProjection, toProjection);
+        var zoom = 18;
 
         map.mapOL.addLayer(mapnik);
         map.mapOL.setCenter(position, zoom);
@@ -28,7 +32,6 @@
             if (document.body.parentNode) {
                 document.body.parentNode.style.height = '100%';
             }
-
         }
     };
 
@@ -136,7 +139,15 @@
                     .attr('data-role', "button")
                     .attr('data-inline', "true")
                     .attr('data-theme', "b");
+            var locateSMUEl = $("<a />").text("SMU")
+                    .attr('class', "locateSMUBtn")
+                    .attr('onclick', "map.centerSMU();")
+                    .attr('href', "#")
+                    .attr('data-role', "button")
+                    .attr('data-inline', "true")
+                    .attr('data-theme', "b");
 
+            $(contEl).append($(locateSMUEl));
             $(contEl).append($(gpsEnableEl));
             $(contEl).append($(exitFSEl));
             $(contEl).append($(mapEl));
@@ -190,7 +201,7 @@
     map.centerSMU = function( ) {
         latitude = 5563677.9404069;
         longitude = -7077715.7842524;
-        console.log("lat: ",latitude,"lon:",longitude);
+        console.log("lat: ", latitude, "lon:", longitude);
         //var coor_from = new OpenLayers.Projection("EPSG:4326");
         //var coor_to = new OpenLayers.Projection("EPSG:900913");
         var center = new OpenLayers.LonLat(longitude, latitude);
