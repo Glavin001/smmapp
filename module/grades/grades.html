@@ -1,49 +1,54 @@
 <!-- Grades -->
 <div data-role="page" id="grades" class="all_pages">
-  <div data-theme="a" data-role="header">
-    <h2></h2>
-    <a id="login_button" data-role="button" data-inline="true" href="/m/login" data-icon="info" data-iconpos="left" class="ui-btn-right">
-      Login
-    </a>
-    <img src="/Images/HomeSMUButton.png" alt="image" style="margin-top:5px; position: absolute; top:0px; width: 140px; height: 35px;" onclick="history.back();">
-  </div>
-  <div data-role="content">
-    <div data-role="collapsible-set" data-divider-theme="b">
-      <div data-role="collapsible" data-collapsed="true" data-divider-theme="b">
-        <h3>
-          Student Information</h3>
-        <ul data-role="listview" data-divider-theme="b" data-inset="true">
-          <li data-role="list-divider" role="heading">Student Records</li>
-          <li data-theme="c"><a href="/m/Grades" data-transition="slide">Final Grades</a>
-          </li>
-          <li data-theme="c"><a href="/m/Grades" data-transition="slide">Current Student Status</a>
-          </li>
-          <li data-theme="c"><a href="/m/Grades" data-transition="slide">Degree Evaluation (CAPP)</a>
-          </li>
-        </ul>
-      </div>
-      <div data-role="collapsible" data-collapsed="true" data-divider-theme="b">
-        <h3>
-          LEAP</h3>
-        <ul data-role="listview" data-divider-theme="b" data-inset="true">
-          <li data-role="list-divider" role="heading">Departments</li>
-          <li data-theme="c"><a href="http://www.smu.ca/academic/arts/department/" data-transition="slide">
-              Faculty of Arts</a> </li>
-          <li data-theme="c"><a href="http://www.smu.ca/academic/arts/department/" data-transition="slide">
-              Sobey School of Business</a> </li>
-          <li data-theme="c"><a href="http://www.smu.ca/academic/sobey/" data-transition="slide">
-              Faculty of Science</a> </li>
-        </ul>
-      </div>
-      <div data-role="collapsible" data-collapsed="true" data-divider-theme="b">
-        <h3>
-          Class Schedule</h3>
-        <ul data-role="listview" data-divider-theme="b" data-inset="true">
-          <li data-role="list-divider" role="heading">Please log in to access grades</li>
-          <li data-theme="c"><a href="/m/login" data-transition="slide">Log In</a> </li>
-          <li data-theme="c"><a href="/m/Map" data-transition="slide">To Map</a> </li>
-        </ul>
-      </div>
+    <div data-theme="a" data-role="header">
+        <h2>
+        </h2>
+        <a id="login_button" data-role="button" data-inline="true" href="/m/login" data-icon="info"
+            data-iconpos="left" class="ui-btn-right">Login </a>
+        <img src="/Images/HomeSMUButton.png" alt="image" style="margin-top: 5px; position: absolute;
+            top: 0px; width: 140px; height: 35px;" onclick="document.location.href = '/';">
     </div>
-  </div>
+    <div data-role="content">
+        <div data-role="collapsible-set" data-divider-theme="b">
+            <div data-role="collapsible" data-collapsed="true" data-divider-theme="b">
+                <h3>
+                    Student Information</h3>
+                <ul data-role="listview" data-divider-theme="b" data-inset="true">
+                    <li data-role="list-divider" role="heading">Student Records</li>
+                    <li data-theme="c"><a href="/m/grades" data-transition="slide">Final Grades</a>
+                    </li>
+                    <li data-theme="c"><a href="/m/grades" data-transition="slide">Current Student Status</a>
+                    </li>
+                    <li data-theme="c"><a href="/m/grades" data-transition="slide">Degree Evaluation (CAPP)</a>
+                    </li>
+                </ul>
+            </div>
+            <div data-role="collapsible" data-collapsed="true" data-divider-theme="b">
+                <h3>
+                    LEAP</h3>
+                <ul data-role="listview" data-divider-theme="b" data-inset="true">
+                    <li data-role="list-divider" role="heading">Departments</li>
+                    <li data-theme="c"><a href="http://www.smu.ca/academic/arts/department/" data-transition="slide">
+                        Faculty of Arts</a> </li>
+                    <li data-theme="c"><a href="http://www.smu.ca/academic/arts/department/" data-transition="slide">
+                        Sobey School of Business</a> </li>
+                    <li data-theme="c"><a href="http://www.smu.ca/academic/sobey/" data-transition="slide">
+                        Faculty of Science</a> </li>
+                </ul>
+            </div>
+            <div data-role="collapsible" data-collapsed="true" data-divider-theme="b">
+                <h3>
+                    Class Schedule</h3>
+                <ul data-role="listview" data-divider-theme="b" data-inset="true">
+                    <li data-role="list-divider" role="heading">Please log in to access grades</li>
+                    <li data-theme="c"><a href="/m/login" data-transition="slide">Log In</a> </li>
+                    <li data-theme="c"><a href="/m/Map" data-transition="slide">To Map</a> </li>
+                </ul>
+            </div>
+        </div>
+        <a href="/m/grades/" data-transition="slide">
+            <img src="/m/grades/gpa.png" alt="GPA Image" />
+        </a>
+    </div>
 </div>
+</div> 
