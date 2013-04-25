@@ -10,12 +10,10 @@ Custom 404 page in case something goes wrong.
 <body>
     <div data-role="page" id="404ErrorPage">
         <div data-role="content">
-            <div style="width: 100% height: auto;">
-                <img src="/Images/404.png" alt="404Image">
-            </div>
+            <a onclick="history.back();">
+                <img onclick="history.back();" src="/Images/404.png" style="width:100%;" alt="404Image">
+            </a>
         </div>
-        <a data-role="button" href="/" data-icon="home" data-iconpos="left">
-        Press To Go Back Home </a>
     </div>
 </body>
 </html>
