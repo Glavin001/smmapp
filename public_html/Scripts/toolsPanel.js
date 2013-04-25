@@ -63,7 +63,7 @@ function displayAppGrid() {
     var max_apps_row = 5;
     var app_width = 128;
     var grid_view = $('.app_grid_view');
-    var grid_padding = 40;
+    var grid_padding = 0;
     max_apps_row = Math.floor((grid_view.width() - grid_padding) / app_width);
     if (max_apps_row > 5)
         max_apps_row = 5;
@@ -117,7 +117,7 @@ function displayAppGrid() {
     }
 
     // Replace original element with new app grid element
-    $(app_grid).width((i+1)*128);
+    $(app_grid).width((max_apps_row)*128);
     $(".app_grid_view div.app_grid").replaceWith(app_grid);
     $(".app_grid_view").trigger('create');
 

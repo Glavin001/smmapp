@@ -170,6 +170,7 @@ div.smuToolsPanel .app_grid_view .app_grid .app_block a
   display: block;
   width:64px; 
   height:64px;
+  margin: 0 auto;
 /*
   padding: 0 !important;
   margin: auto !important;
