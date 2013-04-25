@@ -4,40 +4,35 @@ Custom 404 page in case something goes wrong.
 <!DOCTYPE html>
 <html>
   <head>
-  <style>
-      #error404 {
-  /* fallback */
-  background-color: #2F2727;
-  background-position: center center;
-  background-repeat: no-repeat;
-  
-  /* Safari 4-5, Chrome 1-9 */
-  /* Can't specify a percentage size? Laaaaaame. */
-  background: -webkit-gradient(radial, center center, 0, center center, 460, from(#821c1b), to(#2F2727));
-  
-  /* Safari 5.1+, Chrome 10+ */
-  background: -webkit-radial-gradient(circle, #821c1b, #2F2727);
-  
-  /* Firefox 3.6+ */ 
-  background: -moz-radial-gradient(circle, #821c1b, #2F2727);
-  
-  /* IE 10 */ 
-  background: -ms-radial-gradient(circle, #821c1b, #2F2727);
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    
+    <style>
+      #smu-404 {
+        /* fallback */
+        background-color: #2F2727;
       }
-  </style>
+    </style>
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   </head>
-  <body id="error404" style="width:100%; height:100%;text-align:center">
-    <div data-role="content">
-        <div style = "font-family:Arial;">
-        <p><a href="/">
-        <img src="/Images/saint_marys_full_logo2.png" alt="404Image" width="512px" height="auto" />
-        </a></p>
+  <body>
+    
+    <div data-role="page" id="smu-404">
+      <div data-role="content">
+        <div style="width: 288px; height: 100px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
+          <img src="/Images/saint_marys_full_logo2.png" >
+        </div>
         <p><b><font color="white"><h1>404 Error</h1></font></b></p>
         <p><b><h3><font color="white">SMMApps has encountered an error.</h3></font></b></p>
         <p><b><h3><font color="white">Press on the Saint Mary's Logo to go back to home.</h3></font></b></p>
-        </div>
+        <a data-role="button" href="#page1">
+          Button
+        </a>
+      </div>
     </div>
+
   </body>
 </html>
