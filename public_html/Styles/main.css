@@ -108,8 +108,7 @@ div.smuToolsPanel div#gription img {
 }
 
 /* App View */
-div.all_app_views
-{
+div.all_app_views {
   height: 100%;
   overflow-y: scroll;
 
@@ -160,7 +159,7 @@ div.smuToolsPanel .app_grid {
 
 div.smuToolsPanel .app_grid_view .app_grid .app_block
 {
-  width: 128px; 
+  width: 128px;
   height: 128px;
   text-align: center;
 }
@@ -239,3 +238,10 @@ div[data-role="page"] {
   height: 100%;
 }
 
+/* Login buttons */
+body.isLoggedIn .notLoggedIn, body.isNotLoggedIn .loggedIn {
+  display: none; /* Hide these elements */
+} 
+body.isLoggedIn .loggedIn, body.isNotLoggedIn .notLoggedIn {
+  display: block; /* Show these elements */
+}

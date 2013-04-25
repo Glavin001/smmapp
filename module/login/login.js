@@ -24,6 +24,15 @@ socket.on('auth', function(user) {
   console.log('auth ' + JSON.stringify(user));
 });
 
+socket.on('is auth', function( isLoggedIn ) {
+  // If logged in
+  if ( isLoggedIn ) {
+    $('body').remove('isNotLoggedIn').add('isLoggedIn');  
+  } else {
+    $('body').remove('isLoggedIn').add('isNotLoggedIn');        
+  }
+});
+
 /*
  * login namespace definition.
  * 

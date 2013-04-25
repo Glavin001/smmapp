@@ -94,7 +94,7 @@
           $.mobile.changePage("/m/home", {
             transition: 'fade'
           });
-        }, 2000);
+        }, 20);
       }
 
       console.log("Finished Loading Module:", navigator.getModuleName());
