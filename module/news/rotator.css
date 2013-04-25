@@ -43,6 +43,9 @@
 }
 
 #newsFeed ul.newsList li a .newsImage, #newsFeed ul.newsList li .newsTitle {
+    text-align:center;
+    color:Black;
+    text-decoration:none;
     width: 100%;
     height: 100%;
     overflow: scroll;
