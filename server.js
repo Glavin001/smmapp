@@ -24,34 +24,25 @@ try {
 
 // ---------------------------------------- NODE PACKAGES 
 logger.log('Loading modules.');
-var 
-    http = require('http'),
-    path = require('path'),
-    fs = require('fs'),
-    express = require('express'),
-    xml2js = require('xml2js'),
-    jsdom = require('jsdom'),
-    request = require('request'),
-    url = require('url'),
-    $ = require('jQuery'),
-    GlobalID = 0,
-    connect = require('connect'),
-    cookie = require('cookie'),
-    mongo = require('mongodb');
 
-// connect to mongo db
-var db = new mongo.Db('smmapp', new mongo.Server('localhost', 27017, {
-  auto_reconnect: true
-}, {w: 1}));
-db.open(function() {
-});
+var
+        http = require('http'),
+        path = require('path'),
+        fs = require('fs'),
+        express = require('express'),
+        jsdom = require('jsdom'),
+        request = require('request'),
+        url = require('url'),
+        $ = require('jQuery'),
+        GlobalID = 0,
+        connect = require('connect'),
+        cookie = require('cookie'),
+        mongoose = require('mongoose');
 
 // mongo db stuff
-var
-        mongoose = require('mongoose');
-        mongoose.connect('mongodb://localhost/test');
-var     db = mongoose.connection;
-        //db = mongoose.createConnection('localhost', 'test'),
+mongoose.connect('mongodb://localhost/test');
+var db = mongoose.connection;
+//db = mongoose.createConnection('localhost', 'test'),
 
 var
         newsSchema = mongoose.Schema({
@@ -61,15 +52,13 @@ var
   desktopLink: String
 }),
 UserSchema = mongoose.Schema({
-  name: String,
   user: String,
   pass: String
 });
 
-mongoose.model('smmapp_user', UserSchema);
 var
-        UserCol = mongoose.model('smmapp_user'),
-        Article = mongoose.model('Article', newsSchema);
+        User = mongoose.model('users', UserSchema),
+        Article = mongoose.model('articles', newsSchema);
 
 var smu_auth = require('./node/smu-auth');
 
@@ -204,7 +193,9 @@ app.get('/m/*', function(req, res) {
         fs.exists(path, function(exists) {
 
           if (exists) { // send the file
+            console.log(path);
             res.sendfile(path);
+            return;
           } else {
             console.log('Error : Invalid Script : ' + path);
             res.sendfile('./public_html/404.html');
@@ -233,61 +224,75 @@ logger.log('Server started.');
 logger.log('Database setup start');
 
 
-    //function for getting news list from smu.ca
-    function NewsFeedListGetter ()
-    {
-        request({uri: 'http://www.smu.ca/'}, function(err, response, body){
-		//Just a basic error check
-                if(err && response.statusCode !== 200){console.log('Request error.');}
-                //Send the body param as the HTML code we will parse in jsdom
-		//also tell jsdom to attach jQuery in the scripts and loaded from jQuery.com
-		jsdom.env({
-                        html: body,
-                        scripts: ['http://code.jquery.com/jquery-1.6.min.js']
-                }, function(err, window){
-			//Use jQuery just as in a regular HTML page
-                        var $ = window.jQuery;
-                        var newsList = new Array();
-                        
-                        $("#smuImageRotator .smuImageList li").each( function( index, value) {
-                           // console.log(index, value);
-                                newsList[index] = {
-                                   articleId: GlobalID,
-                                   title: $(value).find(".smuImageTitleText").text(),
-                                   imgsrc: $(value).find('div img').attr('src'),
-                                   desktopLink: $(value).find('a').attr('href')
-                               };
-                               var pat = /^https?:\/\//i;
-                               if (pat.test(newsList[index].desktopLink));
-                               else newsList[index].desktopLink = 'http://www.smu.ca/' + newsList[index].desktopLink;
-                               
-                               //var tempArticle = new Article(newsList[index]);
-                               //tempArticle.save(function(){console.log('Article Saved');});
-                               //console.log(newsList[index]);
-                               
-                               Article.create(newsList[index], function (err) {
-                               if (err) console.log(err);
-                               //console.log("Article Saved");
-                               });
-                               
-                               GlobalID++;
+//function for getting news list from smu.ca
+function NewsFeedListGetter() {
+  request({uri: 'http://www.smu.ca/'}, function(err, response, body) {
+    //Just a basic error check
+    if (err && response.statusCode !== 200) {
+      console.log('Request error.');
+    }
+    //Send the body param as the HTML code we will parse in jsdom
+    //also tell jsdom to attach jQuery in the scripts and loaded from jQuery.com
+    jsdom.env({
+      html: body,
+      scripts: ['http://code.jquery.com/jquery-1.6.min.js']
+    }, function(err, window) {
+      //Use jQuery just as in a regular HTML page
+      var $ = window.jQuery;
+      var newsList = new Array();
 
-                        });
-                 //socket.emit('News Feed List',newsList);
-                 //console.log(newsList);
-                //console.log('news article');
+      $("#smuImageRotator .smuImageList li").each(function(index, value) {
+        // console.log(index, value);
+        newsList[index] = {
+          articleId: GlobalID,
+          title: $(value).find(".smuImageTitleText").text(),
+          imgsrc: $(value).find('div img').attr('src'),
+          desktopLink: $(value).find('a').attr('href')
+        };
+        var pat = /^https?:\/\//i;
+        if (pat.test(newsList[index].desktopLink))
+          ;
+        else
+          newsList[index].desktopLink = 'http://www.smu.ca/' + newsList[index].desktopLink;
 
-            });
+        //var tempArticle = new Article(newsList[index]);
+        //tempArticle.save(function(){console.log('Article Saved');});
+        //console.log(newsList[index]);
+
+        Article.create(newsList[index], function(err) {
+          if (err)
+            console.log(err);
+          //console.log("Article Saved");
+        });
+
+        GlobalID++;
+
+      });
+      //socket.emit('News Feed List',newsList);
+      //console.log(newsList);
+      //console.log('news article');
+
     });
-    };
+  });
+}
+
+
+function logNFLG(message) {
+  fs.writeFile("\logs\NFLGlog.txt", message, function(err) {
+    if (err)
+      console.log(err);
+  });
+}
 //checking if database is connected
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-    console.log('Database is up');
-    dbIsOpen = true;
-    //this updates the news list in the database daily, 86400000 milliseconds in a day
-    setInterval(NewsFeedListGetter,86400000);
-     });
+db.once('open', function() {
+  console.log('Database is up');
+  dbIsOpen = true;
+  //this updates the news list in the database daily, 86400000 milliseconds in a day
+  logNFLG("Getting News Feed");
+  setInterval(NewsFeedListGetter, 86400000);
+  logNFLG("News Feed Gotten");
+});
 
 // ---------------------------------------- SOCKET API 
 logger.log('Setup socket.');
@@ -300,67 +305,65 @@ io.sockets.on('connection', function(socket) {
 
     socket.emit('App List', JSON.parse(fs.readFileSync('module.json')));
   });
-  
-    socket.on('News Feed List', function () {
-        Article.find(function (err, articles) {
-           if (err) console.log(err);// TODO handle err
-           socket.emit('News Feed List',articles);
-          });
+
+  socket.on('News Feed List', function() {
+    Article.find(function(err, articles) {
+      if (err)
+        console.log(err);// TODO handle err
+      socket.emit('News Feed List', articles);
     });
- 
-    socket.on('News Article', function (data) {//$(".templateBodyRightcol")[0].html()
-        Article.findOne({ articleId : data.articleId }, function (err, news) {
-          if (err) console.log(err);
-        
-        request({uri: news.desktopLink}, function(err, response, body){
-		//Just a basic error check
-                if(err && response.statusCode !== 200){console.log('Request error.');}
-                //Send the body param as the HTML code we will parse in jsdom
-		//also tell jsdom to attach jQuery in the scripts and loaded from jQuery.com
-		jsdom.env({
-                        html: body,
-                        scripts: ['http://code.jquery.com/jquery-1.6.min.js']
-                }, function(err, window){
-			//Use jQuery just as in a regular HTML page
-                        var $ = window.jQuery;
-                        news.html = $(".templateBodyRightcol").html();
-                        socket.emit('News Article',news);
-                 //console.log( JSON.stringify(newsArticle,null,'\t') );
-                });
-              });
-             });
+  });
+
+  socket.on('News Article', function(data) {//$(".templateBodyRightcol")[0].html()
+    Article.findOne({articleId: data.articleId}, function(err, news) {
+      if (err)
+        console.log(err);
+
+      request({uri: news.desktopLink}, function(err, response, body) {
+        //Just a basic error check
+        if (err && response.statusCode !== 200) {
+          console.log('Request error.');
+        }
+        //Send the body param as the HTML code we will parse in jsdom
+        //also tell jsdom to attach jQuery in the scripts and loaded from jQuery.com
+        jsdom.env({
+          html: body,
+          scripts: ['http://code.jquery.com/jquery-1.6.min.js']
+        }, function(err, window) {
+          //Use jQuery just as in a regular HTML page
+          var $ = window.jQuery;
+          news.html = $(".templateBodyRightcol").html();
+          socket.emit('News Article', news);
+          //console.log( JSON.stringify(newsArticle,null,'\t') );
         });
-
-
-  socket.on('auth', function(user) {
-    console.log('On : auth');
-    //console.log(JSON.stringify(user, null, 2));
-    db.collection('users', function(err, collection) {
-
-      if (err) {
-        console.log('Error : ' + err);
-        return;
-      }
-
-      collection.find(user).toArray(function(err, resultSet) {
-
-        if (err) {
-          console.log('Error : ' + err);
-          return;
-        }
-
-        console.log(JSON.stringify(resultSet, null, 2));
-
-        if (resultSet.length !== 1) {
-          socket.emit('auth', false);
-        } else {
-          userStore[socket.handshake.sessionID].isLoggedIn = true;
-          socket.emit('auth', true);
-        }
       });
     });
   });
 
+
+  socket.on('auth', function(user) {
+    console.log('On : auth - ' + JSON.stringify(user));
+
+    User.findOne(user, function(err, data) {
+
+      if (err) { // error
+        console.log('Error : ' + err);
+        socket.emit('auth', null);
+      }
+
+      if (data === null) { // no data
+        console.log('No data');
+        socket.emit('auth', null);
+      } else { // data
+        console.log(JSON.stringify(data, null, 2));
+        
+        socket.emit('auth', data);
+        userStore[socket.handshake.sessionID] = (userStore[socket.handshake.sessionID] || {});
+        userStore[socket.handshake.sessionID].isLoggedIn = true;
+      }
+    });
+
+  });
 });
 
 io.set('authorization', function(data, accept) {
