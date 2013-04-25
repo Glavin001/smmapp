@@ -83,8 +83,8 @@ socket.on('response smads', function(smads) {
   
   home.goTo = function(url) {
     console.log('Call home.goTo');
-    
-    $.mobile.changePage(url);
+    window.open(url);
+    //$.mobile.changePage(url);
   };
 
 })(window.home = window.home || {});      
