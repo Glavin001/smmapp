@@ -1,19 +1,94 @@
-
 <!-- Register -->
-<div data-role="page" id="register" class="all_pages">        
-  <div data-theme="a" data-role="header">
-    <h2>
-      Register
-    </h2>
-    <a id="login_button" data-role="button" data-inline="true" href="/m/login" data-icon="info" data-iconpos="left" class="ui-btn-right">
-      Login
-    </a>
-    <a id="smu_button" data-role="button" href="/m/home" onclick="" data-icon="home" data-iconpos="right" class="ui-btn-left">
-      SMMAPPS
-    </a>
-  </div>
-
-  <div data-role="content">
-    Register page.
-  </div>
+<div data-role="page" id="register" class="all_pages">
+    <div data-theme="a" data-role="header">
+        <h2>
+            Register
+        </h2>
+        <a id="login_button" data-role="button" data-inline="true" href="/m/login" data-icon="info"
+            data-iconpos="left" class="ui-btn-right">Login </a><a id="smu_button" data-role="button"
+                href="/m/home" onclick="" data-icon="home" data-iconpos="right" class="ui-btn-left">
+                SMMAPPS </a>
+    </div>
+    <div data-role="content">
+        <div data-role="collapsible-set" data-divider-theme="b">
+            <div data-role="collapsible" data-collapsed="false" data-divider-theme="b">
+                <h3>
+                    Select Term</h3>
+                <div data-role="fieldcontain" data-divider-theme="b">
+                    <label for="selectmenu2">
+                        Term:</label>
+                    <select id="selectmenu2" name="" data-mini="true">
+                        <option value="1">None </option>
+                        <option value="JA2014">January - April 2014 </option>
+                        <option value="SD2013">September - December 2013 </option>
+                        <option value="MA2013">May - August 2013 </option>
+                        <option value="JA2013">July - August 2013 </option>
+                        <option value="MJ2013">May - June 2013 </option>
+                        <option value="JA2013">January - April 2013 </option>
+                        <option value="TESLW12013">TEST - Winter 2 2013 (View only) </option>
+                        <option value="TESTW12013">TESL - Winter 1 2013 (View only) </option>
+                    </select>
+                </div>
+                <input type="submit" data-inline="true" data-icon="check" data-iconpos="right" value="Submit"
+                    data-mini="true" />
+            </div>
+        </div>
+        <a data-role="button" data-transition="slide" href="/m/register" data-icon="arrow-r"
+            data-iconpos="left" style="text-align:left">Add Or Drop Classes</a> 
+        <a data-role="button" data-transition="slide" href="/m/register" data-icon="arrow-r" 
+            data-iconpos="left" style="text-align:left">Week at a Glance</a>
+        <a data-role="button" data-transition="slide" href="/m/register" data-icon="arrow-r"
+            data-iconpos="left" style="text-align:left">Student Detail Schedule</a>
+        <div data-role="collapsible-set" data-divider-theme="b">
+            <div data-role="collapsible" data-collapsed="true">
+                <h3>Look Up Classes</h3>
+                <div data-role="collapsible-set">
+                    <div data-role="collapsible" data-collapsed="true">
+                        <h3>
+                            Search by Term
+                        </h3>
+                        <div data-role="fieldcontain">
+                            <label for="selectmenu2">
+                                Term:
+                            </label>
+                            <select id="select1" name="" data-mini="true">
+                                <option value="1">None </option>
+                                <option value="JA2014">January - April 2014 </option>
+                                <option value="SD2013">September - December 2013 </option>
+                                <option value="MA2013">May - August 2013 </option>
+                                <option value="JA2013">July - August 2013 </option>
+                                <option value="MJ2013">May - June 2013 </option>
+                                <option value="JA2013">January - April 2013 </option>
+                                <option value="TESLW12013">TEST - Winter 2 2013 (View only) </option>
+                                <option value="TESTW12013">TESL - Winter 1 2013 (View only) </option>
+                            </select>
+                        </div>
+                        <input type="submit" data-inline="true" data-icon="check" data-iconpos="right" value="Submit"
+                            data-mini="true" />
+                    </div>
+                </div>
+                <div data-role="collapsible-set">
+                    <div data-role="collapsible" data-collapsed="false">
+                        <h3>
+                            Search by Date Range
+                        </h3>
+                        <div data-role="fieldcontain">
+                            <label for="textinput2">
+                                From
+                            </label>
+                            <input name="From" id="Date1" placeholder="" value="" type="date" data-mini="true" />
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label for="textinput3">
+                                To
+                            </label>
+                            <input name="" id="Date2" placeholder="" value="" type="date" data-mini="true" />
+                        </div>
+                        <input type="submit" data-inline="true" data-icon="check" data-iconpos="right" value="Submit"
+                            data-mini="true" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
