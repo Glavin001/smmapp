@@ -7,15 +7,20 @@ socket.on('auth', function(user) {
 
   if (user === null) {
     console.log('auth ' + user);
+    $('body').removeClass('isLoggedIn').addClass('isNotLoggedIn');        
+    $.mobile.showPageLoadingMsg("a", "Unsuccessful login", true);
+    setTimeout(function() {
+      $.mobile.hidePageLoadingMsg();
+    }, 1000);
     return;
   }
   else
   {
     console.log('login success');
+     $('body').removeClass('isNotLoggedIn').addClass('isLoggedIn'); 
     $.mobile.showPageLoadingMsg("a", "You have successfully logged in " + user.name, true);
     setTimeout(function() {
       $.mobile.hidePageLoadingMsg();
-      
       console.log('change page');
       history.back();
     }, 1000);
@@ -27,9 +32,11 @@ socket.on('auth', function(user) {
 socket.on('is auth', function( isLoggedIn ) {
   // If logged in
   if ( isLoggedIn ) {
-    $('body').remove('isNotLoggedIn').add('isLoggedIn');  
+    console.log('is auth : isLoggedin')
+    $('body').removeClass('isNotLoggedIn').addClass('isLoggedIn');  
   } else {
-    $('body').remove('isLoggedIn').add('isNotLoggedIn');        
+      console.log('is auth : isNotLoggedin')
+    $('body').removeClass('isLoggedIn').addClass('isNotLoggedIn');        
   }
 });
 

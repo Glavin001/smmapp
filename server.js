@@ -413,6 +413,7 @@ io.sockets.on('connection', function(socket) {
   socket.on('logout', function() {
     userStore[socket.handshake.sessionID] = (userStore[socket.handshake.sessionID] || {});
     userStore[socket.handshake.sessionID].isLoggedIn = false;
+    socket.emit('is auth', isLoggedIn(socket.handshake.sessionID));
   });
 });
 

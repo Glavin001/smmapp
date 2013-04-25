@@ -2,9 +2,10 @@
 <div data-role="page" id="map" class="all_pages" data-dom-cache="true">        
   <div data-theme="a" data-role="header">
     <h2></h2>
-    <a id="login_button" data-role="button" data-inline="true" href="/m/login" data-icon="info" data-iconpos="left" class="ui-btn-right">
-      Login
-    </a>
+<a id="login_button" data-role="button" data-inline="true" href="/m/login" data-icon="info"
+       data-iconpos="left" class="notLoggedIn ui-btn-right">Login </a>
+    <a id="logout_button" onclick="socket.emit('logout');" data-role="button" data-inline="true" href="#" data-icon="info"
+       data-iconpos="left" class="loggedIn ui-btn-right">Log Out </a>
     <img src="/Images/HomeSMUButton.png" alt="image" style="margin-top:5px; position: absolute; top:0px; width: 140px; height: 35px;" onclick="document.location.href = '/';">
   </div>
 
