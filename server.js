@@ -402,7 +402,6 @@ returns : data || null
         userStore[socket.handshake.sessionID].isLoggedIn = true;
       }
     });
-
   });
 });
 
