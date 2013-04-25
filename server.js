@@ -370,7 +370,7 @@ returns: ads
     console.log('On: request smads');
     Smads.find(function(err, ads) {
         if (err) console.log(err);
-      socket.emit('request smads', ads);
+      socket.emit('response smads', ads);
     });
   });
 
