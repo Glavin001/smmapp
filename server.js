@@ -354,6 +354,11 @@ returns: article
     });
   });
 
+  socket.on('request smads', function() {
+    console.log('On: request smads');
+    
+    
+  });
 
   socket.on('auth', function(user) {
     console.log('On : auth - ' + JSON.stringify(user));
