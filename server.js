@@ -225,7 +225,7 @@ logger.log('Database setup start');
 
 
 //function for getting news list from smu.ca
-function NewsFeedListGetter() {
+var NewsFeedListGetter = function() {
   request({uri: 'http://www.smu.ca/'}, function(err, response, body) {
     //Just a basic error check
     if (err && response.statusCode !== 200) {
@@ -274,24 +274,24 @@ function NewsFeedListGetter() {
 
     });
   });
-}
+};
 
 
-function logNFLG(message) {
+var logNFLG = function(message) {
   fs.writeFile("\logs\NFLGlog.txt", message, function(err) {
     if (err)
       console.log(err);
   });
-}
+  logNFLG("News Feed Gotten");
+};
 //checking if database is connected
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log('Database is up');
   dbIsOpen = true;
   //this updates the news list in the database daily, 86400000 milliseconds in a day
-  logNFLG("Getting News Feed");
+
   setInterval(NewsFeedListGetter, 86400000);
-  logNFLG("News Feed Gotten");
 });
 
 // ---------------------------------------- SOCKET API 
