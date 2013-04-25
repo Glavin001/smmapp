@@ -1,25 +1,43 @@
-<!--
+﻿<!--
 Custom 404 page in case something goes wrong.
 -->
 <!DOCTYPE html>
 <html>
   <head>
+  <style>
+      #error404 {
+  /* fallback */
+  background-color: #2F2727;
+  background-position: center center;
+  background-repeat: no-repeat;
+  
+  /* Safari 4-5, Chrome 1-9 */
+  /* Can't specify a percentage size? Laaaaaame. */
+  background: -webkit-gradient(radial, center center, 0, center center, 460, from(#821c1b), to(#2F2727));
+  
+  /* Safari 5.1+, Chrome 10+ */
+  background: -webkit-radial-gradient(circle, #821c1b, #2F2727);
+  
+  /* Firefox 3.6+ */ 
+  background: -moz-radial-gradient(circle, #821c1b, #2F2727);
+  
+  /* IE 10 */ 
+  background: -ms-radial-gradient(circle, #821c1b, #2F2727);
+      }
+  </style>
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta HTTP-EQUIV="REFRESH" content="1; url=/app.html">
   </head>
-  <body>
-    <div style="padding: 1em;">
-      <img src="/Images/saint_marys_full_logo.gif" alt="Saint Mary's University" width="100%" />
-      <hr />
-      <a href="/app.html">
-      <h1 style="text-align: center;">
-        SMMApps page not found. Please click here to go back to home.
-      </h1>
-      </a>
-      <hr />
-      <img src="/Images/404Dude.png" alt="404 Dude"  width="100%" />    
-
+  <body id="error404" style="width:100%; height:100%;text-align:center">
+    <div data-role="content">
+        <div style = "font-family:Arial;">
+        <p><a href="/">
+        <img src="/Images/saint_marys_full_logo2.png" alt="404Image" width="512px" height="auto" />
+        </a></p>
+        <p><b><font color="white"><h1>404 Error</h1></font></b></p>
+        <p><b><h3><font color="white">SMMApps has encountered an error.</h3></font></b></p>
+        <p><b><h3><font color="white">Press on the Saint Mary's Logo to go back to home.</h3></font></b></p>
+        </div>
     </div>
   </body>
 </html>
