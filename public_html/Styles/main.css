@@ -10,20 +10,20 @@
 
 #home
 {
-/*
-  background: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/background_linen.png) repeat;
-*/
-/*
-background: rgba(139,28,28,1);
-*/
+  /*
+    background: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/background_linen.png) repeat;
+  */
+  /*
+  background: rgba(139,28,28,1);
+  */
 }
 
 #splash
 {
-/*
-  background: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/background_linen.png) repeat;
-*/
-background: rgba(139,28,28,1);
+  /*
+    background: url(https://devimages.apple.com.edgekey.net/assets/elements/layout/background_linen.png) repeat;
+  */
+  background: rgba(139,28,28,1);
 }
 
 body div#menu {
@@ -39,22 +39,22 @@ div.smuToolsPanel
 {
   overflow: hidden;
   /* height: 40px; */
-  
+
   /* Disable highlight/selection -- issue when dragging */
   -moz-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
   user-select: none;
-  
+
 }
 
 div.smuToolsPanel:after
 {
-    width: 0; 
-    height: 0; 
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-bottom: 5px solid black;
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid black;
 }
 
 div.smuToolsPanel.open, div.smuToolsPanel.open div.all_app_views
@@ -97,14 +97,14 @@ div.smuToolsPanel .ui-footer h3
 }
 
 div.smuToolsPanel div#gription {
-   display: inline-block;
-   width: 100%;
-   position: fixed;
+  display: inline-block;
+  width: 100%;
+  position: fixed;
 }
 div.smuToolsPanel div#gription img {
-   display: block;
-   margin-left: auto;
-   margin-right: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* App View */
@@ -112,26 +112,26 @@ div.all_app_views
 {
   height: 100%;
   overflow-y: scroll;
-  
+
   /* fallback */
   background-color: #2F2727;
   background-image: url(images/radial_bg.png);
   background-position: center center;
   background-repeat: no-repeat;
-  
+
   /* Safari 4-5, Chrome 1-9 */
   /* Can't specify a percentage size? Laaaaaame. */
   background: -webkit-gradient(radial, center center, 0, center center, 460, from(#821c1b), to(#2F2727));
-  
+
   /* Safari 5.1+, Chrome 10+ */
   background: -webkit-radial-gradient(circle, #821c1b, #2F2727);
-  
+
   /* Firefox 3.6+ */ 
   background: -moz-radial-gradient(circle, #821c1b, #2F2727);
-  
+
   /* IE 10 */ 
   background: -ms-radial-gradient(circle, #821c1b, #2F2727);
-  
+
   /* Opera cannot do radial gradients yet */
 }
 
@@ -170,10 +170,10 @@ div.smuToolsPanel .app_grid_view .app_grid .app_block a
   display: block;
   width:64px; 
   height:64px;
-/*
-  padding: 0 !important;
-  margin: auto !important;
-*/
+  /*
+    padding: 0 !important;
+    margin: auto !important;
+  */
 }
 
 div.smuToolsPanel .app_grid_view .app_grid .app_block a span
@@ -185,10 +185,10 @@ div.smuToolsPanel .app_grid_view .app_grid .app_block img
 {
   width:64px; 
   height:64px;
-/*
-  width:100%; 
-  height:100%;
-*/
+  /*
+    width:100%; 
+    height:100%;
+  */
 }
 
 div.smuToolsPanel .app_grid_view .app_grid .app_block a span
@@ -218,12 +218,12 @@ img.view_select_icons
 }
 
 div.smuToolsPanel fieldset#view_select {
-    /*
-    position: relative;
-    top: -2em;
-    padding-top: 0.5em;
-    margin-top: 5px;
-    */
+  /*
+  position: relative;
+  top: -2em;
+  padding-top: 0.5em;
+  margin-top: 5px;
+  */
 }
 
 div.smuToolsPanel fieldset#view_select * {
