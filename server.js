@@ -1,6 +1,8 @@
 /* 
  * Dawson Reid
  * Feb 19, 2013
+ * Daniel Lockhart
+ * April 25, 2013
  */
 
 // ---------------------------------------- CONFIG
@@ -371,6 +373,7 @@ returns: ads
     Smads.find(function(err, ads) {
         if (err) console.log(err);
       socket.emit('response smads', ads);
+      //console.log(ads);
     });
   });
 
