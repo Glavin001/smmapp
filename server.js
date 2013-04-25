@@ -54,11 +54,18 @@ var
 UserSchema = mongoose.Schema({
   user: String,
   pass: String
+}),
+smadsSchema = mongoose.Schema({
+    name : String,
+    link : String,
+    date : Date,
+    priority : Number
 });
 
 var
         User = mongoose.model('users', UserSchema),
-        Article = mongoose.model('articles', newsSchema);
+        Article = mongoose.model('articles', newsSchema),
+        Smads = mongoose.model('smads', smadsSchema);
 
 var smu_auth = require('./node/smu-auth');
 
@@ -356,7 +363,10 @@ returns: article
 
   socket.on('request smads', function() {
     console.log('On: request smads');
-    
+    Smads.find(function(err, ads) {
+        if (err) console.log(err);
+      socket.emit('request smads', ads);
+    });
     
   });
 
