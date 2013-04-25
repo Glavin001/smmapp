@@ -10,7 +10,7 @@
         // SMU Location
         lat = 5563677.9404069;
         lon = -7077715.7842524;
-        
+
         map.mapOL = new OpenLayers.Map("campusMap");
         var mapnik = new OpenLayers.Layer.OSM();
         var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
@@ -178,9 +178,11 @@
 
         } else {
             // Sync main map with center of full screen map
-            map.mapOL.setCenter(map.mapFS.getCenter());
-            map.mapOL.zoomTo(map.mapFS.zoom);
-
+            if (map && map.mapFS) {
+                map.mapOL.setCenter(map.mapFS.getCenter());
+                map.mapOL.zoomTo(map.mapFS.zoom);
+            }
+            
             // Show main map
             $(".map_view").show();
 
