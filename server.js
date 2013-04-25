@@ -360,7 +360,11 @@ returns: article
       });
     });
   });
-
+/* 
+Event : request smads
+emits an array containing all of the SMU advertisements in the database
+returns: ads
+*/
   socket.on('request smads', function() {
     console.log('On: request smads');
     Smads.find(function(err, ads) {

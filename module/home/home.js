@@ -13,8 +13,9 @@
     };
 
     socket.on('response smads', function(smads) {
+      console.log('On : response smads');
       
-      resize();
+      console.log(JSON.stringify(smads, null, 2));
     });
 
     home.onLoad = function() {
