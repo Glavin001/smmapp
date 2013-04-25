@@ -12,10 +12,16 @@
         });
     };
 
+    socket.on('response smads', function(smads) {
+      
+      resize();
+    });
+
     home.onLoad = function() {
         // Anything you want to run onLoad
         // When all page resources (styles, scripts, markup, etc) are finished loading this is called. 
-        resize();
+        
+       socket.emit('request smads'); 
     };
 
     home.onBeforeLeave = function() {

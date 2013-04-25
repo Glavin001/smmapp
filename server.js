@@ -340,6 +340,11 @@ io.sockets.on('connection', function(socket) {
     });
   });
 
+  socket.on('request smads', function() {
+    console.log('On: request smads');
+    
+    
+  });
 
   socket.on('auth', function(user) {
     console.log('On : auth - ' + JSON.stringify(user));
