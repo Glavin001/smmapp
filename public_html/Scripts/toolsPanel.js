@@ -19,8 +19,7 @@ if (window.socket) {
     });
 }
 
-function loadApps()
-{
+function loadApps() {
     console.log("Loading apps.");
 
     /*
@@ -42,7 +41,6 @@ function loadApps()
     // 
     if (window.socket) {
         socket.emit('App List', {}); // Emits a request for the App List
-
         // Check if the receiving socket event is setup
         if (!(window.socket.$events && window.socket.$events['App List'])) {
             // If not, create the receiving socket event for 'App List'
@@ -59,8 +57,7 @@ function loadApps()
 }
 
 /* ===== App Grid ===== */
-function displayAppGrid()
-{
+function displayAppGrid() {
     console.log("Loading App Grid");
     var n2a = new Array('a', 'b', 'c', 'd', 'e');
     var max_apps_row = 5;
@@ -120,6 +117,7 @@ function displayAppGrid()
     }
 
     // Replace original element with new app grid element
+    $(app_grid).width((i+1)*128);
     $(".app_grid_view div.app_grid").replaceWith(app_grid);
     $(".app_grid_view").trigger('create');
 

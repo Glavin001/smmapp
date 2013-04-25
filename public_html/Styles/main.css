@@ -154,10 +154,14 @@ div.app_view
   border: none;
 }
 
+div.smuToolsPanel .app_grid {
+  margin: 15px auto 0px auto;
+}
+
 div.smuToolsPanel .app_grid_view .app_grid .app_block
 {
-  width:128px; 
-  height:128px;
+  width: 128px; 
+  height: 128px;
   text-align: center;
 }
 
