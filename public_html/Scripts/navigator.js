@@ -88,13 +88,9 @@
           height: 0
         });
 
-        $.mobile.showPageLoadingMsg();
-        setTimeout(function() {
-          $.mobile.showPageLoadingMsg(true);
-          $.mobile.changePage("/m/home", {
-            transition: 'fade'
-          });
-        }, 20);
+        $.mobile.changePage("/m/home", {
+          transition: 'fade'
+        });
       }
 
       console.log("Finished Loading Module:", navigator.getModuleName());
@@ -157,11 +153,9 @@
         height: 0
       });
 
-      $.mobile.showPageLoadingMsg();
-      setTimeout(function() {
-        $.mobile.showPageLoadingMsg(true);
-        $.mobile.changePage("/m/home", {transition: 'fade'});
-      }, 2000);
+      $.mobile.changePage("/m/home", {
+        transition: 'fade'
+      });
     }
 
     $('div.smuToolsPanel input.view_select').click(function() {

@@ -42,7 +42,7 @@ var
         mongoose = require('mongoose');
 
 // Preliminary setup of MONGODB
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://127.0.0.1/test');
 var db = mongoose.connection;
 //db = mongoose.createConnection('localhost', 'test'),
 
