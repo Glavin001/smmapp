@@ -348,15 +348,18 @@ io.sockets.on('connection', function(socket) {
 
       if (err) { // error
         console.log('Error : ' + err);
-        socket.emit('auth', false);
+        socket.emit('auth', null);
       }
 
       if (data === null) { // no data
         console.log('No data');
-        socket.emit('auth', false);
+        socket.emit('auth', null);
       } else { // data
         console.log(JSON.stringify(data, null, 2));
-        socket.emit('auth', true);
+        
+        socket.emit('auth', data);
+        userStore[socket.handshake.sessionID] = (userStore[socket.handshake.sessionID] || {});
+        userStore[socket.handshake.sessionID].isLoggedIn = true;
       }
     });
 

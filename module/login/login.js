@@ -2,9 +2,15 @@
  * name : Dawson Reid
  */
 
-socket.on('auth', function(isAuth) {
-  console.log('On : isAuth - ' + isAuth);
+socket.on('auth', function(user) {
+  console.log('On : auth');
   
+  if (user === null) {
+    console.log('auth ' + user);
+    return;
+  } 
+  
+  console.log('auth ' + JSON.stringify(user));
 });
 
 /*
