@@ -5,6 +5,9 @@ SMMApps
 
 This project is our submition to the Saint Mary's University Mobile App Contest.
 
+Our finished app can be found at [http://140.184.137.122:1338](http://140.184.137.122:1338). Feel free to take a look. 
+It was designed primarily for mobile, so for best viewing experience try it out on your phone or tablet.
+
 ["Saint Mary's University is developing mobile applications, and we know that the best place to turn to for ingenuity, creativity, and out-of-the-box thinking is you - our students." - Saint Mary's University](http://www.smu.ca/academic/science/department/mobile-app-contest.html)
 
 ### Project Design Brief
